@@ -1,0 +1,16 @@
+{
+    "app_name" : "Faya Clinic",
+    
+    "sign_in" : "Sign in",
+    "sign_up" : "Sign up",
+    "sign_in_hint" : "to start your journey with us",
+    
+    "hint_your_phone" : "Enter your phone..",
+    "hint_your_password" : "Enter your password..",
+    "hint_forgot_password" : "Forgot password ?",
+    "hint_no_account" : "if you don't have an account ",
+    "hint_no_account_action" : "sign up",
+
+    "btn_sign_in" : "Sign In",
+    "btn_cancel" : "Cancel"
+}
