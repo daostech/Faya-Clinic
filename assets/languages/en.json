@@ -4,13 +4,22 @@
     "sign_in" : "Sign in",
     "sign_up" : "Sign up",
     "sign_in_hint" : "to start your journey with us",
+    "sign_up_header" : "Please fill the form",
+    "sign_up_sub_title" : "to create an account",
     
     "hint_your_phone" : "Enter your phone..",
-    "hint_your_password" : "Enter your password..",
+    "hint_birthday_password" : "Enter your Birthday..",
+    "hint_your_name" : "Enter your Name..",
+    "hint_your_password" : "Enter your Password..",
+    "hint_repeat_password" : "Re-Enter your password..",
     "hint_forgot_password" : "Forgot password ?",
     "hint_no_account" : "if you don't have an account ",
     "hint_no_account_action" : "sign up",
+    
+    "error_select_birthday" : "Please select your birthday",
+    "error_password_not_match" : "Passwords are not match",
 
     "btn_sign_in" : "Sign In",
+    "btn_create" : "Create",
     "btn_cancel" : "Cancel"
 }

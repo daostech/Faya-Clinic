@@ -1,19 +1,59 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/screens/signup_screen.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/input_standard.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key key}) : super(key: key);
+class SignUpScreen extends StatefulWidget {
+  const SignUpScreen({Key key}) : super(key: key);
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SignUpScreenState createState() => _SignUpScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignUpScreenState extends State<SignUpScreen> {
+  static const TAG = "SignUpScreen: ";
+  final _key = GlobalKey<FormState>();
+  final dateFormat = new DateFormat('yyyy-MM-dd');
+
+  DateTime selectedDate;
+  var _name = "";
+  var _phone = "";
+  var _birthdayString = "";
+  var _password = "";
+  var _rPassword = "";
+
+  void submitForm() {
+    if (!_key.currentState.validate()) {
+      if (_birthdayString.isEmpty)
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(TransUtil.trans("error_select_birthday"))));
+      return;
+    }
+    if (_password != _rPassword) {
+      print("$TAG error_password_not_match");
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(TransUtil.trans("error_password_not_match"))));
+      return;
+    }
+    print("$TAG form is valid: name: $_name, _phone: $_phone, birthday: $_birthdayString, password: $_password");
+  }
+
+  Future<void> _selectDate(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(1900, 1),
+      lastDate: DateTime.now(),
+    );
+    if (picked != null)
+      setState(() {
+        selectedDate = picked;
+        _birthdayString = dateFormat.format(picked);
+      });
+
+    print("$TAG picked: ${picked.toIso8601String()}}");
+  }
+
   @override
   Widget build(BuildContext context) {
     final paddingTop = MediaQuery.of(context).padding.top;
@@ -21,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
     final screenWidth = MediaQuery.of(context).size.width - paddingTop;
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
+      resizeToAvoidBottomInset: true,
       body: SafeArea(
         child: Stack(
           children: [
@@ -66,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
               child: Padding(
                 padding: const EdgeInsets.all(marginLarge),
                 child: SingleChildScrollView(
-                  physics: NeverScrollableScrollPhysics(),
+                  // physics: NeverScrollableScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -79,33 +119,64 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: marginLarge,
                       ),
                       Text(
-                        TransUtil.trans("sign_in"),
-                        style: TextStyle(fontWeight: FontWeight.bold),
+                        TransUtil.trans("sign_up_header"),
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: fontSizeLarge,
+                        ),
                       ),
                       SizedBox(
                         height: marginSmall,
                       ),
                       Text(
-                        TransUtil.trans("sign_in_hint"),
+                        TransUtil.trans("sign_up_sub_title"),
                       ),
                       SizedBox(
                         height: marginLarge,
                       ),
-                      StandardInput(
-                        margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
-                        hintText: TransUtil.trans("hint_your_phone"),
-                        onChanged: (val) {},
-                      ),
-                      StandardInput(
-                        margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
-                        hintText: TransUtil.trans("hint_your_password"),
-                        onChanged: (val) {},
-                      ),
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: marginLarge),
-                          child: Text(TransUtil.trans("hint_forgot_password")),
+                      Form(
+                        key: _key,
+                        child: Column(
+                          children: [
+                            StandardInput(
+                              margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
+                              hintText: TransUtil.trans("hint_your_name"),
+                              isRequiredInput: true,
+                              onChanged: (val) => _name = val,
+                            ),
+                            StandardInput(
+                              margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
+                              initialValue: _birthdayString.isEmpty
+                                  ? TransUtil.trans("hint_your_birthday")
+                                  : dateFormat.format(selectedDate),
+                              isRequiredInput: true,
+                              isReadOnly: true,
+                              actionIcon: Icons.calendar_today_outlined,
+                              onActionTap: () => _selectDate(context),
+                              onChanged: (_) {},
+                              validator: null,
+                            ),
+                            StandardInput(
+                              margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
+                              hintText: TransUtil.trans("hint_your_phone"),
+                              isRequiredInput: true,
+                              onChanged: (val) => _phone = val,
+                            ),
+                            StandardInput(
+                              margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
+                              hintText: TransUtil.trans("hint_your_password"),
+                              isRequiredInput: true,
+                              isObscureText: true,
+                              onChanged: (val) => _password = val,
+                            ),
+                            StandardInput(
+                              margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
+                              hintText: TransUtil.trans("hint_repeat_password"),
+                              isRequiredInput: true,
+                              isObscureText: true,
+                              onChanged: (val) => _rPassword = val,
+                            ),
+                          ],
                         ),
                       ),
                       SizedBox(
@@ -142,9 +213,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             SizedBox(
                               width: marginStandard,
                             ),
+                            Row(
+                              children: [],
+                            ),
+                            SizedBox(
+                              width: marginStandard,
+                            ),
                             Expanded(
                               child: InkWell(
-                                onTap: () {},
+                                onTap: submitForm,
                                 radius: radiusStandard,
                                 child: Container(
                                   height: 40,
@@ -160,7 +237,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     child: Align(
                                       alignment: Alignment.center,
                                       child: Text(
-                                        TransUtil.trans("btn_sign_in").toUpperCase(),
+                                        TransUtil.trans("btn_create").toUpperCase(),
                                       ),
                                     ),
                                   ),
@@ -169,32 +246,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ],
                         ),
-                      ),
-                      SizedBox(
-                        height: marginLarge,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(TransUtil.trans("hint_no_account")),
-                          RichText(
-                            textAlign: TextAlign.start,
-                            text: TextSpan(
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () => Navigator.of(context).push(
-                                      MaterialPageRoute(
-                                        builder: (builder) => SignUpScreen(),
-                                      ),
-                                    ),
-                              text: TransUtil.trans("hint_no_account_action"),
-                              style: TextStyle(
-                                color: primaryColor,
-                                decoration: TextDecoration.underline,
-                                fontSize: fontSizeSmall,
-                              ),
-                            ),
-                          ),
-                        ],
                       ),
                     ],
                   ),
