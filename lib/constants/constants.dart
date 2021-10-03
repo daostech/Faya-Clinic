@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 Color primaryColor = Color(0xFFFF85A1);
 Color accentColor = Color(0xFFFBB8C1);
 Color bgColor = Color(0xFFFFFFFF);
-Color colorGrey = Color(0xFF9F9F9F);
+Color colorGrey = Color(0xFFF8F8F8);
+Color colorGreyDark = Color(0xFF9F9F9F);
 
-const fontSizexSmall = 14.0;
-const fontSizeSmall = 16.0;
-const fontSizeStandard = 18.0;
+const fontSizexSmall = 12.0;
+const fontSizeSmall = 14.0;
+const fontSizeStandard = 16.0;
 const fontSizeLarge = 22.0;
 const fontSizexLarge = 24.0;
 

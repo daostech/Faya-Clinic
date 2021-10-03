@@ -6,6 +6,12 @@
     "sign_in_hint" : "to start your journey with us",
     "sign_up_header" : "Please fill the form",
     "sign_up_sub_title" : "to create an account",
+
+    "header_home" : "Home",
+    "header_clinic" : "Faya Clinic",
+    "header_store" : "Our products",
+    "header_dates" : "Book a date",
+    "header_account" : "My account",
     
     "hint_your_phone" : "Enter your phone..",
     "hint_birthday_password" : "Enter your Birthday..",
@@ -15,7 +21,14 @@
     "hint_forgot_password" : "Forgot password ?",
     "hint_no_account" : "if you don't have an account ",
     "hint_no_account_action" : "sign up",
+    "hint_search_now" : "Search now",
     
+    "nav_label_home" : "Home",    
+    "nav_label_clinic" : "Clinic",
+    "nav_label_store" : "Stroe",
+    "nav_label_dates" : "Dates",  
+    "nav_label_my_account" : "My Account",  
+
     "error_select_birthday" : "Please select your birthday",
     "error_password_not_match" : "Passwords are not match",
 

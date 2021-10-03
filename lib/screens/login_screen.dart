@@ -1,6 +1,8 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/screens/reset_password.dart';
 import 'package:faya_clinic/screens/signup_screen.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
+import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:faya_clinic/widgets/input_standard.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -103,9 +105,25 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Align(
                         alignment: Alignment.centerRight,
-                        child: Container(
-                          margin: const EdgeInsets.symmetric(horizontal: marginLarge),
-                          child: Text(TransUtil.trans("hint_forgot_password")),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: marginLarge),
+                          child: RichText(
+                            textAlign: TextAlign.center,
+                            text: TextSpan(
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () => Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                        builder: (builder) => ResetPasswordScreen(),
+                                      ),
+                                    ),
+                              text: TransUtil.trans("hint_forgot_password"),
+                              style: TextStyle(
+                                color: Colors.black87,
+                                decoration: TextDecoration.underline,
+                                fontSize: fontSizexSmall,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                       SizedBox(
@@ -113,61 +131,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: marginLarge),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: colorGrey,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(radiusStandard),
-                                      bottomLeft: Radius.circular(radiusStandard),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(marginStandard),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        TransUtil.trans("btn_cancel").toUpperCase(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: marginStandard,
-                            ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {},
-                                radius: radiusStandard,
-                                child: Container(
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(radiusStandard),
-                                      bottomRight: Radius.circular(radiusStandard),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(marginStandard),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        TransUtil.trans("btn_sign_in").toUpperCase(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                        child: InlineButtons(
+                          positiveText: TransUtil.trans("btn_sign_in"),
+                          negativeText: TransUtil.trans("btn_cancel"),
+                          onPositiveTap: () {},
+                          onNegativeTap: () {},
                         ),
                       ),
                       SizedBox(
