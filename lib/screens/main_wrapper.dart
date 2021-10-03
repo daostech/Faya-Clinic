@@ -2,6 +2,8 @@ import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/screens/home.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/app_bar_search.dart';
+import 'package:faya_clinic/widgets/button_action.dart';
+import 'package:faya_clinic/widgets/fab_expandable.dart';
 import 'package:flutter/material.dart';
 
 class HomeMainWrapper extends StatefulWidget {
@@ -12,6 +14,11 @@ class HomeMainWrapper extends StatefulWidget {
 }
 
 class _HomeMainWrapperState extends State<HomeMainWrapper> {
+  static const _actionTitles = [
+    'Call',
+    'Contact via WhatsApp',
+  ];
+
   var _selectedIndex = 0;
 
   List<Widget> _screens = [
@@ -26,6 +33,23 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+
+  void _showAction(BuildContext context, int index) {
+    showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          content: Text(_actionTitles[index]),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('CLOSE'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -53,6 +77,19 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
             // child: Center(
             //   child: Text("Center"),
             // ),
+          ),
+        ],
+      ),
+      floatingActionButton: ExpandableFab(
+        distance: 112.0,
+        children: [
+          ActionButton(
+            onPressed: () => _showAction(context, 0),
+            icon: const Icon(Icons.call),
+          ),
+          ActionButton(
+            onPressed: () => _showAction(context, 1),
+            icon: const Icon(Icons.chat),
           ),
         ],
       ),
