@@ -19,7 +19,8 @@
     "header_last_products" : "Last Products",
     "header_our_staff" : "Our staff",
     "header_clinic_sections" : "Clinic sections",
-    
+    "header_languages" : "Languages",
+
     "hint_your_phone" : "Enter your phone..",
     "hint_birthday_password" : "Enter your Birthday..",
     "hint_your_name" : "Enter your Name..",
@@ -37,7 +38,16 @@
     "nav_label_clinic" : "Clinic",
     "nav_label_store" : "Stroe",
     "nav_label_dates" : "Dates",    
-    "nav_label_my_account" : "My Account",    
+    "nav_label_my_account" : "My Account",
+    
+    "list_item_my_dates" : "My Dates",
+    "list_item_my_addresses" : "My Addresses",
+    "list_item_fav_products" : "Favorite Products",
+    "list_item_previous_orders" : "Previous Orders",
+    "list_item_faq" : "FAQ",
+    "list_item_privacy_policy" : "Privacy Policy",
+    "list_item_terms_conditions" : "Terms and Conditions",
+    "list_item_logout" : "Logout",
     
     "error_select_birthday" : "Please select your birthday",
     "error_password_not_match" : "Passwords are not match",
