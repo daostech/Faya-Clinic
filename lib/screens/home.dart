@@ -56,7 +56,7 @@ class HomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.all(marginLarge),
                 child: Row(
                   children: [
-                    SvgPicture.asset(""),
+                    // SvgPicture.asset(""),
                     SizedBox(
                       width: marginLarge,
                     ),

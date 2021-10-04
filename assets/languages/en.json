@@ -9,7 +9,10 @@
     
     "header_home" : "Home",
     "header_clinic" : "Faya Clinic",
-    "header_store" : "Our products",
+    "header_store" : "Store",
+    "header_our_product" : "Our products",
+    "header_all_products" : "All Product",
+    "header_new_arrivals" : "New Arrivals",
     "header_dates" : "Book a date",
     "header_account" : "My account",
     "header_last_offers" : "Last offers",
@@ -28,6 +31,7 @@
     "hint_search_now" : "Search now",
     
     "label_your_points" : "Your points",
+    "label_filter" : "Filter",
     
     "nav_label_home" : "Home",    
     "nav_label_clinic" : "Clinic",

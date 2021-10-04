@@ -32,7 +32,7 @@ class AppBarSearch extends StatelessWidget {
                 ),
                 child: TypeAheadField(
                   textFieldConfiguration: TextFieldConfiguration(
-                    autofocus: true,
+                    autofocus: false,
                     style: DefaultTextStyle.of(context).style.copyWith(fontStyle: FontStyle.italic),
                     decoration: InputDecoration(
                       hintText: TransUtil.trans("hint_search_now"),

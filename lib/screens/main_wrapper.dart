@@ -1,5 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/screens/home.dart';
+import 'package:faya_clinic/screens/store.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/app_bar_search.dart';
 import 'package:faya_clinic/widgets/button_action.dart';
@@ -24,7 +25,7 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
   List<Widget> _screens = [
     HomeScreen(),
     Container(),
-    Container(),
+    StoreScreen(),
     Container(),
     Container(),
   ];
