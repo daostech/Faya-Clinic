@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-Color primaryColor = Color(0xFFFF85A1);
-Color accentColor = Color(0xFFFBB8C1);
-Color bgColor = Color(0xFFFFFFFF);
+Color colorPrimary = Color(0xFFFF85A1);
+Color colorPrimaryLight = Color(0xFFFBB8C1);
+Color colorAccent = Color(0xFFFBB8C1);
+Color colorBg = Color(0xFFFFFFFF);
 Color colorGrey = Color(0xFFF8F8F8);
 Color colorGreyDark = Color(0xFF9F9F9F);
 
@@ -21,6 +22,7 @@ const sectionsBottomPadding = 110.0;
 
 const radiusStandard = 16.0;
 const radiusLarge = 24.0;
+const radiusxLarge = 50.0;
 
 const langEnCode = "en";
 const langArCode = "ar";

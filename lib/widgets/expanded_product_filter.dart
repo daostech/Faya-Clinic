@@ -39,7 +39,7 @@ class ProductExpandedFilter extends StatelessWidget {
       child: ExpansionTile(
         leading: Icon(
           Icons.filter_alt_outlined,
-          color: primaryColor,
+          color: colorPrimary,
         ),
         title: Text(
           TransUtil.trans("label_filter"),

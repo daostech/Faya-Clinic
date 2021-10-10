@@ -156,7 +156,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     ),
                               text: TransUtil.trans("hint_no_account_action"),
                               style: TextStyle(
-                                color: primaryColor,
+                                color: colorPrimary,
                                 decoration: TextDecoration.underline,
                                 fontSize: fontSizeSmall,
                               ),

@@ -12,7 +12,7 @@ class AppBarSearch extends StatelessWidget {
   Widget build(BuildContext context) {
     final paddingTop = MediaQuery.of(context).padding.top;
     return Container(
-      color: primaryColor,
+      color: colorPrimary,
       padding: EdgeInsets.fromLTRB(marginLarge, paddingTop + marginLarge, marginLarge, marginLarge),
       child: Align(
         alignment: Alignment.topCenter,

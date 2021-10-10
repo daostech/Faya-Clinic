@@ -32,7 +32,7 @@ class _MySplashScreenState extends State<MySplash> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: bgColor,
+      backgroundColor: colorBg,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

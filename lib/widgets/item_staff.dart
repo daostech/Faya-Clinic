@@ -1,19 +1,18 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class StaffItem extends StatelessWidget {
-  const StaffItem({Key key}) : super(key: key);
+  final double width;
+  final double height;
+  const StaffItem({Key key, this.width = 200, this.height = 225}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final _width = 200.0;
-    final _height = 225.0;
     return Container(
       // main container
       margin: const EdgeInsets.symmetric(horizontal: marginStandard, vertical: marginLarge),
-      width: _width,
-      height: _height,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: colorGrey,
         borderRadius: BorderRadius.all(
@@ -31,17 +30,17 @@ class StaffItem extends StatelessWidget {
               top: 0,
               right: 0,
               left: 0,
-              height: 50,
+              height: height * 0.25,
               child: Container(
-                color: primaryColor,
+                color: colorPrimary,
               ),
             ),
             Positioned(
               // profile picture container
-              top: 15,
+              top: height * 0.1,
               right: 0,
               left: 0,
-              height: 70,
+              height: height * 0.3,
               child: Container(
                 decoration: BoxDecoration(
                   color: colorGrey,

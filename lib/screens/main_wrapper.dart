@@ -1,4 +1,7 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/screens/account.dart';
+import 'package:faya_clinic/screens/clinic/clinic_screen.dart';
+import 'package:faya_clinic/screens/dates.dart';
 import 'package:faya_clinic/screens/home.dart';
 import 'package:faya_clinic/screens/store.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
@@ -24,10 +27,10 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
 
   List<Widget> _screens = [
     HomeScreen(),
-    Container(),
+    ClinicScreen(),
     StoreScreen(),
-    Container(),
-    Container(),
+    DatesScreen(),
+    MyAccountScreen(),
   ];
 
   void _onItemTapped(int index) {
@@ -96,9 +99,9 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
       ),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _selectedIndex,
-        selectedItemColor: primaryColor,
+        selectedItemColor: colorPrimary,
         unselectedItemColor: colorGreyDark,
-        selectedIconTheme: IconThemeData(color: primaryColor),
+        selectedIconTheme: IconThemeData(color: colorPrimary),
         showUnselectedLabels: true,
         enableFeedback: false,
         backgroundColor: Theme.of(context).bottomNavigationBarTheme.backgroundColor,

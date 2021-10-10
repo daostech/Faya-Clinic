@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
-import 'package:faya_clinic/widgets/item_offer.dart';
+import 'package:faya_clinic/widgets/item_section.dart';
 import 'package:faya_clinic/widgets/item_product.dart';
 import 'package:faya_clinic/widgets/item_staff.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
@@ -92,7 +92,7 @@ class HomeScreen extends StatelessWidget {
                 itemCount: 10,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (ctx, index) {
-                  return OfferItem();
+                  return SectionItem();
                 },
               ),
             ),
@@ -151,7 +151,7 @@ class HomeScreen extends StatelessWidget {
                 itemCount: 10,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (ctx, index) {
-                  return OfferItem();
+                  return SectionItem();
                 },
               ),
             ),

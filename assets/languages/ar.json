@@ -21,6 +21,11 @@
     "header_clinic_sections" : "Clinic sections",
     "header_languages" : "Languages",
 
+    "tab_team" : "Team",
+    "tab_sections" : "Sections",
+    "tab_offers" : "Offers",
+    "tab_find_us" : "Find Us",
+
     "hint_your_phone" : "Enter your phone..",
     "hint_birthday_password" : "Enter your Birthday..",
     "hint_your_name" : "Enter your Name..",

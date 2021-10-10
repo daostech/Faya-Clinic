@@ -56,7 +56,7 @@ class ProductItem extends StatelessWidget {
                   onTap: () {},
                   child: Icon(
                     Icons.favorite,
-                    color: primaryColor,
+                    color: colorPrimary,
                   ),
                 ),
               ],
@@ -70,8 +70,10 @@ class ProductItem extends StatelessWidget {
                 height: _imgWidth,
                 child: CachedNetworkImage(
                   imageUrl: "https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg",
-                  progressIndicatorBuilder: (context, url, downloadProgress) => CircularProgressIndicator(
-                    value: downloadProgress.progress,
+                  progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
                   //error image when user have a picture but failed to load it
                   errorWidget: (context, url, error) => Container(
@@ -102,7 +104,7 @@ class ProductItem extends StatelessWidget {
                   height: 30,
                   padding: const EdgeInsets.all(marginSmall),
                   decoration: BoxDecoration(
-                    color: primaryColor,
+                    color: colorPrimary,
                     borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(radiusStandard),
                     ),

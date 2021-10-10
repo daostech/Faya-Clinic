@@ -52,7 +52,7 @@ class InlineButtons extends StatelessWidget {
             child: Container(
               height: 40,
               decoration: BoxDecoration(
-                color: primaryColor,
+                color: colorPrimary,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(radiusStandard),
                   bottomRight: Radius.circular(radiusStandard),

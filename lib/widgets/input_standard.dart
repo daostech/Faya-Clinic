@@ -86,7 +86,7 @@ class StandardInput extends StatelessWidget {
                           initialValue: initialValue,
                           obscureText: isObscureText,
                           onChanged: (val) => onChanged(val),
-                          cursorColor: primaryColor,
+                          cursorColor: colorPrimary,
                           validator: validator != null
                               ? (value) => validator(value)
                               : (value) {
@@ -113,7 +113,7 @@ class StandardInput extends StatelessWidget {
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(
                       actionIcon,
-                      color: primaryColor,
+                      color: colorPrimary,
                     ),
                   ),
                 ),

@@ -13,14 +13,14 @@ class MyAccountScreen extends StatelessWidget {
         ListTile(
           leading: Icon(
             leading,
-            color: primaryColor,
+            color: colorPrimary,
           ),
           title: Text(
             title,
           ),
           trailing: Icon(
             Icons.arrow_forward_ios_rounded,
-            color: primaryColor,
+            color: colorPrimary,
           ),
           onTap: onTap,
         ),
@@ -94,7 +94,7 @@ class MyAccountScreen extends StatelessWidget {
                           Text(
                             "User name",
                             style: TextStyle(
-                              color: primaryColor,
+                              color: colorPrimary,
                               fontWeight: FontWeight.bold,
                               fontSize: fontSizeLarge,
                             ),
@@ -109,7 +109,7 @@ class MyAccountScreen extends StatelessWidget {
                   InkWell(
                     child: Icon(
                       Icons.edit,
-                      color: primaryColor,
+                      color: colorPrimary,
                     ),
                   ),
                 ],
@@ -192,8 +192,8 @@ class MyAccountScreen extends StatelessWidget {
                       print("changed value: $ind");
                     },
                     title: Text("English"),
-                    activeColor: primaryColor,
-                    selectedTileColor: primaryColor,
+                    activeColor: colorPrimary,
+                    selectedTileColor: colorPrimary,
                   ),
                   RadioListTile(
                     value: "arabic",
