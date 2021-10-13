@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/screens/home.dart';
-import 'package:faya_clinic/screens/login_screen.dart';
+import 'package:faya_clinic/screens/clinic/clinic_section_details.dart';
+import 'package:faya_clinic/screens/clinic/clinic_sub_sections.dart';
 import 'package:faya_clinic/screens/main_wrapper.dart';
 import 'package:faya_clinic/services/auth_service.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -46,7 +46,11 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      theme: ThemeData(primarySwatch: Colors.pink),
+      theme: ThemeData(
+        primaryColor: colorPrimary,
+        primaryColorLight: colorPrimaryLight,
+        accentColor: colorAccent,
+      ),
       home: StreamBuilder<Object>(
         stream: _provider.authChangeStream,
         builder: (context, snapshot) {
@@ -61,6 +65,10 @@ class MyApp extends StatelessWidget {
           return HomeMainWrapper();
         },
       ),
+      routes: {
+        ClinicSectionDetailsScreen.ROUTE_NAME: (ctx) => ClinicSectionDetailsScreen(),
+        ClinicSubSectionsScreen.ROUTE_NAME: (ctx) => ClinicSubSectionsScreen(),
+      },
     );
   }
 }

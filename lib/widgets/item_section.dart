@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 
 class SectionItem extends StatelessWidget {
   final String imgUrl;
-  const SectionItem({Key key, this.imgUrl = ""}) : super(key: key);
+  final Function onTap;
+  const SectionItem({Key key, this.imgUrl = "", this.onTap}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,71 +22,75 @@ class SectionItem extends StatelessWidget {
           Radius.circular(radiusStandard),
         ),
       ),
-      child: Row(
-        children: [
-          ClipRRect(
-            borderRadius: BorderRadius.all(
-              Radius.circular(radiusStandard),
-            ),
-            child: Container(
-              // image main container
-              width: _imgWidth,
-              height: _imgWidth,
-              child: CachedNetworkImage(
-                imageUrl: imgUrl.isNotEmpty
-                    ? imgUrl
-                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSELycZjlpOd3aPyR8Cfx5OLGSbn0zRrHAwyA&usqp=CAU",
-                progressIndicatorBuilder: (context, url, downloadProgress) => Container(
-                  child: Center(
-                    child: CircularProgressIndicator(),
+      child: InkWell(
+        onTap: onTap,
+        splashColor: Colors.transparent,
+        child: Row(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.all(
+                Radius.circular(radiusStandard),
+              ),
+              child: Container(
+                // image main container
+                width: _imgWidth,
+                height: _imgWidth,
+                child: CachedNetworkImage(
+                  imageUrl: imgUrl.isNotEmpty
+                      ? imgUrl
+                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSELycZjlpOd3aPyR8Cfx5OLGSbn0zRrHAwyA&usqp=CAU",
+                  progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
                   ),
-                ),
-                //error image when user have a picture but failed to load it
-                errorWidget: (context, url, error) => Container(
-                  padding: EdgeInsets.all(marginStandard),
-                  height: _imgWidth,
-                  width: _imgWidth,
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).accentColor,
-                  ),
-                  child: Center(
-                    child: Padding(
-                      padding: const EdgeInsets.all(1.0),
-                      child: Icon(Icons.error),
+                  //error image when user have a picture but failed to load it
+                  errorWidget: (context, url, error) => Container(
+                    padding: EdgeInsets.all(marginStandard),
+                    height: _imgWidth,
+                    width: _imgWidth,
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).accentColor,
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(1.0),
+                        child: Icon(Icons.error),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-              child: Column(
-            children: [
-              Text(
-                "offer 50 %",
-                style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),
-                overflow: TextOverflow.ellipsis,
-                maxLines: 1,
-              ),
-              SizedBox(
-                height: marginSmall,
-              ),
-              Expanded(
-                child: Text(
-                  "get offer 50 % when purchasing our products",
-                  style: TextStyle(color: Colors.black54),
-                  // overflow: TextOverflow.ellipsis,
+            Expanded(
+                child: Column(
+              children: [
+                Text(
+                  "offer 50 %",
+                  style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
                 ),
-              ),
-              Align(
-                alignment: Alignment.centerRight,
-                child: Icon(
-                  Icons.keyboard_arrow_right_rounded,
+                SizedBox(
+                  height: marginSmall,
                 ),
-              ),
-            ],
-          )),
-        ],
+                Expanded(
+                  child: Text(
+                    "get offer 50 % when purchasing our products",
+                    style: TextStyle(color: Colors.black54),
+                    // overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Icon(
+                    Icons.keyboard_arrow_right_rounded,
+                  ),
+                ),
+              ],
+            )),
+          ],
+        ),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/screens/clinic/clinic_sub_sections.dart';
 import 'package:faya_clinic/widgets/item_section.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class ClinicSectionsTab extends StatelessWidget {
         itemCount: 10,
         itemBuilder: (ctx, index) {
           return SectionItem(
+            onTap: () => Navigator.of(context).pushNamed(ClinicSubSectionsScreen.ROUTE_NAME),
             imgUrl:
                 "https://images.squarespace-cdn.com/content/v1/5c76eb2011f78474bf7cd0f4/1578516048181-1VW6N4LSXZ466I8CS5I1/AS-0849.JPG",
           );
