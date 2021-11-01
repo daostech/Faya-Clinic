@@ -17,9 +17,12 @@
     "header_account" : "My account",
     "header_last_offers" : "Last offers",
     "header_last_products" : "Last Products",
+    "header_other_products" : "Other Products",
     "header_our_staff" : "Our staff",
     "header_clinic_sections" : "Clinic sections",
     "header_languages" : "Languages",
+    "header_cart" : "Cart",
+    "header_notifications" : "Notifications",
 
     "tab_team" : "Team",
     "tab_sections" : "Sections",
@@ -38,7 +41,9 @@
     
     "label_your_points" : "Your points",
     "label_filter" : "Filter",
-    
+    "label_total" : "Total:",
+    "label_products" : "Products",
+
     "nav_label_home" : "Home",    
     "nav_label_clinic" : "Clinic",
     "nav_label_store" : "Stroe",
@@ -57,7 +62,12 @@
     "error_select_birthday" : "Please select your birthday",
     "error_password_not_match" : "Passwords are not match",
 
+    "btn_expandable_call" : "Call",
+    "btn_expandable_whatsapp" : "Contact via WhatsApp",
     "btn_sign_in" : "Sign In",
+    "btn_checkout" : "Checkout",
+    "btn_buy" : "Buy",
+    "btn_clear_cart" : "Clear cart",
     "btn_create" : "Create",
     "btn_cancel" : "Cancel"
 }

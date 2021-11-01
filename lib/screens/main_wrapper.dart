@@ -1,8 +1,10 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/screens/account.dart';
+import 'package:faya_clinic/screens/cart.dart';
 import 'package:faya_clinic/screens/clinic/clinic_screen.dart';
 import 'package:faya_clinic/screens/dates.dart';
 import 'package:faya_clinic/screens/home.dart';
+import 'package:faya_clinic/screens/notifications.dart';
 import 'package:faya_clinic/screens/store.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/app_bar_search.dart';
@@ -18,12 +20,13 @@ class HomeMainWrapper extends StatefulWidget {
 }
 
 class _HomeMainWrapperState extends State<HomeMainWrapper> {
-  static const _actionTitles = [
-    'Call',
-    'Contact via WhatsApp',
+  static final _actionTitles = [
+    TransUtil.trans("btn_expandable_call"),
+    TransUtil.trans("btn_expandable_whatsapp"),
   ];
 
-  var _selectedIndex = 0;
+  var _bottomNavSelectedIndex = 0;
+  var _currentScreenIndex = 0;
 
   List<Widget> _screens = [
     HomeScreen(),
@@ -31,11 +34,17 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
     StoreScreen(),
     DatesScreen(),
     MyAccountScreen(),
+    CartScreen(),
+    NotificationsScreen(),
   ];
 
   void _onItemTapped(int index) {
     setState(() {
-      _selectedIndex = index;
+      // the bottom navigation bar only have 5 sections
+      // the other sections belong to the app bar
+      // the main index that control the screens is _currentScreenIndex
+      if (index < 5) _bottomNavSelectedIndex = index;
+      _currentScreenIndex = index;
     });
   }
 
@@ -69,7 +78,10 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
             right: 0,
             left: 0,
             height: size.height * 0.2,
-            child: AppBarSearch(),
+            child: AppBarSearch(
+              onCartTap: () => _onItemTapped(5),
+              onNotificationTap: () => _onItemTapped(6),
+            ),
           ),
           Positioned(
             // sections container
@@ -77,7 +89,7 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
             left: 0,
             right: 0,
             bottom: 0,
-            child: _screens[_selectedIndex],
+            child: _screens[_currentScreenIndex],
             // child: Center(
             //   child: Text("Center"),
             // ),
@@ -98,7 +110,7 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
+        currentIndex: _bottomNavSelectedIndex,
         selectedItemColor: colorPrimary,
         unselectedItemColor: colorGreyDark,
         selectedIconTheme: IconThemeData(color: colorPrimary),

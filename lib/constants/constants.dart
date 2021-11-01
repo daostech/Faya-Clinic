@@ -20,6 +20,8 @@ const marginxLarge = 24.0;
 const bottomSheetHeaderHeight = 150.0;
 const sectionsBottomPadding = 110.0;
 
+const radiusxSmall = 4.0;
+const radiusSmall = 8.0;
 const radiusStandard = 16.0;
 const radiusLarge = 24.0;
 const radiusxLarge = 50.0;
