@@ -82,7 +82,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       height: marginLarge,
                     ),
                     RadiusBorderedInput(
-                      hintText: TransUtil.trans("hint_your_phone"),
+                      hintText: TransUtil.trans("hint_enter_your_phone"),
                     ),
                     InlineButtons(
                       positiveText: TransUtil.trans("btn_sign_in"),

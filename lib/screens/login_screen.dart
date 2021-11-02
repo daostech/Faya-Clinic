@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       RadiusBorderedInput(
                         margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
-                        hintText: TransUtil.trans("hint_your_phone"),
+                        hintText: TransUtil.trans("hint_enter_your_phone"),
                         onChanged: (val) {},
                       ),
                       RadiusBorderedInput(

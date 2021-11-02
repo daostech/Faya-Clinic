@@ -140,7 +140,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           children: [
                             RadiusBorderedInput(
                               margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
-                              hintText: TransUtil.trans("hint_your_name"),
+                              hintText: TransUtil.trans("hint_enter_your_name"),
                               isRequiredInput: true,
                               onChanged: (val) => _name = val,
                             ),
@@ -158,7 +158,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                             RadiusBorderedInput(
                               margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
-                              hintText: TransUtil.trans("hint_your_phone"),
+                              hintText: TransUtil.trans("hint_enter_your_phone"),
                               isRequiredInput: true,
                               onChanged: (val) => _phone = val,
                             ),
