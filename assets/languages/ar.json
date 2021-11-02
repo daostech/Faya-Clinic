@@ -23,11 +23,16 @@
     "header_languages" : "Languages",
     "header_cart" : "Cart",
     "header_notifications" : "Notifications",
+    "header_shipping_methods" : "Shipping methods",
 
     "tab_team" : "Team",
     "tab_sections" : "Sections",
     "tab_offers" : "Offers",
     "tab_find_us" : "Find Us",
+    "tab_address" : "Address",
+    "tab_shipping" : "Shipping",
+    "tab_review" : "Review",
+    "tab_payment" : "Payment",
 
     "hint_your_phone" : "Enter your phone..",
     "hint_birthday_password" : "Enter your Birthday..",
@@ -38,7 +43,13 @@
     "hint_no_account" : "if you don't have an account ",
     "hint_no_account_action" : "sign up",    
     "hint_search_now" : "Search now",
-    
+    "hint_country" : "Country",
+    "hint_city" : "City",
+    "hint_apartmant" : "Apartment",
+    "hint_block" : "Block",
+    "hint_street_name" : "Street name",
+    "hint_zip_code" : "Zip code",
+
     "label_your_points" : "Your points",
     "label_filter" : "Filter",
     "label_total" : "Total:",
@@ -67,6 +78,11 @@
     "btn_sign_in" : "Sign In",
     "btn_checkout" : "Checkout",
     "btn_buy" : "Buy",
+    "btn_select_address" : "Select address",
+    "btn_save_address" : "Save address",
+    "btn_continue" : "Continue",
+    "btn_go_back" : "Go back",
+    "btn_place_order" : "Plcae order",
     "btn_clear_cart" : "Clear cart",
     "btn_create" : "Create",
     "btn_cancel" : "Cancel"

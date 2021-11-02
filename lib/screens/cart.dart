@@ -1,4 +1,5 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/screens/checkout/checkout_screen.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/button_standard.dart';
 import 'package:faya_clinic/widgets/item_product.dart';
@@ -130,9 +131,9 @@ class CartScreen extends StatelessWidget {
               ),
             ),
             StandardButton(
-              onTap: () {},
               radius: radiusStandard,
               text: TransUtil.trans("btn_checkout"),
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (builder) => CheckoutScreen())),
             ),
             SizedBox(
               height: marginLarge,
