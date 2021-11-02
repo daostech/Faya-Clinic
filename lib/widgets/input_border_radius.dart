@@ -7,7 +7,7 @@ import '../constants/constants.dart';
 
 typedef StringFunction = String Function(String val);
 
-class StandardInput extends StatelessWidget {
+class RadiusBorderedInput extends StatelessWidget {
   final EdgeInsets margin;
   final EdgeInsets innerPadding;
   final StringFunction validator;
@@ -24,7 +24,7 @@ class StandardInput extends StatelessWidget {
   final bool isReadOnly;
   final int minLength;
 
-  const StandardInput({
+  const RadiusBorderedInput({
     Key key,
     this.hintText,
     this.validator,

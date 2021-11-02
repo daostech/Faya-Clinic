@@ -1,7 +1,7 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/buttons_inline.dart';
-import 'package:faya_clinic/widgets/input_standard.dart';
+import 'package:faya_clinic/widgets/input_border_radius.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -81,7 +81,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     SizedBox(
                       height: marginLarge,
                     ),
-                    StandardInput(
+                    RadiusBorderedInput(
                       hintText: TransUtil.trans("hint_your_phone"),
                     ),
                     InlineButtons(

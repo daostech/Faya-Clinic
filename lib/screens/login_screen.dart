@@ -3,7 +3,7 @@ import 'package:faya_clinic/screens/reset_password.dart';
 import 'package:faya_clinic/screens/signup_screen.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/buttons_inline.dart';
-import 'package:faya_clinic/widgets/input_standard.dart';
+import 'package:faya_clinic/widgets/input_border_radius.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -93,12 +93,12 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: marginLarge,
                       ),
-                      StandardInput(
+                      RadiusBorderedInput(
                         margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
                         hintText: TransUtil.trans("hint_your_phone"),
                         onChanged: (val) {},
                       ),
-                      StandardInput(
+                      RadiusBorderedInput(
                         margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
                         hintText: TransUtil.trans("hint_your_password"),
                         onChanged: (val) {},

@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
-import 'package:faya_clinic/widgets/input_standard.dart';
+import 'package:faya_clinic/widgets/input_border_radius.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -138,13 +138,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         key: _key,
                         child: Column(
                           children: [
-                            StandardInput(
+                            RadiusBorderedInput(
                               margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
                               hintText: TransUtil.trans("hint_your_name"),
                               isRequiredInput: true,
                               onChanged: (val) => _name = val,
                             ),
-                            StandardInput(
+                            RadiusBorderedInput(
                               margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
                               initialValue: _birthdayString.isEmpty
                                   ? TransUtil.trans("hint_your_birthday")
@@ -156,20 +156,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               onChanged: (_) {},
                               validator: null,
                             ),
-                            StandardInput(
+                            RadiusBorderedInput(
                               margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
                               hintText: TransUtil.trans("hint_your_phone"),
                               isRequiredInput: true,
                               onChanged: (val) => _phone = val,
                             ),
-                            StandardInput(
+                            RadiusBorderedInput(
                               margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
                               hintText: TransUtil.trans("hint_your_password"),
                               isRequiredInput: true,
                               isObscureText: true,
                               onChanged: (val) => _password = val,
                             ),
-                            StandardInput(
+                            RadiusBorderedInput(
                               margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
                               hintText: TransUtil.trans("hint_repeat_password"),
                               isRequiredInput: true,
