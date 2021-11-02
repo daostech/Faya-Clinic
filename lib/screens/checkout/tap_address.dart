@@ -44,7 +44,7 @@ class CheckoutAddressTap extends StatelessWidget {
             child: InlineButtons(
               positiveText: TransUtil.trans("btn_select_address"),
               negativeText: TransUtil.trans("btn_save_address"),
-              sameColor: colorGreyDark,
+              sameColor: colorGrey,
             ),
           ),
           Form(

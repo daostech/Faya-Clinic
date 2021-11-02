@@ -14,7 +14,7 @@ class StaffItem extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: colorGrey,
+        color: colorGreyLight,
         borderRadius: BorderRadius.all(
           Radius.circular(radiusStandard),
         ),
@@ -43,7 +43,7 @@ class StaffItem extends StatelessWidget {
               height: height * 0.3,
               child: Container(
                 decoration: BoxDecoration(
-                  color: colorGrey,
+                  color: colorGreyLight,
                   shape: BoxShape.circle,
                   border: Border.all(
                     width: 2.0,

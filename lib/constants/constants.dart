@@ -4,8 +4,10 @@ Color colorPrimary = Color(0xFFFF85A1);
 Color colorPrimaryLight = Color(0xFFFBB8C1);
 Color colorAccent = Color(0xFFFBB8C1);
 Color colorBg = Color(0xFFFFFFFF);
-Color colorGrey = Color(0xFFF8F8F8);
+// Color colorGrey = Color(0xFFF8F8F8);
+Color colorGrey = Color(0xFFE1E1E1);
 Color colorGreyDark = Color(0xFF9F9F9F);
+Color colorGreyLight = Color(0xFFF9F9F9);
 
 const fontSizexSmall = 10.0;
 const fontSizeSmall = 12.0;

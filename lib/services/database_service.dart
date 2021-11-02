@@ -55,7 +55,7 @@ class DBService {
     // UserProfile userProfile = UserProfile();
     // return _dbRef
     //     .collection(_COL_USER_PROFILES)
-    //     .doc(taksiciUser.id)
+    //     .doc(user.id)
     //     .set(userProfile.toJson())
     //     .then((value) => print("$TAG created user profile in db"))
     //     .catchError((error) => print("$TAG [Error] createUserProfile:: $error"));
@@ -88,10 +88,10 @@ class DBService {
     //     .get()
     //     .then((DocumentSnapshot documentSnapshot) => {
     //           user = MyUser.fromJson(documentSnapshot.data()),
-    //           print("$TAG Taksici User ${user.toString()}"),
+    //           print("$TAG User ${user.toString()}"),
     //         })
     //     .catchError((error) {
-    //   print("$TAG [Error] getTaksiciUser:: $error");
+    //   print("$TAG [Error] getCurrentUser:: $error");
     // });
     return user;
   }

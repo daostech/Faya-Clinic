@@ -39,26 +39,25 @@ class StandardButton extends StatelessWidget {
               bottomLeft: Radius.circular(bottomLeftRadius),
               bottomRight: Radius.circular(bottomRightRadius),
             ),
-      child: InkWell(
-        onTap: onTap,
-        radius: radiusStandard,
-        child: FittedBox(
-          child: Container(
-            height: height,
-            padding: padding ??
-                const EdgeInsets.symmetric(
-                  vertical: marginSmall,
-                  horizontal: marginLarge,
-                ),
-            decoration: BoxDecoration(
-              color: colorPrimary,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(topLeftRadius),
-                topRight: Radius.circular(topRightRadius),
-                bottomLeft: Radius.circular(bottomLeftRadius),
-                bottomRight: Radius.circular(bottomRightRadius),
+      child: FittedBox(
+        child: Container(
+          height: height,
+          padding: padding ??
+              const EdgeInsets.symmetric(
+                vertical: marginSmall,
+                horizontal: marginLarge,
               ),
+          decoration: BoxDecoration(
+            color: colorPrimary,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(topLeftRadius),
+              topRight: Radius.circular(topRightRadius),
+              bottomLeft: Radius.circular(bottomLeftRadius),
+              bottomRight: Radius.circular(bottomRightRadius),
             ),
+          ),
+          child: InkWell(
+            onTap: onTap,
             child: Padding(
               padding: const EdgeInsets.all(marginStandard),
               child: Align(

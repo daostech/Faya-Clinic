@@ -1,10 +1,30 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/screens/profile_screen.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
 import 'package:flutter/material.dart';
 
-class MyAccountScreen extends StatelessWidget {
+class MyAccountScreen extends StatefulWidget {
   const MyAccountScreen({Key key}) : super(key: key);
+
+  @override
+  _MyAccountScreenState createState() => _MyAccountScreenState();
+}
+
+class _MyAccountScreenState extends State<MyAccountScreen> {
+  var currentLangCode = "";
+
+  @override
+  void didChangeDependencies() {
+    currentLangCode = TransUtil.getCurrentLangCode(context);
+    super.didChangeDependencies();
+  }
+
+  void changeLanguage(String langCode) {
+    if (currentLangCode == langCode) return;
+    TransUtil.changeLocale(context, langCode);
+    setState(() {});
+  }
 
   Widget _buildListItem({String title, IconData leading, Function onTap, bool withDivider = false}) {
     return Column(
@@ -66,7 +86,7 @@ class MyAccountScreen extends StatelessWidget {
                     width: headerHeight * 0.6,
                     height: headerHeight * 0.6,
                     decoration: BoxDecoration(
-                      color: colorGrey,
+                      color: colorGreyLight,
                       borderRadius: BorderRadius.all(
                         Radius.circular(radiusStandard),
                       ),
@@ -107,6 +127,7 @@ class MyAccountScreen extends StatelessWidget {
                     ),
                   ),
                   InkWell(
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (builder) => ProfileScreen())),
                     child: Icon(
                       Icons.edit,
                       color: colorPrimary,
@@ -185,23 +206,24 @@ class MyAccountScreen extends StatelessWidget {
               child: Column(
                 children: [
                   RadioListTile(
-                    value: "english",
-                    selected: true,
-                    groupValue: 0,
-                    onChanged: (ind) {
-                      print("changed value: $ind");
-                    },
+                    value: langEnCode,
+                    selected: TransUtil.isEnLocale(context),
+                    groupValue: currentLangCode,
+                    toggleable: true,
+                    selectedTileColor: colorPrimary,
+                    tileColor: colorPrimary,
+                    onChanged: (langCode) => changeLanguage(langCode),
                     title: Text("English"),
                     activeColor: colorPrimary,
-                    selectedTileColor: colorPrimary,
                   ),
                   RadioListTile(
-                    value: "arabic",
-                    selected: false,
-                    groupValue: 1,
-                    onChanged: (ind) {
-                      print("changed value: $ind");
-                    },
+                    value: langArCode,
+                    selected: TransUtil.isArLocale(context),
+                    groupValue: currentLangCode,
+                    toggleable: true,
+                    selectedTileColor: colorPrimary,
+                    tileColor: colorPrimary,
+                    onChanged: (langCode) => changeLanguage(langCode),
                     title: Text("العربية"),
                   ),
                 ],

@@ -17,7 +17,7 @@ class SectionItem extends StatelessWidget {
       width: 300,
       height: 150,
       decoration: BoxDecoration(
-        color: colorGrey,
+        color: colorGreyLight,
         borderRadius: BorderRadius.all(
           Radius.circular(radiusStandard),
         ),

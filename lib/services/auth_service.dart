@@ -52,7 +52,7 @@ class AuthService with ChangeNotifier {
     MyUser _user = await _dbService.getUserById(_auth.currentUser?.uid);
 
     // => if there is no exist user linked with the current user id
-    // => create new user data with new Taksici Id and push the data to server
+    // => create new user data with new Id and push the data to server
     if (_user == null) {
       final _newUserFromCred = await _createNewUserWithCurrentCredentials();
       _user = await _dbService.createNewUser(_newUserFromCred);
@@ -60,7 +60,7 @@ class AuthService with ChangeNotifier {
     return _user;
   }
 
-  ///returns new TaksiciUser instance from the current user credentials
+  ///returns new User instance from the current user credentials
   Future<MyUser> _createNewUserWithCurrentCredentials() async {
     print('$TAG creating new user from current credentials for ${_auth.currentUser.email}');
 
@@ -70,7 +70,7 @@ class AuthService with ChangeNotifier {
     //   id: _auth.currentUser?.uid,
     //   tid: tId,
     //   displayName: tId,
-    //   //set the display name as the taksici id and let user change it later
+    //   //set the display name as the id and let user change it later
     //   email: _auth.currentUser.email,
     //   phoneNumber: _auth.currentUser.phoneNumber,
     //   avatar: _auth.currentUser.photoURL,

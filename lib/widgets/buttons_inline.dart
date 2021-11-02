@@ -6,12 +6,14 @@ class InlineButtons extends StatelessWidget {
   final String negativeText;
   final Function onPositiveTap;
   final Function onNegativeTap;
+  final Color sameColor;
   const InlineButtons({
     Key key,
     @required this.positiveText,
     @required this.negativeText,
     this.onPositiveTap,
     this.onNegativeTap,
+    this.sameColor,
   }) : super(key: key);
 
   @override
@@ -19,16 +21,20 @@ class InlineButtons extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: InkWell(
-            onTap: onNegativeTap,
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: colorGrey,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(radiusStandard),
-                  bottomLeft: Radius.circular(radiusStandard),
-                ),
+          child: Container(
+            height: 40,
+            decoration: BoxDecoration(
+              color: sameColor ?? colorGrey,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(radiusStandard),
+                bottomLeft: Radius.circular(radiusStandard),
+              ),
+            ),
+            child: InkWell(
+              onTap: onNegativeTap,
+              borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(radiusStandard),
+                bottomLeft: Radius.circular(radiusStandard),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(marginStandard),
@@ -46,17 +52,20 @@ class InlineButtons extends StatelessWidget {
           width: marginStandard,
         ),
         Expanded(
-          child: InkWell(
-            onTap: onPositiveTap,
-            radius: radiusStandard,
-            child: Container(
-              height: 40,
-              decoration: BoxDecoration(
-                color: colorPrimary,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(radiusStandard),
-                  bottomRight: Radius.circular(radiusStandard),
-                ),
+          child: Container(
+            height: 40,
+            decoration: BoxDecoration(
+              color: sameColor ?? colorPrimary,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(radiusStandard),
+                bottomRight: Radius.circular(radiusStandard),
+              ),
+            ),
+            child: InkWell(
+              onTap: onPositiveTap,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(radiusStandard),
+                bottomRight: Radius.circular(radiusStandard),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(marginStandard),
