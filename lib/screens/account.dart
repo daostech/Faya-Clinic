@@ -1,5 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/screens/profile_screen.dart';
+import 'package:faya_clinic/screens/user_addresses.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
 import 'package:flutter/material.dart';
@@ -164,7 +165,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                     title: TransUtil.trans("list_item_my_addresses"),
                     leading: Icons.location_on,
                     withDivider: true,
-                    onTap: () {},
+                    onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (builder) => UserAddresses())),
                   ),
                   _buildListItem(
                     title: TransUtil.trans("list_item_fav_products"),

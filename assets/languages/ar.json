@@ -27,6 +27,8 @@
     "header_order_note" : "Your note",
     "header_checkout" : "Checkout",
     "header_profile" : "Profile",
+    "header_my_addresses" : "My Addresses",
+    "header_add_addresses" : "Add Address",
 
     "tab_team" : "Team",
     "tab_sections" : "Sections",
