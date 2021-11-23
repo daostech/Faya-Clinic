@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/providers/checkout_controller.dart';
+import 'package:faya_clinic/providers/favorite_products.dart';
 import 'package:faya_clinic/screens/clinic/clinic_section_details.dart';
 import 'package:faya_clinic/screens/clinic/clinic_sub_sections.dart';
 import 'package:faya_clinic/screens/main_wrapper.dart';
@@ -31,6 +32,9 @@ void main() async {
           ),
           ChangeNotifierProvider(
             create: (_) => CheckoutController(),
+          ),
+          ChangeNotifierProvider(
+            create: (_) => FavoriteProductsProvider(),
           ),
         ],
         child: MyApp(),

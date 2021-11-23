@@ -1,4 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/dummy.dart';
+import 'package:faya_clinic/providers/favorite_products.dart';
 import 'package:faya_clinic/screens/checkout/checkout_screen.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/button_standard.dart';
@@ -6,12 +8,14 @@ import 'package:faya_clinic/widgets/item_product.dart';
 import 'package:faya_clinic/widgets/item_product_cart.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _favController = context.watch<FavoriteProductsProvider>();
     final size = MediaQuery.of(context).size;
     return SectionCornerContainer(
       title: TransUtil.trans("header_cart"),
@@ -153,10 +157,15 @@ class CartScreen extends StatelessWidget {
               height: 220,
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: 10,
+                itemCount: DummyData.latestProducts.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (ctx, index) {
-                  return ProductItem();
+                  final products = DummyData.latestProducts;
+                  return ProductItem(
+                    product: products[index],
+                    isFavorite: _favController.isFavoriteProduct(products[index]),
+                    onFavoriteToggle: (product) => _favController.toggleFavorite(product),
+                  );
                 },
               ),
             ),

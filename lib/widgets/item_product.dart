@@ -1,9 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/models/product.dart';
 import 'package:flutter/material.dart';
 
 class ProductItem extends StatelessWidget {
-  const ProductItem({Key key}) : super(key: key);
+  final Product product;
+  final bool isFavorite;
+  final ValueSetter<Product> onFavoriteToggle;
+  const ProductItem({
+    Key key,
+    @required this.product,
+    this.isFavorite = false,
+    this.onFavoriteToggle,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +49,7 @@ class ProductItem extends StatelessWidget {
                 Expanded(
                   child: Container(
                     child: Text(
-                      "Product Name",
+                      product?.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: TextStyle(
@@ -53,9 +62,9 @@ class ProductItem extends StatelessWidget {
                   width: marginSmall,
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () => onFavoriteToggle(product),
                   child: Icon(
-                    Icons.favorite,
+                    isFavorite ? Icons.favorite : Icons.favorite_border,
                     color: colorPrimary,
                   ),
                 ),
@@ -119,7 +128,7 @@ class ProductItem extends StatelessWidget {
               ),
               Expanded(
                 child: Text(
-                  "\$1500",
+                  product.price.toString(),
                   textAlign: TextAlign.end,
                 ),
               ),

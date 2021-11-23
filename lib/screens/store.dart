@@ -1,15 +1,19 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/dummy.dart';
+import 'package:faya_clinic/providers/favorite_products.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/expanded_product_filter.dart';
 import 'package:faya_clinic/widgets/item_product.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class StoreScreen extends StatelessWidget {
   const StoreScreen({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final _favController = context.watch<FavoriteProductsProvider>();
     return SectionCornerContainer(
       title: TransUtil.trans("header_store"),
       child: SingleChildScrollView(
@@ -38,10 +42,15 @@ class StoreScreen extends StatelessWidget {
               height: 220,
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: 10,
+                itemCount: DummyData.latestProducts.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (ctx, index) {
-                  return ProductItem();
+                  final products = DummyData.latestProducts;
+                  return ProductItem(
+                    product: products[index],
+                    isFavorite: _favController.isFavoriteProduct(products[index]),
+                    onFavoriteToggle: (product) => _favController.toggleFavorite(product),
+                  );
                 },
               ),
             ),
@@ -63,7 +72,7 @@ class StoreScreen extends StatelessWidget {
               // all products grid view container
               // height: 175,
               child: GridView.builder(
-                itemCount: 10,
+                itemCount: DummyData.latestProducts.length,
                 padding: const EdgeInsets.all(0),
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -73,7 +82,12 @@ class StoreScreen extends StatelessWidget {
                 ),
                 physics: NeverScrollableScrollPhysics(),
                 itemBuilder: (ctx, index) {
-                  return ProductItem();
+                  final products = DummyData.latestProducts;
+                  return ProductItem(
+                    product: products[index],
+                    isFavorite: _favController.isFavoriteProduct(products[index]),
+                    onFavoriteToggle: (product) => _favController.toggleFavorite(product),
+                  );
                 },
               ),
             ),
