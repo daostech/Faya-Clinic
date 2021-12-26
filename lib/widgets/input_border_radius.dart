@@ -11,6 +11,7 @@ class RadiusBorderedInput extends StatelessWidget {
   final EdgeInsets margin;
   final EdgeInsets innerPadding;
   final StringFunction validator;
+  final TextInputType textInputType;
   final Function onTap;
   final Function onActionTap;
   final ValueSetter<String> onChanged;
@@ -28,6 +29,7 @@ class RadiusBorderedInput extends StatelessWidget {
     Key key,
     this.hintText,
     this.validator,
+    this.textInputType,
     this.onChanged,
     this.isRequiredInput = false,
     this.isObscureText = false,
@@ -83,6 +85,7 @@ class RadiusBorderedInput extends StatelessWidget {
                             disabledBorder: InputBorder.none,
                             hintText: hintText,
                           ),
+                          keyboardType: textInputType ?? TextInputType.text,
                           initialValue: initialValue,
                           obscureText: isObscureText,
                           onChanged: (val) => onChanged(val),
