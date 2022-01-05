@@ -1,21 +1,61 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/screens/auth/sign_in/sign_in_controller.dart';
+import 'package:faya_clinic/screens/auth/verify_code.dart';
 import 'package:faya_clinic/screens/reset_password.dart';
-import 'package:faya_clinic/screens/signup_screen.dart';
+import 'package:faya_clinic/screens/auth/sign_up/signup_screen.dart';
+import 'package:faya_clinic/services/auth_service.dart';
+import 'package:faya_clinic/services/database_service.dart';
+import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:faya_clinic/widgets/input_border_radius.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({Key key}) : super(key: key);
+class SignInScreen extends StatelessWidget {
+  SignInScreen._({Key key, @required this.controller}) : super(key: key);
+  final SignInController controller;
+  final _formKey = GlobalKey<FormState>();
 
-  @override
-  _LoginScreenState createState() => _LoginScreenState();
-}
+  static Widget create(BuildContext context) {
+    final database = Provider.of<Database>(context, listen: false);
+    final authService = Provider.of<AuthBase>(context, listen: false);
+    return ChangeNotifierProvider<SignInController>(
+      create: (_) => SignInController(database: database, authService: authService),
+      builder: (ctx, child) {
+        return Consumer<SignInController>(
+          builder: (context, controller, _) => SignInScreen._(controller: controller),
+        );
+      },
+    );
+  }
 
-class _LoginScreenState extends State<LoginScreen> {
+  Future<String> onCodeSent(context) async {
+    //open the verify sms code screen and get the result back to be sent to AuthService
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => VerifySMSCode(
+          controller: controller,
+        ),
+      ),
+    );
+    print("SignUpWithPhone: code sent $result");
+    return result;
+  }
+
+  submitForm(BuildContext context) async {
+    if (_formKey.currentState.validate()) {
+      try {
+        await controller.signIn(onCodeSent(context));
+      } catch (error) {
+        DialogUtil.showAlertDialog(context, error.toString());
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final paddingTop = MediaQuery.of(context).padding.top;
@@ -93,15 +133,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: marginLarge,
                       ),
-                      RadiusBorderedInput(
-                        margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
-                        hintText: TransUtil.trans("hint_enter_your_phone"),
-                        onChanged: (val) {},
-                      ),
-                      RadiusBorderedInput(
-                        margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
-                        hintText: TransUtil.trans("hint_your_password"),
-                        onChanged: (val) {},
+                      Form(
+                        key: _formKey,
+                        child: Column(
+                          children: [
+                            RadiusBorderedInput(
+                              margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
+                              hintText: TransUtil.trans("hint_enter_your_phone"),
+                              onChanged: (val) => controller.phoneNumber = val,
+                              textInputType: TextInputType.number,
+                              isRequiredInput: true,
+                            ),
+                            RadiusBorderedInput(
+                              margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
+                              hintText: TransUtil.trans("hint_your_password"),
+                              onChanged: (val) => controller.password = val,
+                              isRequiredInput: true,
+                              minLength: 8,
+                            ),
+                          ],
+                        ),
                       ),
                       Align(
                         alignment: Alignment.centerRight,
@@ -134,7 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: InlineButtons(
                           positiveText: TransUtil.trans("btn_sign_in"),
                           negativeText: TransUtil.trans("btn_cancel"),
-                          onPositiveTap: () {},
+                          onPositiveTap: () => submitForm(context),
                           onNegativeTap: () {},
                         ),
                       ),
@@ -168,6 +219,17 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
               ),
+            ),
+            Positioned.fill(
+              child: Visibility(
+                  visible: controller.isLoading,
+                  // visible: true,
+                  child: Container(
+                    color: Color.fromRGBO(0, 0, 0, 70),
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  )),
             ),
           ],
         ),
