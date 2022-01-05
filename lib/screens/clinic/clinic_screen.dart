@@ -1,34 +1,27 @@
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/screens/clinic/tabs/offers.dart';
-import 'package:faya_clinic/screens/clinic/tabs/sections.dart';
-import 'package:faya_clinic/screens/clinic/tabs/team.dart';
-import 'package:faya_clinic/screens/clinic/tabs/find_us.dart';
+import 'package:faya_clinic/screens/clinic/clinic_controller.dart';
+import 'package:faya_clinic/services/database_service.dart';
 
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
-class ClinicScreen extends StatefulWidget {
-  const ClinicScreen({Key key}) : super(key: key);
+class ClinicScreen extends StatelessWidget {
+  const ClinicScreen._({Key key, @required this.controller}) : super(key: key);
+  final ClinicController controller;
 
-  @override
-  _ClinicScreenState createState() => _ClinicScreenState();
-}
-
-class _ClinicScreenState extends State<ClinicScreen> {
-  final List<Widget> _tabs = [
-    ClinicTeamTab(),
-    ClinicSectionsTab(),
-    ClinicOffersTab(),
-    ClinicFindUsTab(),
-  ];
-
-  var _selectedTab = 0;
-  void _setSelectedTab(int index) {
-    setState(() {
-      _selectedTab = index;
-    });
+  static Widget create(BuildContext context) {
+    final database = Provider.of<Database>(context, listen: false);
+    return ChangeNotifierProvider<ClinicController>(
+      create: (_) => ClinicController(database: database),
+      builder: (ctx, child) {
+        return Consumer<ClinicController>(
+          builder: (context, controller, _) => ClinicScreen._(controller: controller),
+        );
+      },
+    );
   }
 
   @override
@@ -40,7 +33,7 @@ class _ClinicScreenState extends State<ClinicScreen> {
         children: [
           DefaultTabController(
             length: 4,
-            initialIndex: _selectedTab,
+            initialIndex: controller.currentTabIndex,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
@@ -70,7 +63,7 @@ class _ClinicScreenState extends State<ClinicScreen> {
                         text: TransUtil.trans("tab_find_us"),
                       ),
                     ],
-                    onTap: (value) => _setSelectedTab(value),
+                    onTap: controller.onTabChanged,
                     labelColor: colorPrimaryLight,
                     unselectedLabelColor: colorPrimary,
                     // indicatorColor: Colors.green,
@@ -93,7 +86,7 @@ class _ClinicScreenState extends State<ClinicScreen> {
           ),
           Expanded(
             // height: 400,
-            child: _tabs[_selectedTab],
+            child: controller.currentTab,
           ),
         ],
       ),

@@ -1,10 +1,13 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/models/team.dart';
+import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:flutter/material.dart';
 
 class StaffItem extends StatelessWidget {
   final double width;
   final double height;
-  const StaffItem({Key key, this.width = 200, this.height = 225}) : super(key: key);
+  final Team team;
+  const StaffItem({Key key, this.width = 200, this.height = 225, @required this.team}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +45,21 @@ class StaffItem extends StatelessWidget {
               left: 0,
               height: height * 0.3,
               child: Container(
+                width: 75,
                 decoration: BoxDecoration(
                   color: colorGreyLight,
                   shape: BoxShape.circle,
                   border: Border.all(
                     width: 2.0,
                     color: Colors.white,
+                  ),
+                ),
+                child: FittedBox(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(500)),
+                    child: NetworkCachedImage(
+                      imageUrl: team?.image,
+                    ),
                   ),
                 ),
               ),
@@ -59,13 +71,14 @@ class StaffItem extends StatelessWidget {
               bottom: marginLarge,
               child: Container(
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text("Dr. Lorem ipsum"),
+                    Text(team?.name ?? ""),
                     SizedBox(
                       height: marginStandard,
                     ),
                     Text(
-                      "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+                      team?.description ?? "",
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

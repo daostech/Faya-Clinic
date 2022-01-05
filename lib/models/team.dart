@@ -1,33 +1,33 @@
 import 'dart:convert';
 
-Section sectionFromJson(String str) => Section.fromJson(json.decode(str));
+Team teamFromJson(String str) => Team.fromJson(json.decode(str));
 
-String sectionToJson(Section data) => json.encode(data.toJson());
+String teamToJson(Team data) => json.encode(data.toJson());
 
-class Section {
-  Section({
+class Team {
+  Team({
     this.id,
-    this.name,
     this.image,
+    this.name,
     this.description,
   });
 
   String id;
-  String name;
   String image;
+  String name;
   String description;
 
-  factory Section.fromJson(Map<String, dynamic> json) => Section(
+  factory Team.fromJson(Map<String, dynamic> json) => Team(
         id: json["id"] == null ? null : json["id"],
-        name: json["name"] == null ? null : json["name"],
         image: json["image"] == null ? null : json["image"],
+        name: json["name"] == null ? null : json["name"],
         description: json["text"] == null ? null : json["text"],
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "name": name,
         "image": image,
+        "name": name,
         "text": description,
       };
 }
