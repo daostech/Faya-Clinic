@@ -12,7 +12,6 @@ class OrderItem {
     this.price,
     this.count,
     this.total,
-    this.orders,
   });
 
   String id;
@@ -21,7 +20,6 @@ class OrderItem {
   int price;
   int count;
   int total;
-  List<dynamic> orders; // ! what orders
 
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
         id: json["id"] == null ? null : json["id"],
@@ -30,7 +28,6 @@ class OrderItem {
         price: json["price"] == null ? null : json["price"],
         count: json["count"] == null ? null : json["count"],
         total: json["total"] == null ? null : json["total"],
-        orders: json["orders"] == null ? null : List<dynamic>.from(json["orders"].map((x) => x)),
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,6 +37,5 @@ class OrderItem {
         "price": price,
         "count": count,
         "total": total,
-        "orders": orders == null ? null : List<dynamic>.from(orders.map((x) => x)),
       };
 }

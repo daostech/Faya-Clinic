@@ -20,8 +20,9 @@ class Category {
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"] == null ? null : json["id"],
         name: json["name"] == null ? null : json["name"],
-        subCategories:
-            json["subCategories"] == null ? null : List<SubCategory>.from(json["subCategories"].map((x) => x)),
+        subCategories: json["subCategories"] == null
+            ? null
+            : List<SubCategory>.from(json["subCategories"].map((x) => SubCategory.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {

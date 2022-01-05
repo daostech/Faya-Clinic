@@ -4,6 +4,9 @@ SubCategory subCategoryFromJson(String str) => SubCategory.fromJson(json.decode(
 
 String subCategoryToJson(SubCategory data) => json.encode(data.toJson());
 
+List<SubCategory> subCategoriesFromJson(List<dynamic> json) =>
+    List<SubCategory>.from(json.map((x) => SubCategory.fromJson(x)));
+
 class SubCategory {
   SubCategory({
     this.id,
@@ -14,7 +17,6 @@ class SubCategory {
   String id;
   String name;
   String categoryId;
-  List<dynamic> categories; // ! what categories
 
   factory SubCategory.fromJson(Map<String, dynamic> json) => SubCategory(
         id: json["id"] == null ? null : json["id"],

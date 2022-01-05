@@ -14,8 +14,8 @@ class ClinicService {
   String name;
 
   factory ClinicService.fromJson(Map<String, dynamic> json) => ClinicService(
-        id: json["subCategories"] == null ? null : json["id"],
-        name: json["subCategories"] == null ? null : json["name"],
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
       );
 
   Map<String, dynamic> toJson() => {

@@ -32,18 +32,20 @@ class TimeSpan {
   int totalSeconds;
 
   factory TimeSpan.fromJson(Map<String, dynamic> json) => TimeSpan(
-      // id: json["id"] == null ? null : json["id"],
-      // userId: json["userId"] == null ? null : json["userId"],
-      // dateSection: json["dateSection"] == null ? null : DateSection.fromJson(json["dateSection"]),
-      // dateService: json["dateService"] == null ? null : DateService.fromJson(json["dateService"]),
-      // timeSpan: json["timeSpan"] == null ? null : DateService.fromJson(json["timeSpan"]),
+        ticks: json["ticks"] == null ? null : json["ticks"],
+        days: json["days"] == null ? null : json["days"],
+        hours: json["hours"] == null ? null : json["hours"],
+        milliseconds: json["milliseconds"] == null ? null : json["milliseconds"],
+        minutes: json["minutes"] == null ? null : json["minutes"],
+        seconds: json["seconds"] == null ? null : json["seconds"],
       );
 
   Map<String, dynamic> toJson() => {
-        // "id": id,
-        // "userId": userId,
-        // "dateSection": dateSection.toJson(),
-        // "dateService": dateService.toJson(),
-        // "timeSpan": timeSpan.toJson(),
+        "ticks": ticks,
+        "days": days,
+        "hours": hours,
+        "milliseconds": milliseconds,
+        "minutes": minutes,
+        "seconds": seconds,
       };
 }
