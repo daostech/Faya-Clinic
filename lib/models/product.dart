@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'dart:math';
+
 Product productFromJson(String str) => Product.fromJson(json.decode(str));
 
 String productToJson(Product data) => json.encode(data.toJson());
@@ -31,7 +33,26 @@ class Product {
   double price;
   dynamic creationDate;
 
-  List<String> get images => [img1, img2, img3, img4];
+  List<String> get images {
+    List<String> tmps = [img1, img2, img3];
+    List<String> imgs = [];
+    for (int i = 0; i < 3; i++) {
+      if (tmps[i] != null) imgs.add(tmps[i]);
+    }
+    return imgs;
+  }
+
+  String get randomImage {
+    final existImages = images;
+    if (existImages == null || (existImages?.isEmpty ?? null)) return "";
+    String image;
+    do {
+      int rand = Random().nextInt(images.length);
+      image = existImages[rand];
+      print("trying to get random image");
+    } while (image == null);
+    return image;
+  }
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         id: json["id"],
