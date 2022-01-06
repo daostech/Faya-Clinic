@@ -1,98 +1,139 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:faya_clinic/models/user.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:faya_clinic/api/api_paths.dart';
+import 'package:faya_clinic/api/api_service.dart';
+import 'package:faya_clinic/models/category.dart';
+import 'package:faya_clinic/models/home_slider.dart';
+import 'package:faya_clinic/models/offer.dart';
+import 'package:faya_clinic/models/product.dart';
+import 'package:faya_clinic/models/requests/date_registered_request.dart';
+import 'package:faya_clinic/models/section.dart';
+import 'package:faya_clinic/models/service.dart';
+import 'package:faya_clinic/models/sub_section.dart';
+import 'package:faya_clinic/models/team.dart';
+import 'package:flutter/material.dart';
 
-class DBService {
-  static const TAG = "DBService:";
+abstract class Database {
+  Future getHomeSliders();
+  Future getLastOffers();
+  Future fetchProductsList();
+  Future fetchSectionsList();
+  Future fetchSubSectionsList(String sectionId);
+  Future fetchServicesList(String subSectionId);
+  Future fetchProductCategories();
+  Future getClinicsList();
+  Future fetchOffersList();
+  Future fetchMyPreviousOrders();
+  Future fetchMyFavoriteProducts(userId);
+  Future fetchMyDates(userId);
+  Future getTeamsList();
 
-  static const _COL_USERS = "users";
+  Future createNewDate(DateRegisteredRequest request);
+}
 
-  final _dbRef = FirebaseFirestore.instance;
-  final _auth = FirebaseAuth.instance;
+class DatabaseService implements Database {
+  final APIService apiService;
 
-  Future<dynamic> addUserNotificationToken(String token) async {
-    final uid = _auth.currentUser.uid;
-    print("$TAG adding new token ${token.substring(0, 10)}... for user: $uid..");
-    List<dynamic> tokens = [];
-    // get the user old tokens list
-    await _dbRef
-        .collection(_COL_USERS)
-        .doc(uid)
-        .get()
-        .then((value) => tokens = value.get("notification_tokens"))
-        .catchError((error) {
-      print("$TAG [Error] addUserNotificationToken:: $error");
-    });
-    final existToken = tokens.firstWhere((element) => element == token, orElse: () => null);
-    // if the sent token is already exist don't update the tokens list
-    if (existToken != null) {
-      print("$TAG ignoring the sent token because it is already exist");
-      return null;
-    }
-    print("$TAG addUserNotificationToken: retreived user token list ${token.toString()}");
-    tokens.add(token); // add the new token to the old list
-    Map<String, dynamic> newTokens = {"notification_tokens": tokens};
-    return _dbRef.collection(_COL_USERS).doc(uid).update(newTokens);
+  DatabaseService({@required this.apiService});
+
+  @override
+  getClinicsList() {
+    // TODO: implement getClinicsList
+    throw UnimplementedError();
   }
 
-  Future<MyUser> createNewUser(MyUser user) async {
-    print("$TAG creating new user data..");
-    // await _dbRef
-    //     .collection(_COL_USERS)
-    //     .doc(user.id)
-    //     .set(user.toJson())
-    //     .then((value) => print("$TAG created new user in db"))
-    //     .catchError((error) => print("$TAG [Error] createNewUser:: $error"));
-
-    //create user public profile
-    await createUserProfile(user);
-    // return the new created user info
-    return await getCurrentUser();
+  @override
+  getHomeSliders() {
+    return apiService.getData<HomeSlider>(
+      builder: (data) => HomeSlider.fromJson(data),
+      path: APIPath.slidersList(),
+    );
   }
 
-  Future<void> createUserProfile(MyUser user) {
-    print("$TAG creating user profile..");
-    // UserProfile userProfile = UserProfile();
-    // return _dbRef
-    //     .collection(_COL_USER_PROFILES)
-    //     .doc(user.id)
-    //     .set(userProfile.toJson())
-    //     .then((value) => print("$TAG created user profile in db"))
-    //     .catchError((error) => print("$TAG [Error] createUserProfile:: $error"));
+  @override
+  getLastOffers() {
+    // TODO: implement getLastOffers
+    throw UnimplementedError();
   }
 
-  Future<MyUser> getUserById(String uId) async {
-    print("$TAG getting user data for $uId..");
-    MyUser user;
-    // await _dbRef
-    //     .collection(_COL_USERS)
-    //     .doc(uId)
-    //     .get()
-    //     .then((DocumentSnapshot documentSnapshot) => {
-    //           user = MyUser.fromJson(documentSnapshot.data()),
-    //           print("$TAG User ${user.toString()}"),
-    //         })
-    //     .catchError((error) {
-    //   print("$TAG [Error] getUserById:: $error");
-    // });
-    return user;
+  @override
+  fetchMyDates(userId) {
+    // TODO: implement getMyDates
+    throw UnimplementedError();
   }
 
-  Future<MyUser> getCurrentUser() async {
-    final uId = _auth.currentUser.uid;
-    print("$TAG getting user data for $uId..");
-    MyUser user;
-    // await _dbRef
-    //     .collection(_COL_USERS)
-    //     .doc(uId)
-    //     .get()
-    //     .then((DocumentSnapshot documentSnapshot) => {
-    //           user = MyUser.fromJson(documentSnapshot.data()),
-    //           print("$TAG User ${user.toString()}"),
-    //         })
-    //     .catchError((error) {
-    //   print("$TAG [Error] getCurrentUser:: $error");
-    // });
-    return user;
+  @override
+  fetchMyFavoriteProducts(userId) {
+    // TODO: implement getMyFavoriteProducts
+    throw UnimplementedError();
+  }
+
+  @override
+  fetchMyPreviousOrders() {
+    // TODO: implement getMyPreviousOrders
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Product>> fetchProductsList() {
+    return apiService.getData<Product>(
+      path: APIPath.productsList(),
+      builder: (data) => Product.fromJson(data),
+    );
+  }
+
+  @override
+  Future fetchProductCategories() {
+    return apiService.getData<Category>(
+      path: APIPath.categoriesList(),
+      builder: (data) => Category.fromJson(data),
+    );
+  }
+
+  @override
+  Future fetchSectionsList() {
+    return apiService.getData<Section>(
+      path: APIPath.sectionsList(),
+      builder: (data) => Section.fromJson(data),
+    );
+  }
+
+  @override
+  Future fetchSubSectionsList(String sectionId) {
+    return apiService.getData<SubSection>(
+      builder: (data) => SubSection.fromJson(data),
+      path: APIPath.subSectionsList(sectionId),
+    );
+  }
+
+  @override
+  Future fetchServicesList(String subSectionId) {
+    return apiService.getData<ClinicService>(
+      builder: (data) => ClinicService.fromJson(data),
+      path: APIPath.servicesList(subSectionId),
+    );
+  }
+
+  @override
+  Future getTeamsList() {
+    return apiService.getData<Team>(
+      builder: (data) => Team.fromJson(data),
+      path: APIPath.teamsList(),
+    );
+  }
+
+  @override
+  Future fetchOffersList() {
+    return apiService.getData<Offer>(
+      builder: (data) => Offer.fromJson(data),
+      path: APIPath.offersList(),
+    );
+  }
+
+  @override
+  Future createNewDate(DateRegisteredRequest request) {
+    return apiService.postData<DateRegisteredRequest>(
+      // builder: (data) => Offer.fromJson(data),
+      path: APIPath.createDate(),
+      body: request.toJson(),
+    );
   }
 }
