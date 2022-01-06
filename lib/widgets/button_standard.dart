@@ -14,8 +14,8 @@ class StandardButton extends StatelessWidget {
   final EdgeInsetsGeometry padding;
   const StandardButton({
     Key key,
-    @required this.onTap,
     @required this.text,
+    @required this.onTap,
     this.topLeftRadius = 0,
     this.topRightRadius = 0,
     this.bottomLeftRadius = 0,

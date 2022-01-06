@@ -1,37 +1,13 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/models/category.dart';
+import 'package:faya_clinic/screens/store/store_controller.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
+import 'package:faya_clinic/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProductExpandedFilter extends StatelessWidget {
-  ProductExpandedFilter({
-    Key key,
-  }) : super(key: key);
-
-  static List dummyVals = [false, true, false, true];
-
-  Widget _buildCheckBoxTile(int index, String title) {
-    return CheckboxListTile(
-      activeColor: Colors.pink[300],
-      dense: true,
-      //font change
-      title: new Text(
-        // checkBoxListTileModel[index].title,
-        title,
-        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 0.5),
-      ),
-      // value: checkBoxListTileModel[index].isCheck,
-      value: dummyVals[index]
-      // secondary: Container(
-      //   height: 50,
-      //   width: 50,
-      //   child: Text("secondary"),
-      // ),
-      ,
-      onChanged: (bool val) {
-        dummyVals[index] = val;
-      },
-    );
-  }
+  ProductExpandedFilter({Key key, @required this.controller}) : super(key: key);
+  final StoreController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -48,13 +24,40 @@ class ProductExpandedFilter extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        children: <Widget>[
-          _buildCheckBoxTile(0, "category 1"),
-          _buildCheckBoxTile(1, "category 2"),
-          _buildCheckBoxTile(2, "category 3"),
-          _buildCheckBoxTile(3, "category 4"),
-        ],
+        children: _buildChildren(),
       ),
+    );
+  }
+
+  List<Widget> _buildChildren() {
+    List<Widget> children = [];
+
+    if (controller.categories == null || controller.categories.isEmpty) {
+      if (controller.isLoading)
+        children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
+      else
+        children = [
+          MyErrorWidget(
+            onTap: controller.fetchAllCategories,
+            error: "Error loading data !",
+          )
+        ];
+    } else
+      children = controller.categories.map((element) => _buildCheckBoxTile(element)).toList();
+
+    return children;
+  }
+
+  Widget _buildCheckBoxTile(Category category) {
+    return CheckboxListTile(
+      activeColor: Colors.pink[300],
+      dense: true,
+      title: new Text(
+        category.name,
+        style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 0.5),
+      ),
+      value: controller.isSelectedCategory(category),
+      onChanged: (_) => controller.toggleCategory(category),
     );
   }
 }
