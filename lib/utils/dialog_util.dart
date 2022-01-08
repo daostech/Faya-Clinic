@@ -61,6 +61,16 @@ class DialogUtil {
     );
   }
 
+  static Future<dynamic> showBottomSheet(BuildContext context, Widget body) {
+    print("$TAG showing bottom sheet");
+    return showModalBottomSheet<dynamic>(
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      context: context,
+      builder: (context) => body,
+    );
+  }
+
   static void showToastMessage(BuildContext context, String message) {
     Toast.show(message, context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
   }
