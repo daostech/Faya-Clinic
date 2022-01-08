@@ -1,5 +1,5 @@
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/screens/favorite_products.dart';
+import 'package:faya_clinic/screens/favorite_products/favorite_products_screen.dart';
 import 'package:faya_clinic/screens/previous_orders_screen.dart';
 import 'package:faya_clinic/screens/profile_screen.dart';
 import 'package:faya_clinic/screens/user_addresses.dart';
@@ -173,8 +173,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                     title: TransUtil.trans("list_item_fav_products"),
                     leading: Icons.favorite,
                     withDivider: true,
-                    onTap: () =>
-                        Navigator.of(context).push(MaterialPageRoute(builder: (builder) => FavoriteProductsScreen())),
+                    onTap: () => Navigator.of(context)
+                        .push(MaterialPageRoute(builder: (builder) => FavoriteProductsScreen.create(context))),
                   ),
                   _buildListItem(
                     title: TransUtil.trans("list_item_previous_orders"),

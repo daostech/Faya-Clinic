@@ -2,11 +2,19 @@ import 'dart:convert';
 
 import 'dart:math';
 
+import 'package:faya_clinic/constants/hive_keys.dart';
+import 'package:faya_clinic/models/storage_model.dart';
+import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
+
+part 'product.g.dart';
+
 Product productFromJson(String str) => Product.fromJson(json.decode(str));
 
 String productToJson(Product data) => json.encode(data.toJson());
 
-class Product {
+@HiveType(typeId: HiveKeys.TYPE_PRODUCT)
+class Product extends StorageModel {
   Product({
     this.id,
     this.name,
@@ -20,17 +28,27 @@ class Product {
     this.price,
     this.creationDate,
   });
-
+  @HiveField(0)
   String id;
+  @HiveField(1)
   String name;
+  @HiveField(2)
   String description;
+  @HiveField(3)
   String img1;
+  @HiveField(4)
   String img2;
+  @HiveField(5)
   String img3;
+  @HiveField(6)
   String img4;
+  @HiveField(7)
   String categoryId;
+  @HiveField(8)
   String subCategoryId;
+  @HiveField(9)
   double price;
+  @HiveField(10)
   dynamic creationDate;
 
   List<String> get images {
@@ -81,4 +99,7 @@ class Product {
         "price": price,
         "creationDate": creationDate,
       };
+
+  @override
+  String get primaryKey => this.id ?? Uuid().v4();
 }

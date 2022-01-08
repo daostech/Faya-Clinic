@@ -3,7 +3,7 @@ import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/team.dart';
-import 'package:faya_clinic/providers/favorite_products.dart';
+import 'package:faya_clinic/repositories/favorite_repository.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:flutter/material.dart';
 
@@ -11,17 +11,19 @@ class HomeController with ChangeNotifier {
   static const TAG = "[HomeController] ";
   static const ERR = "[Error] ";
 
-  HomeController({this.favoriteProductsProvider, this.database}) {
+  HomeController({@required this.favoriteRepository, @required this.database}) {
     init();
   }
   final Database database;
-  final FavoriteProductsProvider favoriteProductsProvider;
+  // final FavoriteProductsProvider favoriteProductsProvider;
+  final FavoriteRepositoryBase favoriteRepository;
 
   static List<HomeSlider> _sliders;
   static List<Offer> _lastOffers;
   static List<Team> _teamsList;
   static List<Section> _sectionsList;
   static List<Product> _lastProducts;
+  static List<Product> _favoriteProducts = [];
 
   var isLoading = true;
 
@@ -31,19 +33,28 @@ class HomeController with ChangeNotifier {
   List<Team> get teamsList => _teamsList;
   List<Section> get sectionsList => _sectionsList;
 
-  List get favoriteProducts => favoriteProductsProvider.favoriteProducts;
+  // List get favoriteProducts => favoriteProductsProvider.favoriteProducts;
+  List get favoriteProducts => _favoriteProducts;
 
   void init() async {
+    _favoriteProducts?.clear();
+    _favoriteProducts.addAll(favoriteRepository.allProducts);
     await fetchHomeSliders();
     await fetchOffers();
     await fetchTeamsList();
     await fetchSections();
     await fetchNewArrivalsProducts();
+    // favoriteRepository.deleteAll();
   }
 
   void toggleFavorite(Product product) {
+    print("$TAG toggleFavorite called");
     if (product == null) return;
-    favoriteProductsProvider.toggleFavorite(product);
+    if (isFavoriteProduct(product)) {
+      _favoriteProducts.removeWhere((element) => element.id == product.id);
+    } else
+      _favoriteProducts.add(product);
+    favoriteRepository.toggleProduct(product);
     notifyListeners();
   }
 
@@ -96,7 +107,7 @@ class HomeController with ChangeNotifier {
 
   bool isFavoriteProduct(Product product) {
     if (product == null) return false;
-    return favoriteProductsProvider.isFavoriteProduct(product);
+    return _favoriteProducts.firstWhere((element) => element.id == product.id, orElse: () => null) != null;
   }
 
   void updateWith({
@@ -106,6 +117,7 @@ class HomeController with ChangeNotifier {
     List<Section> sections,
     List<Offer> offers,
     List<Product> newArrivals,
+    List<Product> favoriteProducts,
   }) {
     isLoading = loading ?? isLoading;
     _sliders = sliders ?? _sliders;
@@ -113,6 +125,7 @@ class HomeController with ChangeNotifier {
     _sectionsList = sections ?? _sectionsList;
     _lastOffers = offers ?? _lastOffers;
     _lastProducts = newArrivals ?? _lastProducts;
+    _favoriteProducts = favoriteProducts ?? _favoriteProducts;
     notifyListeners();
   }
 }

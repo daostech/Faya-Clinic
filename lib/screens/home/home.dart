@@ -5,7 +5,7 @@ import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/team.dart';
-import 'package:faya_clinic/providers/favorite_products.dart';
+import 'package:faya_clinic/repositories/favorite_repository.dart';
 import 'package:faya_clinic/screens/clinic/clinic_offers_details.dart';
 import 'package:faya_clinic/screens/clinic/clinic_sub_sections.dart';
 import 'package:faya_clinic/screens/home/home_controller.dart';
@@ -28,9 +28,9 @@ class HomeScreen extends StatelessWidget {
 
   static Widget create(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
-    final favorite = Provider.of<FavoriteProductsProvider>(context, listen: false);
+    final favoriteRepo = Provider.of<FavoriteRepositoryBase>(context, listen: false);
     return ChangeNotifierProvider<HomeController>(
-      create: (_) => HomeController(database: database, favoriteProductsProvider: favorite),
+      create: (_) => HomeController(database: database, favoriteRepository: favoriteRepo),
       builder: (ctx, child) {
         return Consumer<HomeController>(
           builder: (context, controller, _) => HomeScreen._(controller: controller),
