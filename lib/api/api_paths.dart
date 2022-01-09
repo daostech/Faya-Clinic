@@ -15,6 +15,7 @@ class APIPath {
   static String userProfile() => 'api/user/list';
 
   static String userDatesList(String userId) => 'api/DatesRegistered/userDates/$userId';
+  static String allDatesOn(String dateTimeStr) => 'api/DatesRegistered/$dateTimeStr';
   static String userOrdersList(String sectionId) => 'api/Clinics/list';
 
   static String createUser() => 'api/User';

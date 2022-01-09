@@ -1,10 +1,12 @@
 import 'package:faya_clinic/api/api_paths.dart';
 import 'package:faya_clinic/api/api_service.dart';
 import 'package:faya_clinic/models/category.dart';
+import 'package:faya_clinic/models/date_registered.dart';
 import 'package:faya_clinic/models/home_slider.dart';
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/requests/date_registered_request.dart';
+import 'package:faya_clinic/models/response/post_response.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/service.dart';
 import 'package:faya_clinic/models/sub_section.dart';
@@ -19,26 +21,21 @@ abstract class Database {
   Future fetchSubSectionsList(String sectionId);
   Future fetchServicesList(String subSectionId);
   Future fetchProductCategories();
+  Future fetchAllDatesOn(String formattedDateStr);
   Future getClinicsList();
   Future fetchOffersList();
   Future fetchMyPreviousOrders();
   Future fetchMyFavoriteProducts(userId);
-  Future fetchMyDates(userId);
+  Future fetchUserDates(String userId);
   Future getTeamsList();
 
-  Future createNewDate(DateRegisteredRequest request);
+  Future<PostResponse> createNewDate(DateRegisteredRequest request);
 }
 
 class DatabaseService implements Database {
   final APIService apiService;
 
   DatabaseService({@required this.apiService});
-
-  @override
-  getClinicsList() {
-    // TODO: implement getClinicsList
-    throw UnimplementedError();
-  }
 
   @override
   getHomeSliders() {
@@ -55,9 +52,11 @@ class DatabaseService implements Database {
   }
 
   @override
-  fetchMyDates(userId) {
-    // TODO: implement getMyDates
-    throw UnimplementedError();
+  fetchUserDates(userId) {
+    return apiService.getData<DateRegistered>(
+      builder: (data) => DateRegistered.fromJson(data),
+      path: APIPath.userDatesList(userId),
+    );
   }
 
   @override
@@ -129,11 +128,24 @@ class DatabaseService implements Database {
   }
 
   @override
-  Future createNewDate(DateRegisteredRequest request) {
+  Future<PostResponse> createNewDate(DateRegisteredRequest request) {
     return apiService.postData<DateRegisteredRequest>(
-      // builder: (data) => Offer.fromJson(data),
       path: APIPath.createDate(),
       body: request.toJson(),
     );
+  }
+
+  @override
+  Future fetchAllDatesOn(String formattedDateStr) {
+    return apiService.getData<DateRegistered>(
+      builder: (data) => DateRegistered.fromJson(data),
+      path: APIPath.allDatesOn(formattedDateStr),
+    );
+  }
+
+  @override
+  getClinicsList() {
+    // TODO: implement getMyDates
+    throw UnimplementedError();
   }
 }

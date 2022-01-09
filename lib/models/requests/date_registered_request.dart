@@ -1,41 +1,44 @@
 import 'dart:convert';
 
-import 'package:faya_clinic/models/date_section.dart';
-import 'package:faya_clinic/models/date_service.dart';
-import 'package:faya_clinic/models/time_span.dart';
+import 'package:faya_clinic/models/service.dart';
+import 'package:faya_clinic/utils/date_formatter.dart';
 
-DateRegisteredRequest dateRegisteredFromJson(String str) => DateRegisteredRequest.fromJson(json.decode(str));
-
-String dateRegisteredToJson(DateRegisteredRequest data) => json.encode(data.toJson());
+String dateRegisteredToJson(DateRegisteredRequest request) => json.encode(request.toJson());
 
 class DateRegisteredRequest {
   DateRegisteredRequest({
-    this.id,
     this.userId,
-    this.dateService,
-    this.dateSection,
-    this.timeSpan,
+    this.sectionId,
+    this.subSectionId,
+    this.dateTime,
+    this.services,
   });
 
-  String id;
   String userId;
-  DateService dateService;
-  DateSection dateSection;
-  TimeSpan timeSpan;
+  String sectionId;
+  String subSectionId;
+  DateTime dateTime;
+  List<ClinicService> services;
 
-  factory DateRegisteredRequest.fromJson(Map<String, dynamic> json) => DateRegisteredRequest(
-        id: json["id"] == null ? null : json["id"],
-        userId: json["userId"] == null ? null : json["userId"],
-        dateSection: json["dateSection"] == null ? null : DateSection.fromJson(json["dateSection"]),
-        dateService: json["dateService"] == null ? null : DateService.fromJson(json["dateService"]),
-        timeSpan: json["timeSpan"] == null ? null : TimeSpan.fromJson(json["timeSpan"]),
-      );
+  String get time => MyDateFormatter.toStringTime(dateTime);
+  String get registeredDate => MyDateFormatter.toStringDate(dateTime);
+  List<String> get serviceIds => services == null ? [] : services.map((e) => e.id).toList();
+
+  Map<String, dynamic> get dateSubSection => {
+        "dateSectionId": sectionId,
+        "dateSection": "string",
+        "serviceIds": serviceIds,
+      };
+
+  Map<String, dynamic> get dateSection => {
+        "subSectionId": subSectionId,
+        "dateSubSection": dateSubSection,
+      };
 
   Map<String, dynamic> toJson() => {
-        "id": id,
         "userId": userId,
-        "dateSection": dateSection.toJson(),
-        "dateService": dateService.toJson(),
-        "timeSpan": timeSpan.toJson(),
+        "time": time,
+        "dateSection": dateSection,
+        "registeredDate": registeredDate,
       };
 }

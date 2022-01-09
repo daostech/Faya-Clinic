@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:faya_clinic/api/api.dart';
+import 'package:faya_clinic/models/response/post_response.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
@@ -43,19 +44,20 @@ class APIService {
     throw response;
   }
 
-  Future<List<T>> postData<T>({
+  Future<PostResponse> postData<T>({
     Map<String, dynamic> body,
-    Map<String, dynamic> parameters,
     @required String path,
   }) async {
     final uri = api.endpointUri(path);
-    // final uri = api.endpointUri2(path);
-    final response = await http.post(uri, body: body);
+
+    String encodedBody = json.encode(body);
+    final response = await http.post(uri, headers: {"Content-Type": "application/json"}, body: encodedBody);
+    final postResponse = PostResponse.fromJson(jsonDecode(response.body));
     if (response.statusCode == 200) {
       print('postData: Request $uri success\nResponse: 200');
       // return data;
-    }
-    print('postData: Request $uri failed\nResponse: ${response.statusCode} ${response.reasonPhrase}');
-    throw response;
+    } else
+      print('postData: Request $uri failed\nResponse: ${response.statusCode} ${response.reasonPhrase}');
+    return postResponse;
   }
 }
