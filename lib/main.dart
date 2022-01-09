@@ -4,8 +4,10 @@ import 'package:faya_clinic/api/api_service.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/constants/hive_keys.dart';
 import 'package:faya_clinic/constants/themes.dart';
+import 'package:faya_clinic/models/address.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/providers/checkout_controller.dart';
+import 'package:faya_clinic/repositories/addresses_repository.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
 import 'package:faya_clinic/screens/landing_screen.dart';
 import 'package:faya_clinic/services/auth_service.dart';
@@ -42,6 +44,9 @@ void main() async {
           ),
           Provider<FavoriteRepositoryBase>(
             create: (_) => FavoriteRepository(HiveLocalStorageService(HiveKeys.BOX_FAVORITE)),
+          ),
+          Provider<AddressesRepositoryBase>(
+            create: (_) => AddressesRepository(HiveLocalStorageService(HiveKeys.BOX_ADDRESSES)),
           ),
           Provider<AuthBase>(
             create: (_) => AuthService(),
@@ -83,7 +88,11 @@ Future init() async {
   if (!Hive.isAdapterRegistered(HiveKeys.TYPE_PRODUCT)) {
     Hive.registerAdapter(ProductAdapter());
   }
+  if (!Hive.isAdapterRegistered(HiveKeys.TYPE_ADDREESS)) {
+    Hive.registerAdapter(AddressAdapter());
+  }
 
   // open boxes
   await Hive.openBox(HiveKeys.BOX_FAVORITE);
+  await Hive.openBox(HiveKeys.BOX_ADDRESSES);
 }

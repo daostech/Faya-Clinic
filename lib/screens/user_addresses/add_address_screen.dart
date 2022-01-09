@@ -1,15 +1,29 @@
+import 'package:faya_clinic/utils/dialog_util.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/screens/user_addresses/address_controller.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/app_bar_standard.dart';
 import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:faya_clinic/widgets/input_standard.dart';
-import 'package:flutter/material.dart';
 
 class AddAddressScreen extends StatelessWidget {
-  const AddAddressScreen({Key key}) : super(key: key);
+  AddAddressScreen({Key key}) : super(key: key);
+
+  void handleBackPressed(BuildContext context, UserAddressesController controller) {
+    if (controller.hasUpdates) {
+      DialogUtil.showAlertDialog(context, "Unsaved changes close anyway ?", () {
+        controller.resetForm();
+        Navigator.of(context).pop();
+      });
+    } else
+      Navigator.of(context).pop();
+  }
 
   @override
   Widget build(BuildContext context) {
+    final controller = context.watch<UserAddressesController>();
     return Scaffold(
       body: Column(
         children: [
@@ -33,31 +47,41 @@ class AddAddressScreen extends StatelessWidget {
                 child: Column(
                   children: [
                     Form(
+                      key: controller.formKey,
                       child: Column(
                         children: [
                           StandardInput(
+                            hintText: TransUtil.trans("hint_address_label"),
+                            isRequiredInput: true,
+                            onChanged: (val) => controller.label = val,
+                          ),
+                          StandardInput(
                             hintText: TransUtil.trans("hint_country"),
-                            onChanged: (val) {},
+                            isRequiredInput: true,
+                            onChanged: (val) => controller.country = val,
                           ),
                           StandardInput(
                             hintText: TransUtil.trans("hint_city"),
-                            onChanged: (val) {},
+                            isRequiredInput: true,
+                            onChanged: (val) => controller.city = val,
                           ),
                           StandardInput(
                             hintText: TransUtil.trans("hint_apartmant"),
-                            onChanged: (val) {},
+                            isRequiredInput: true,
+                            onChanged: (val) => controller.apartment = val,
                           ),
                           StandardInput(
                             hintText: TransUtil.trans("hint_block"),
-                            onChanged: (val) {},
+                            isRequiredInput: true,
+                            onChanged: (val) => controller.block = val,
                           ),
                           StandardInput(
                             hintText: TransUtil.trans("hint_street_name"),
-                            onChanged: (val) {},
+                            onChanged: (val) => controller.streetName = val,
                           ),
                           StandardInput(
                             hintText: TransUtil.trans("hint_zip_code"),
-                            onChanged: (val) {},
+                            onChanged: (val) => controller.zipCode = val,
                           ),
                         ],
                       ),
@@ -68,8 +92,8 @@ class AddAddressScreen extends StatelessWidget {
                     InlineButtons(
                       positiveText: TransUtil.trans("btn_save"),
                       negativeText: TransUtil.trans("btn_go_back"),
-                      onPositiveTap: () {},
-                      onNegativeTap: () {},
+                      onPositiveTap: () => controller.submitForm(context),
+                      onNegativeTap: () => handleBackPressed(context, controller),
                     ),
                     SizedBox(
                       height: marginLarge,
