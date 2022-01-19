@@ -1,15 +1,28 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/models/order_item.dart';
+import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CartProductItem extends StatelessWidget {
-  final String imgUrl;
+  final OrderItem orderItem;
   final Function onTap;
-  const CartProductItem({Key key, this.imgUrl = "", this.onTap}) : super(key: key);
+  final Function addQTY;
+  final Function remoceQTY;
+  const CartProductItem({
+    Key key,
+    this.onTap,
+    @required this.orderItem,
+    this.addQTY,
+    this.remoceQTY,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final _imgWidth = 150.0;
+    final count = context.select<CartController, int>((element) => element.itemQTY(orderItem.id)) ?? 0;
+    final price = context.select<CartController, double>((element) => element.itemTotalPrice(orderItem.id)) ?? 0.0;
 
     return Container(
       // main  container
@@ -37,9 +50,7 @@ class CartProductItem extends StatelessWidget {
                 width: _imgWidth,
                 height: _imgWidth,
                 child: CachedNetworkImage(
-                  imageUrl: imgUrl.isNotEmpty
-                      ? imgUrl
-                      : "https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg",
+                  imageUrl: orderItem?.image,
                   progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                     child: Center(
                       child: CircularProgressIndicator(),
@@ -51,7 +62,7 @@ class CartProductItem extends StatelessWidget {
                     height: _imgWidth,
                     width: _imgWidth,
                     decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
+                      color: colorGreyDark,
                     ),
                     child: Center(
                       child: Padding(
@@ -63,6 +74,7 @@ class CartProductItem extends StatelessWidget {
                 ),
               ),
             ),
+            SizedBox(width: marginLarge),
             Expanded(
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -70,7 +82,7 @@ class CartProductItem extends StatelessWidget {
               children: [
                 Text(
                   // product name
-                  "Organic Cream",
+                  orderItem?.name ?? "",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black87,
@@ -83,7 +95,7 @@ class CartProductItem extends StatelessWidget {
                   height: marginSmall,
                 ),
                 Text(
-                  "\$1600",
+                  price?.toStringAsFixed(2),
                   style: TextStyle(color: Colors.black54),
                   // overflow: TextOverflow.ellipsis,
                 ),
@@ -99,6 +111,7 @@ class CartProductItem extends StatelessWidget {
                         Radius.circular(radiusxSmall),
                       ),
                       child: InkWell(
+                        onTap: remoceQTY,
                         borderRadius: BorderRadius.all(
                           Radius.circular(radiusxSmall),
                         ),
@@ -130,7 +143,7 @@ class CartProductItem extends StatelessWidget {
                         padding: const EdgeInsets.all(2),
                         color: Colors.white,
                         child: Text(
-                          "1",
+                          count?.toString(),
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.black87,
@@ -147,6 +160,7 @@ class CartProductItem extends StatelessWidget {
                         Radius.circular(radiusxSmall),
                       ),
                       child: InkWell(
+                        onTap: addQTY,
                         borderRadius: BorderRadius.all(
                           Radius.circular(radiusxSmall),
                         ),

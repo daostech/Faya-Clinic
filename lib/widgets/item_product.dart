@@ -1,7 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/product.dart';
+import 'package:faya_clinic/providers/cart_controller.dart';
+import 'package:faya_clinic/utils/dialog_util.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductItem extends StatelessWidget {
   final Product product;
@@ -15,6 +19,14 @@ class ProductItem extends StatelessWidget {
     this.onFavoriteToggle,
     @required this.onTap,
   }) : super(key: key);
+
+  void addToCart(BuildContext context) {
+    final result = Provider.of<CartController>(context, listen: false).addToCart(product);
+    if (result)
+      DialogUtil.showToastMessage(context, TransUtil.trans("msg_added_to_cart"));
+    else
+      DialogUtil.showToastMessage(context, TransUtil.trans("msg_already_in_cart"));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +127,7 @@ class ProductItem extends StatelessWidget {
               children: [
                 InkWell(
                   // add to cart button container
-                  onTap: () {},
+                  onTap: () => addToCart(context),
                   child: Container(
                     width: 30,
                     height: 30,

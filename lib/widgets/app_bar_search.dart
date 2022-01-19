@@ -1,7 +1,10 @@
+import 'package:badges/badges.dart';
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
+import 'package:provider/provider.dart';
 
 class AppBarSearch extends StatelessWidget {
   final Function onCartTap;
@@ -68,13 +71,25 @@ class AppBarSearch extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: onCartTap,
-                  child: Padding(
-                    padding: const EdgeInsets.all(marginSmall),
-                    child: Icon(
-                      Icons.shopping_cart_outlined,
-                      color: Colors.black87,
-                    ),
-                  ),
+                  child: context.select<CartController, int>((controller) => controller.count) == 0
+                      ? Icon(
+                          Icons.shopping_cart_outlined,
+                          color: Colors.black87,
+                        )
+                      : Badge(
+                          toAnimate: true,
+                          animationType: BadgeAnimationType.scale,
+                          animationDuration: Duration(milliseconds: 300),
+                          shape: BadgeShape.circle,
+                          badgeColor: colorPrimaryLight,
+                          borderRadius: BorderRadius.circular(8),
+                          badgeContent:
+                              Text(context.select<CartController, int>((controller) => controller.count).toString()),
+                          child: Icon(
+                            Icons.shopping_cart_outlined,
+                            color: Colors.black87,
+                          ),
+                        ),
                 ),
                 SizedBox(
                   width: marginStandard,
