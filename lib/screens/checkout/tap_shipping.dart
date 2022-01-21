@@ -1,6 +1,7 @@
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/dummy.dart';
-import 'package:faya_clinic/providers/checkout_controller.dart';
+import 'package:faya_clinic/providers/cart_controller.dart';
+import 'package:faya_clinic/screens/checkout/checkout_controller.dart';
+import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +12,9 @@ class CheckoutShippingTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _shippingMethods = DummyData.shippingMethods;
-    final _controller = context.read<CheckoutController>();
-    final _selectedMethod = context.select((CheckoutController controller) => controller.shippingMethod);
+    final controller = context.read<CheckoutController>();
+    final cartController = context.read<CartController>();
+    final selectedMethod = context.select((CheckoutController controller) => controller.selectedShippingMethod);
 
     return Container(
       padding: const EdgeInsets.all(marginLarge),
@@ -31,18 +32,18 @@ class CheckoutShippingTap extends StatelessWidget {
             ),
           ),
           ListView.separated(
-            itemCount: _shippingMethods.length,
+            itemCount: controller.shippingMethods.length,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) {
               return RadioListTile(
-                value: _shippingMethods[index],
-                groupValue: _selectedMethod,
-                title: Text(_shippingMethods[index].method),
-                subtitle: Text(_shippingMethods[index].priceString),
+                value: controller.shippingMethods[index],
+                groupValue: selectedMethod,
+                title: Text(controller.shippingMethods[index].method),
+                subtitle: Text(controller.shippingMethods[index].priceString),
                 contentPadding: const EdgeInsets.all(0),
-                selected: _selectedMethod == _shippingMethods[index],
-                onChanged: (method) => _controller.shippingMethod = method,
+                selected: controller.isSelectedShippingMethod(index),
+                onChanged: (method) => controller.onShippingSelect(method, cartController.totalPrice),
               );
             },
             separatorBuilder: (ctx, index) {
@@ -62,8 +63,11 @@ class CheckoutShippingTap extends StatelessWidget {
           InlineButtons(
             positiveText: TransUtil.trans("btn_continue"),
             negativeText: TransUtil.trans("btn_go_back"),
-            onPositiveTap: () => _controller.nextTab(),
-            onNegativeTap: () => _controller.previousTab(),
+            onPositiveTap: () {
+              final result = controller.nextTab();
+              if (!result) DialogUtil.showToastMessage(context, TransUtil.trans("msg_please_complete_this_step"));
+            },
+            onNegativeTap: () => controller.previousTab(),
           ),
         ],
       ),

@@ -1,6 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/dummy.dart';
-import 'package:faya_clinic/providers/checkout_controller.dart';
+import 'package:faya_clinic/models/payment_method.dart';
+import 'package:faya_clinic/screens/checkout/checkout_controller.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:flutter/material.dart';
@@ -11,9 +11,9 @@ class CheckoutPaymentTap extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _paymentMethods = DummyData.paymentMethods;
-    final _controller = context.read<CheckoutController>();
-    final _selectedMethod = context.select((CheckoutController controller) => controller.paymentMethod);
+    final controller = context.read<CheckoutController>();
+    final selectedMethod =
+        context.select<CheckoutController, PaymentMethod>((controller) => controller.selectedPaymentMethod);
 
     return Container(
       padding: const EdgeInsets.all(marginLarge),
@@ -31,17 +31,17 @@ class CheckoutPaymentTap extends StatelessWidget {
             ),
           ),
           ListView.separated(
-            itemCount: _paymentMethods.length,
+            itemCount: controller.paymentMethods.length,
             shrinkWrap: true,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) {
-              return RadioListTile(
-                value: _paymentMethods[index],
-                groupValue: _selectedMethod,
-                title: Text(_paymentMethods[index].method),
+              return RadioListTile<PaymentMethod>(
+                value: controller.paymentMethods[index],
+                groupValue: selectedMethod,
+                title: Text(controller.paymentMethods[index].method),
                 contentPadding: const EdgeInsets.all(0),
-                selected: _selectedMethod == _paymentMethods[index],
-                onChanged: (method) => _controller.paymentMethod = method,
+                selected: controller.isSelectedPayment(index),
+                onChanged: (method) => controller.updateWith(paymentMethod: method),
               );
             },
             separatorBuilder: (ctx, index) {
@@ -61,8 +61,8 @@ class CheckoutPaymentTap extends StatelessWidget {
           InlineButtons(
             positiveText: TransUtil.trans("btn_place_order"),
             negativeText: TransUtil.trans("btn_go_back"),
-            onPositiveTap: () => _controller.nextTab(),
-            onNegativeTap: () => _controller.previousTab(),
+            onPositiveTap: () => controller.nextTab(),
+            onNegativeTap: () => controller.previousTab(),
           ),
         ],
       ),

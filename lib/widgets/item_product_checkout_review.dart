@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/models/order_item.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutReviewProductItem extends StatelessWidget {
-  final String imgUrl;
-  final Function onTap;
-  const CheckoutReviewProductItem({Key key, this.imgUrl = "", this.onTap}) : super(key: key);
+  final OrderItem orderItem;
+  const CheckoutReviewProductItem({Key key, this.orderItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,54 +25,50 @@ class CheckoutReviewProductItem extends StatelessWidget {
           Radius.circular(radiusStandard),
         ),
       ),
-      child: InkWell(
-        onTap: onTap,
-        splashColor: Colors.transparent,
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadius.all(
-                Radius.circular(radiusStandard),
-              ),
-              child: Container(
-                // image main container
-                width: _imgWidth,
-                height: _imgHeight,
-                child: CachedNetworkImage(
-                  imageUrl: imgUrl.isNotEmpty
-                      ? imgUrl
-                      : "https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg",
-                  progressIndicatorBuilder: (context, url, downloadProgress) => Container(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.all(
+              Radius.circular(radiusStandard),
+            ),
+            child: Container(
+              // image main container
+              width: _imgWidth,
+              height: _imgHeight,
+              child: CachedNetworkImage(
+                imageUrl: orderItem?.image,
+                progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+                  child: Center(
+                    child: CircularProgressIndicator(),
                   ),
-                  //error image when user have a picture but failed to load it
-                  errorWidget: (context, url, error) => Container(
-                    padding: EdgeInsets.all(marginStandard),
-                    height: _imgHeight,
-                    width: _imgWidth,
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).accentColor,
-                    ),
-                    child: Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(1.0),
-                        child: Icon(Icons.error),
-                      ),
+                ),
+                //error image when user have a picture but failed to load it
+                errorWidget: (context, url, error) => Container(
+                  padding: EdgeInsets.all(marginStandard),
+                  height: _imgHeight,
+                  width: _imgWidth,
+                  decoration: BoxDecoration(
+                    color: colorGreyDark,
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: const EdgeInsets.all(1.0),
+                      child: Icon(Icons.error),
                     ),
                   ),
                 ),
               ),
             ),
-            Expanded(
-                child: Column(
+          ),
+          SizedBox(width: marginLarge),
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
                   // product name
-                  "Organic Cream",
+                  orderItem?.name ?? "",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.black87,
@@ -85,7 +81,7 @@ class CheckoutReviewProductItem extends StatelessWidget {
                   height: marginSmall,
                 ),
                 Text(
-                  "\$1600",
+                  orderItem.totalPrice?.toStringAsFixed(2),
                   style: TextStyle(color: Colors.black54),
                   // overflow: TextOverflow.ellipsis,
                 ),
@@ -103,7 +99,7 @@ class CheckoutReviewProductItem extends StatelessWidget {
                     padding: const EdgeInsets.all(2),
                     color: colorGreyDark,
                     child: Text(
-                      "1",
+                      orderItem.count?.toString(),
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black87,
@@ -112,9 +108,9 @@ class CheckoutReviewProductItem extends StatelessWidget {
                   ),
                 ),
               ],
-            )),
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }

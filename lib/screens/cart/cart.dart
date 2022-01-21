@@ -34,7 +34,8 @@ class CartScreen extends StatelessWidget {
               StandardButton(
                 radius: radiusStandard,
                 text: TransUtil.trans("btn_checkout"),
-                onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (builder) => CheckoutScreen())),
+                onTap: () =>
+                    Navigator.of(context).push(MaterialPageRoute(builder: (builder) => CheckoutScreen.create(context))),
               ),
             SizedBox(
               height: marginLarge,

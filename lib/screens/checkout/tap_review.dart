@@ -1,5 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/providers/checkout_controller.dart';
+import 'package:faya_clinic/providers/cart_controller.dart';
+import 'package:faya_clinic/screens/checkout/checkout_controller.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:faya_clinic/widgets/item_product_checkout_review.dart';
@@ -7,15 +8,13 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CheckoutReviewTap extends StatelessWidget {
-  const CheckoutReviewTap({Key key}) : super(key: key);
+  CheckoutReviewTap({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    final _controller = context.read<CheckoutController>();
-    final _selectedMethod = context.select((CheckoutController controller) => controller.paymentMethod);
-    final _shippingMethod = context.select((CheckoutController controller) => controller.shippingMethod);
-
+    final controller = context.read<CheckoutController>();
+    final cartController = context.read<CartController>();
     return Container(
       padding: const EdgeInsets.all(marginLarge),
       child: SingleChildScrollView(
@@ -36,12 +35,11 @@ class CheckoutReviewTap extends StatelessWidget {
               //products list view
               height: size.height * 0.3,
               child: ListView.builder(
-                itemCount: 5,
                 padding: const EdgeInsets.symmetric(horizontal: marginLarge),
+                itemCount: cartController.count,
                 itemBuilder: (ctx, index) {
-                  return CheckoutReviewProductItem(
-                    onTap: () {},
-                  );
+                  final currentItem = cartController.allItems[index];
+                  return CheckoutReviewProductItem(orderItem: currentItem);
                 },
               ),
             ),
@@ -56,7 +54,7 @@ class CheckoutReviewTap extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(child: Text(TransUtil.trans("label_sub_total"))),
-                      Text("\$3.200"),
+                      Text("\$${cartController.totalPrice.toStringAsFixed(2)}"),
                     ],
                   ),
                 ),
@@ -65,9 +63,9 @@ class CheckoutReviewTap extends StatelessWidget {
                   child: Row(
                     children: [
                       // Expanded(child: Text(_shippingMethod?.method)),
-                      Expanded(child: Text("Free shipping")),
+                      Expanded(child: Text(controller.selectedShippingMethod.method)),
                       // Text(_shippingMethod.priceString),
-                      Text("\$0.0"),
+                      Text("${controller.selectedShippingMethod.priceString}"),
                     ],
                   ),
                 ),
@@ -76,7 +74,7 @@ class CheckoutReviewTap extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(child: Text(TransUtil.trans("label_total"))),
-                      Text("\$3.200"),
+                      Text("\$${controller.totalPriceWithTaxes.toStringAsFixed(2)}"),
                     ],
                   ),
                 ),
@@ -116,8 +114,10 @@ class CheckoutReviewTap extends StatelessWidget {
                       enabledBorder: InputBorder.none,
                       errorBorder: InputBorder.none,
                       disabledBorder: InputBorder.none,
+                      hintText: TransUtil.trans("hint_add_your_note_optional"),
                     ),
-                    onChanged: (_) {},
+                    initialValue: controller.userAddedNote,
+                    onChanged: (val) => controller.userAddedNote = val,
                   ),
                 ),
               ],
@@ -128,8 +128,8 @@ class CheckoutReviewTap extends StatelessWidget {
             InlineButtons(
               positiveText: TransUtil.trans("btn_continue"),
               negativeText: TransUtil.trans("btn_go_back"),
-              onPositiveTap: () => _controller.nextTab(),
-              onNegativeTap: () => _controller.previousTab(),
+              onPositiveTap: () => controller.nextTab(),
+              onNegativeTap: () => controller.previousTab(),
             ),
           ],
         ),
