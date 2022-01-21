@@ -7,9 +7,9 @@ class MyThemes {
     primaryColor: colorPrimary,
     primaryColorLight: colorPrimaryLight,
     indicatorColor: colorPrimaryLight,
-    splashColor: colorPrimaryLight,
-    highlightColor: colorPrimaryLight,
-    focusColor: colorPrimaryLight,
+    splashColor: colorSplash,
+    highlightColor: colorSplash,
+    focusColor: colorSplash,
     fontFamily: "Amiri",
     primaryTextTheme: TextTheme(
       headline1: TextStyle(color: Colors.black, fontSize: fontSizeLarge),
@@ -30,20 +30,20 @@ class MyThemes {
     textButtonTheme: TextButtonThemeData(
       style: ButtonStyle(
         overlayColor: MaterialStateProperty.resolveWith(
-          (states) => colorPrimary,
+          (states) => colorSplash,
         ),
         shadowColor: MaterialStateProperty.resolveWith(
-          (states) => colorPrimary,
+          (states) => colorSplash,
         ),
       ),
     ),
     outlinedButtonTheme: OutlinedButtonThemeData(
       style: ButtonStyle(
         overlayColor: MaterialStateProperty.resolveWith(
-          (states) => colorPrimary,
+          (states) => colorSplash,
         ),
         shadowColor: MaterialStateProperty.resolveWith(
-          (states) => colorPrimary,
+          (states) => colorSplash,
         ),
       ),
     ),

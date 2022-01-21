@@ -28,7 +28,6 @@ class DummyData {
       street: "street",
       apartment: "apartment",
       block: "block",
-      formatted: "city, street, building, floor, apartment",
     ),
     Address(
       id: "2",
@@ -39,7 +38,6 @@ class DummyData {
       street: "street2",
       apartment: "apartment2",
       block: "block2",
-      formatted: "city, street, building, floor, apartment",
     ),
     Address(
       id: "3",
@@ -50,44 +48,47 @@ class DummyData {
       street: "street3",
       apartment: "apartment3",
       block: "block3",
-      formatted: "city, street, building, floor, apartment",
     ),
   ];
   static List<Product> latestProducts = [
     Product(
       id: "1",
       name: "Product 1",
-      price: 19.99,
+      // price: 19.99,
+      price: 19,
     ),
     Product(
       id: "2",
       name: "Product 2",
-      price: 33.99,
+      // price: 33.99,
+      price: 33,
     ),
     Product(
       id: "3",
       name: "Product 3",
-      price: 55.00,
+      // price: 55.00,
+      price: 55,
     ),
     Product(
       id: "4",
       name: "Product 4",
-      price: 90.14,
+      // price: 90.14,
+      price: 90,
     ),
     Product(
       id: "5",
       name: "Product 5",
-      price: 22.14,
+      price: 22,
     ),
     Product(
       id: "6",
       name: "Product 6",
-      price: 34.14,
+      price: 34,
     ),
     Product(
       id: "7",
       name: "Product 7",
-      price: 67.14,
+      price: 67,
     ),
   ];
 }
