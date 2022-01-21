@@ -68,25 +68,25 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
     final Address result = await DialogUtil.showBottomSheet(
       context,
       Container(
-        height: MediaQuery.of(context).size.height * 0.5,
-        child: controller.addressesRepository.allAddresses.isEmpty
-            ? Center(
-                child: Text(TransUtil.trans("msg_no_saved_addresses")),
-              )
-            : SectionCornerContainer(
-                title: TransUtil.trans("header_saved_addresses"),
-                child: ListView.builder(
-                  itemCount: controller.addressesRepository.allAddresses.length,
+        height: MediaQuery.of(context).size.height * 0.6,
+        child: SectionCornerContainer(
+          title: TransUtil.trans("header_saved_addresses"),
+          child: controller.savedAddresses.isEmpty
+              ? Center(
+                  child: Text(TransUtil.trans("msg_no_saved_addresses")),
+                )
+              : ListView.builder(
+                  itemCount: controller.savedAddresses.length,
                   itemBuilder: (ctx, index) {
-                    final items = controller.addressesRepository.allAddresses;
+                    final items = controller.savedAddresses;
                     return ListTile(
-                      title: Text(items[index].label),
+                      title: Text(items[index].label ?? ""),
                       subtitle: Text(items[index].formatted),
                       onTap: () => Navigator.of(context).pop(items[index]),
                     );
                   },
                 ),
-              ),
+        ),
       ),
     );
     if (result == null) return;

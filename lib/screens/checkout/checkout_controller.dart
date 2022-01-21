@@ -14,10 +14,13 @@ class CheckoutController with ChangeNotifier {
   final Database database;
   final UserRepositoryBase userRepository;
   final AddressesRepositoryBase addressesRepository;
-  CheckoutController({this.addressesRepository, this.userRepository, this.database});
+  CheckoutController({this.addressesRepository, this.userRepository, this.database}) {
+    _savedAddresses = addressesRepository.allAddresses;
+  }
 
   final List paymentMethods = DummyData.paymentMethods;
   final List shippingMethods = DummyData.shippingMethods;
+  List<Address> _savedAddresses;
 
   var _currentTabIndex = 0;
   var _addressSaved = false;
@@ -32,6 +35,7 @@ class CheckoutController with ChangeNotifier {
   int get currentTabIndex => _currentTabIndex;
   ShippingMethod get selectedShippingMethod => _selectedShippingMethod;
   PaymentMethod get selectedPaymentMethod => _selectedPaymentMethod;
+  List<Address> get savedAddresses => _savedAddresses;
 
   bool isSelectedPayment(int index) => paymentMethods[index] == _selectedPaymentMethod;
 
@@ -101,8 +105,10 @@ class CheckoutController with ChangeNotifier {
     // check if the user has saved the current address in this session
     // and prevent them to trigger this function more than once
     if (_addressSaved) return false;
+    if (address.label == null) address.label = "${address.apartment} | ${address.block}";
     addressesRepository.addAddress(address);
-    _addressSaved = true;
+    updateWith(savedAddresses: addressesRepository.allAddresses);
+    _addressSaved = _savedAddresses.contains(address);
     return _addressSaved;
   }
 
@@ -126,10 +132,12 @@ class CheckoutController with ChangeNotifier {
     ShippingMethod shippingMethod,
     PaymentMethod paymentMethod,
     Address address,
+    List<Address> savedAddresses,
   }) {
     this._currentTabIndex = tabIndex ?? this._currentTabIndex;
     this._selectedShippingMethod = shippingMethod ?? this._selectedShippingMethod;
     this._selectedPaymentMethod = paymentMethod ?? this._selectedPaymentMethod;
+    this._savedAddresses = savedAddresses ?? this._savedAddresses;
     // this._selectedAddress = address ?? this._selectedAddress;
     notifyListeners();
   }
