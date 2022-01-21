@@ -71,7 +71,7 @@ class CartScreen extends StatelessWidget {
             // total products quantity and clear cart button container
             children: [
               Expanded(
-                child: Text("label_total" + " " + "1"),
+                child: Text(TransUtil.trans("label_total") + " " + controller.count.toString()),
               ),
               TextButton(
                 onPressed: controller.clearCart,

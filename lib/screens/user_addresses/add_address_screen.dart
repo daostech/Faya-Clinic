@@ -13,7 +13,7 @@ class AddAddressScreen extends StatelessWidget {
 
   void handleBackPressed(BuildContext context, UserAddressesController controller) {
     if (controller.hasUpdates) {
-      DialogUtil.showAlertDialog(context, "Unsaved changes close anyway ?", () {
+      DialogUtil.showAlertDialog(context, TransUtil.trans("msg_unsaved_changes"), () {
         controller.resetForm();
         Navigator.of(context).pop();
       });

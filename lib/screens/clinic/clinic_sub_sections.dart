@@ -3,6 +3,7 @@ import 'package:faya_clinic/models/sub_section.dart';
 import 'package:faya_clinic/screens/clinic/clinic_sub_section_details.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:faya_clinic/utils/dialog_util.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/item_section.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -33,7 +34,7 @@ class _ClinicSubSectionsScreenState extends State<ClinicSubSectionsScreen> {
       subSections = value;
       isLoading = false;
     }).catchError((error) {
-      DialogUtil.showAlertDialog(context, error);
+      DialogUtil.showAlertDialog(context, error, () {});
       isLoading = false;
     });
   }
@@ -48,7 +49,7 @@ class _ClinicSubSectionsScreenState extends State<ClinicSubSectionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Sub Sections"),
+        title: Text(TransUtil.trans("header_sub_sections")),
       ),
       body: Container(
         child: _buildContent(),
@@ -58,7 +59,7 @@ class _ClinicSubSectionsScreenState extends State<ClinicSubSectionsScreen> {
 
   Widget _buildContent() {
     if (loading) return Center(child: CircularProgressIndicator());
-    if (subSections.isEmpty) return Center(child: Text("No Data for this Section"));
+    if (subSections.isEmpty) return Center(child: Text(TransUtil.trans("msg_no_data_for_this_section")));
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: marginLarge),
       itemCount: subSections.length,

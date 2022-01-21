@@ -74,7 +74,7 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
                 child: Text(TransUtil.trans("msg_no_saved_addresses")),
               )
             : SectionCornerContainer(
-                title: "Saved Addresses",
+                title: TransUtil.trans("header_saved_addresses"),
                 child: ListView.builder(
                   itemCount: controller.addressesRepository.allAddresses.length,
                   itemBuilder: (ctx, index) {

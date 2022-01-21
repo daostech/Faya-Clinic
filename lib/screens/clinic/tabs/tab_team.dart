@@ -1,4 +1,5 @@
 import 'package:faya_clinic/screens/clinic/clinic_controller.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/error_widget.dart';
 import 'package:faya_clinic/widgets/item_staff.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class ClinicTeamTab extends StatelessWidget {
       ));
     } else if (controller.teamsList.isEmpty) {
       return Center(
-        child: Text("No data for this section !"),
+        child: Text(TransUtil.trans("msg_no_data_for_this_section")),
       );
     }
     return ListView.builder(

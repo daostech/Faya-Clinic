@@ -1,5 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/sub_section.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class ClinicSubSectionDetailsScreen extends StatelessWidget {
     final _size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(subSection.name ?? "Section Details"),
+        title: Text(subSection.name ?? TransUtil.trans("header_section_details")),
       ),
       body: Container(
         padding: const EdgeInsets.fromLTRB(marginLarge, marginStandard, marginLarge, 0),

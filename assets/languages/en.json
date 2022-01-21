@@ -30,6 +30,13 @@
     "header_my_addresses" : "My Addresses",
     "header_add_addresses" : "Add Address",
     "header_favorite_products" : "Favorite Products",
+    "header_password_confirmation" : "Password Confirmation",
+    "header_previous_orders" : "Previous orders",
+    "header_product_details" : "Product details",
+    "header_sub_sections" : "Sub sections",
+    "header_saved_addresses" : "Saved addresses",
+    "header_order_details" : "Order details",
+    "header_my_dates" : "My dates",
     
     "tab_team" : "Team",
     "tab_sections" : "Sections",
@@ -59,6 +66,7 @@
     "hint_your_email" : "Your Email",
     "hint_your_name" : "Your Name",
     "hint_your_phone" : "Your Phone",
+    "hint_add_your_note_optional" : "Add your note (optional)",
     
     "label_your_points" : "Your points",
     "label_filter" : "Filter",
@@ -66,9 +74,15 @@
     "label_sub_total" : "Sub total",
     "label_products" : "Products",
     "label_name_required" : "Full Name*",
+    "label_username" : "User Name",
     "label_email" : "Email",
     "label_phone" : "Phone",
     "label_birthday" : "Birthday",
+    "label_select_sub_section" : "select sub section",
+    "label_select_service" : "select service",
+    "label_select_date" : "select date",
+    "label_select_time" : "select time",
+    "label_please_fill_details" : "please fill out your details",
 
     "nav_label_home" : "Home",    
     "nav_label_clinic" : "Clinic",
@@ -87,9 +101,24 @@
     
     "error_select_birthday" : "Please select your birthday",
     "error_password_not_match" : "Passwords are not match",
-
+    "error_try_again_later" : "An error occured, please try again later !",
+    "error_loading_data" : "Error loading data !",
+    
+    "msg_date_created" : "Date Created Successfully",
+    "msg_select_section_first" : "please make sure to select the section first",
+    "msg_no_sub_section_available" : "No sub Sections available for",
+    "msg_select_section_and_subs" : "please make sure to select both section and sub section first",
+    "msg_no_services_for_section" : "No services for the selected section",
+    "msg_no_available_dates_for_today" : "No available dates for today :(",
+    "msg_no_items_for_selected_category" : "No Items matches the selected category",
+    "msg_unsaved_changes" : "Unsaved changes close anyway ?",    
+    "msg_you_dont_have_address_click_to_add" : "You don't have any address yet click to add new one",    
+    "msg_you_dont_have_dates" : "You don't have any dates",    
+    "msg_no_data_for_this_section" : "No data for this section",    
+    
     "btn_expandable_call" : "Call",
     "btn_expandable_whatsapp" : "Contact via WhatsApp",
+    "btn_book_your_date_now" : "Book your date now",
     "btn_sign_in" : "Sign In",
     "btn_save" : "Save",
     "btn_checkout" : "Checkout",
@@ -101,5 +130,6 @@
     "btn_place_order" : "Plcae order",
     "btn_clear_cart" : "Clear cart",
     "btn_create" : "Create",
+    "btn_confirm" : "Confirm",
     "btn_cancel" : "Cancel"
 }

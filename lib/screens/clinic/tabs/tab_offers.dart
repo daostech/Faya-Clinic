@@ -1,6 +1,7 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/screens/clinic/clinic_controller.dart';
 import 'package:faya_clinic/screens/clinic/clinic_offers_details.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/error_widget.dart';
 import 'package:faya_clinic/widgets/item_offer.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class ClinicOffersTab extends StatelessWidget {
       ));
     } else if (controller.offersList.isEmpty) {
       return Center(
-        child: Text("No data for this section !"),
+        child: Text(TransUtil.trans("msg_no_data_for_this_section")),
       );
     }
     return GridView.builder(

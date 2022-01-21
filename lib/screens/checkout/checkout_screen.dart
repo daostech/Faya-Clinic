@@ -44,7 +44,7 @@ class CheckoutScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               AppBarStandard(
-                title: "Checkout",
+                title: TransUtil.trans("header_checkout"),
               ),
               Container(
                 width: double.infinity,

@@ -72,7 +72,7 @@ class ResetPasswordScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Password confirmation",
+                      TransUtil.trans("header_password_confirmation"),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: fontSizeLarge,

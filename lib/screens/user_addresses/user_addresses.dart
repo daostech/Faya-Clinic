@@ -64,7 +64,7 @@ class UserAddressesScreen extends StatelessWidget {
             child: _userAddresses.isEmpty
                 ? Center(
                     child: TextButton(
-                      child: Text("You don't have any address yet click to add one"),
+                      child: Text(TransUtil.trans("msg_you_dont_have_address_click_to_add")),
                       onPressed: () => openAddAddressScreen(
                         context,
                       ),

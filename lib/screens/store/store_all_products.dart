@@ -75,7 +75,7 @@ class StoreAllProductsBottomSheet extends StatelessWidget {
         );
 
       return MyErrorWidget(
-        error: "Error loading data !",
+        error: TransUtil.trans("error_loading_data"),
         onTap: controller.fetchAllProducts,
       );
     }
@@ -85,7 +85,7 @@ class StoreAllProductsBottomSheet extends StatelessWidget {
         padding: const EdgeInsets.all(marginLarge),
         child: Center(
           child: Text(
-            "No Items matches the selected category",
+            TransUtil.trans("msg_no_items_for_selected_category"),
             textAlign: TextAlign.center,
           ),
         ),

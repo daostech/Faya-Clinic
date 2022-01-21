@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
@@ -40,7 +41,7 @@ class _MySplashScreenState extends State<MySplash> {
             children: [
               Expanded(
                 child: Center(
-                  child: Text("Faya Clinic"),
+                  child: Text(TransUtil.trans("app_name")),
                 ),
               ),
               Padding(

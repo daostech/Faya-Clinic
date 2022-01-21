@@ -7,7 +7,6 @@ import 'package:faya_clinic/services/database_service.dart';
 import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/error_widget.dart';
-import 'package:faya_clinic/widgets/expanded_product_filter.dart';
 import 'package:faya_clinic/widgets/item_product.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
 import 'package:flutter/material.dart';
@@ -107,7 +106,7 @@ class StoreScreen extends StatelessWidget {
         );
 
       return MyErrorWidget(
-        error: "Error loading data !",
+        error: TransUtil.trans("error_loading_data"),
         onTap: controller.fetchNewArrivalsProducts,
       );
     }
@@ -173,7 +172,7 @@ class StoreScreen extends StatelessWidget {
         );
 
       return MyErrorWidget(
-        error: "Error loading data !",
+        error: TransUtil.trans("error_loading_data"),
         onTap: controller.fetchAllProducts,
       );
     }
@@ -183,7 +182,7 @@ class StoreScreen extends StatelessWidget {
         padding: const EdgeInsets.all(marginLarge),
         child: Center(
           child: Text(
-            "No Items matches the selected category",
+            TransUtil.trans("msg_no_items_for_selected_category"),
             textAlign: TextAlign.center,
           ),
         ),

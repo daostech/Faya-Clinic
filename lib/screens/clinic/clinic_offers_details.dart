@@ -1,5 +1,7 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/offer.dart';
+import 'package:faya_clinic/screens/dates/dates_screen_global.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/button_standard.dart';
 import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +16,7 @@ class ClinicOfferDetailsScreen extends StatelessWidget {
     final _size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        title: Text(offer.title ?? "Offer Details"),
+        title: Text(offer.title ?? TransUtil.trans("header_offer_details")),
       ),
       body: Container(
         padding: const EdgeInsets.fromLTRB(marginLarge, marginStandard, marginLarge, 0),
@@ -43,8 +45,8 @@ class ClinicOfferDetailsScreen extends StatelessWidget {
               ),
             ),
             StandardButton(
-              onTap: () {},
-              text: "Book your date Now",
+              onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (builder) => DatesScreenGlobal())),
+              text: TransUtil.trans("btn_book_your_date_now"),
               radius: radiusStandard,
             ),
             SizedBox(

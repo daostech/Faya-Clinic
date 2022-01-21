@@ -56,21 +56,16 @@ class UserDatesScreen extends StatelessWidget {
           child: CircularProgressIndicator(),
         );
       return Center(
-        child: Text("You don't have any dates"),
+        child: Text(TransUtil.trans("msg_you_dont_have_dates")),
       );
     }
     final items = controller.userDates;
-    return ListView.separated(
+    return ListView.builder(
       itemCount: items.length,
       padding: const EdgeInsets.all(0),
       itemBuilder: (ctx, index) {
         return UserDateItem(
           dateRegistered: items[index],
-        );
-      },
-      separatorBuilder: (ctx, index) {
-        return Divider(
-          thickness: 0.5,
         );
       },
     );
