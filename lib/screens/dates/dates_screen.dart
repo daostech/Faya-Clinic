@@ -1,10 +1,11 @@
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/models/clininc_date.dart';
+import 'package:faya_clinic/models/clinic_date.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/service.dart';
 import 'package:faya_clinic/models/sub_section.dart';
 import 'package:faya_clinic/screens/dates/date_controller.dart';
 import 'package:faya_clinic/services/database_service.dart';
+import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/button_standard.dart';
 import 'package:faya_clinic/widgets/error_widget.dart';
@@ -30,6 +31,15 @@ class DatesScreen extends StatelessWidget {
     );
   }
 
+  void submit(BuildContext context) async {
+    final ok = await controller.createNewDate();
+    if (!ok) {
+      DialogUtil.showAlertDialog(context, TransUtil.trans("error_try_again_later"), () {});
+    } else {
+      DialogUtil.showToastMessage(context, TransUtil.trans("msg_date_created"));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return SectionCornerContainer(
@@ -39,7 +49,7 @@ class DatesScreen extends StatelessWidget {
           children: [
             // _buildSectionsExpanded(),
             MyExpandedTile(
-              title: "select section",
+              title: TransUtil.trans("label_select_section"),
               iconData: Icons.settings,
               children: _buildSectionsList(),
             ),
@@ -47,40 +57,48 @@ class DatesScreen extends StatelessWidget {
               height: marginStandard,
             ),
             MyExpandedTile(
-              title: "select sub section",
+              title: TransUtil.trans("label_select_sub_section"),
               iconData: Icons.settings,
               children: _buildSubSectionsList(),
             ),
             MyExpandedTile(
-              title: "select service",
+              title: TransUtil.trans("label_select_service"),
               children: _buildServicesList(),
               iconData: Icons.settings,
             ),
             MyExpandedTile(
-              title: "select date",
+              title: TransUtil.trans("label_select_date"),
               iconData: Icons.calendar_today_rounded,
               children: [_buildDatePicker()],
             ),
             MyExpandedTile(
-              title: "select time",
+              title: TransUtil.trans("label_select_time"),
               iconData: Icons.timer,
               children: _buildDatesList(),
             ),
             SizedBox(
               height: 50,
             ),
-            Visibility(
-              visible: controller.isFormReady,
-              child: StandardButton(
-                text: "Confirm",
-                radius: radiusStandard,
-                onTap: controller.createNewDate,
-              ),
-            ),
+            _buildSubmitButton(context),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildSubmitButton(BuildContext context) {
+    if (controller.isFormReady) {
+      if (controller.isLoading)
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      return StandardButton(
+        text: TransUtil.trans("btn_confirm"),
+        radius: radiusStandard,
+        onTap: () => submit(context),
+      );
+    }
+    return SizedBox();
   }
 
   List<Widget> _buildSectionsList() {
@@ -95,7 +113,7 @@ class DatesScreen extends StatelessWidget {
         children = [
           MyErrorWidget(
             onTap: controller.fetchSections,
-            error: "Error loading data !",
+            error: TransUtil.trans("error_loading_data"),
           )
         ];
     } else
@@ -122,14 +140,16 @@ class DatesScreen extends StatelessWidget {
     if (controller.selectedSection == null) {
       // the section has not been selected yet show a message to tell user
       // to select the section item first
-      children = [_messageContainer("please make sure to select the section first")];
+      children = [_messageContainer(TransUtil.trans("msg_select_section_first"))];
     } else {
       // the section is already fetching sub sections might be in progress show progress bar if so
       // otherwise if has data show list of sub sections or empty message if
       if ((controller.subSectionsList == null || controller.subSectionsList.isEmpty) && controller.isLoading)
         children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
       else if (controller.subSectionsList == null || controller.subSectionsList.isEmpty)
-        children = [_messageContainer("No sub Sections available for ${controller.selectedSection.name}")];
+        children = [
+          _messageContainer("${TransUtil.trans("No sub Sections available for")} ${controller.selectedSection.name}")
+        ];
       else
         children = controller.subSectionsList.map((element) => _buildSubSectionRadioTile(element)).toList();
     }
@@ -155,14 +175,16 @@ class DatesScreen extends StatelessWidget {
     if (controller.selectedSection == null || controller.selectedSubSection == null) {
       // the section has not been selected yet check if loading and show progress bar
       // otherwise show a message to tell user the select the section item first
-      children = [_messageContainer("please make sure to select both section and sub section first")];
+      children = [_messageContainer(TransUtil.trans("msg_select_section_and_subs"))];
     } else {
       // both section and sub section are selected check if there any services realted to show them
       // otherwise show a message that indicates there is no services
-      if (controller.isLoading)
-        children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
-      else if (controller.servicesList == null || controller.servicesList.isEmpty) {
-        children = [_messageContainer("No services for the selected section")];
+      if (controller.servicesList == null) {
+        if (controller.isLoading)
+          children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
+        else if (controller.servicesList == null || controller.servicesList.isEmpty) {
+          children = [_messageContainer(TransUtil.trans("msg_no_services_for_section"))];
+        }
       } else
         children = controller.servicesList.map((element) => _buildServiceCheckBoxTile(element)).toList();
     }
@@ -213,12 +235,12 @@ class DatesScreen extends StatelessWidget {
       if (controller.isLoading)
         children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
       else
-        children = [_messageContainer("please make sure to select both section and sub sections first")];
+        children = [_messageContainer(TransUtil.trans("msg_select_section_and_subs"))];
     } else {
       // the section is already selected check if there any sub sections realted to show them
       // otherwise show a message that
       if (controller.availableDates.isEmpty)
-        children = [_messageContainer("No available dates for today :(")];
+        children = [_messageContainer(TransUtil.trans("msg_no_available_dates_for_today"))];
       else
         children = controller.availableDates.map((element) => _buildDateRadioTile(element)).toList();
     }
@@ -233,7 +255,7 @@ class DatesScreen extends StatelessWidget {
       toggleable: true,
       selectedTileColor: colorPrimary,
       onChanged: controller.onClinicDateSelected,
-      title: Text(date.title ?? ""),
+      title: Text(date.formattedStartEnd12H ?? ""),
       activeColor: colorPrimary,
     );
   }

@@ -181,11 +181,12 @@ class CartScreen extends StatelessWidget {
   }
 
   Widget _buildOtherProducts(BuildContext context) {
+    final isRTL = TransUtil.isArLocale(context);
     return Column(
       children: [
         Align(
           // last product header
-          alignment: Alignment.centerLeft,
+          alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
           child: Container(
             margin: const EdgeInsets.symmetric(horizontal: marginLarge),
             child: Text(

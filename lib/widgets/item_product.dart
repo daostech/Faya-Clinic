@@ -31,6 +31,7 @@ class ProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _imgWidth = 80.0;
+    final isRTL = TransUtil.isArLocale(context);
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.all(
@@ -38,7 +39,7 @@ class ProductItem extends StatelessWidget {
       ),
       child: Container(
         // main  container
-        padding: const EdgeInsets.fromLTRB(0, marginStandard, marginStandard, 0),
+        padding: const EdgeInsets.fromLTRB(0, marginStandard, 0, 0),
         margin: const EdgeInsets.symmetric(horizontal: marginStandard, vertical: marginLarge),
         width: 150,
         height: 200,
@@ -97,8 +98,7 @@ class ProductItem extends StatelessWidget {
                   width: _imgWidth,
                   height: _imgWidth,
                   child: CachedNetworkImage(
-                    imageUrl: product.randomImage ??
-                        "https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg",
+                    imageUrl: product.randomImage,
                     progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                       child: Center(
                         child: CircularProgressIndicator(),
@@ -135,7 +135,8 @@ class ProductItem extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: colorPrimary,
                       borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(radiusStandard),
+                        bottomLeft: isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                        bottomRight: isRTL ? Radius.circular(radiusStandard) : Radius.zero,
                       ),
                     ),
                     child: FittedBox(
@@ -147,9 +148,12 @@ class ProductItem extends StatelessWidget {
                   ),
                 ),
                 Expanded(
-                  child: Text(
-                    product.price.toString(),
-                    textAlign: TextAlign.end,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      product.price.toString(),
+                      textAlign: TextAlign.end,
+                    ),
                   ),
                 ),
               ],

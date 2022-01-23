@@ -15,6 +15,7 @@ class CheckoutReviewTap extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final controller = context.read<CheckoutController>();
     final cartController = context.read<CartController>();
+    final isRTL = TransUtil.isArLocale(context);
     return Container(
       padding: const EdgeInsets.all(marginLarge),
       child: SingleChildScrollView(
@@ -22,7 +23,7 @@ class CheckoutReviewTap extends StatelessWidget {
           children: [
             Align(
               // current tab header
-              alignment: Alignment.centerLeft,
+              alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
               child: Text(
                 TransUtil.trans("header_order_details"),
                 style: TextStyle(
@@ -88,7 +89,7 @@ class CheckoutReviewTap extends StatelessWidget {
               children: [
                 Align(
                   // note header
-                  alignment: Alignment.centerLeft,
+                  alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
                   child: Text(
                     TransUtil.trans("header_order_note"),
                     style: TextStyle(

@@ -1,4 +1,5 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
 
 class InlineButtons extends StatelessWidget {
@@ -18,6 +19,7 @@ class InlineButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isRTL = TransUtil.isArLocale(context);
     return Row(
       children: [
         Expanded(
@@ -26,15 +28,19 @@ class InlineButtons extends StatelessWidget {
             decoration: BoxDecoration(
               color: sameColor ?? colorGrey,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(radiusStandard),
-                bottomLeft: Radius.circular(radiusStandard),
+                topLeft: isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                topRight: !isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                bottomLeft: isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                bottomRight: !isRTL ? Radius.zero : Radius.circular(radiusStandard),
               ),
             ),
             child: InkWell(
               onTap: onNegativeTap,
               borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(radiusStandard),
-                bottomLeft: Radius.circular(radiusStandard),
+                topLeft: isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                topRight: !isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                bottomLeft: isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                bottomRight: !isRTL ? Radius.zero : Radius.circular(radiusStandard),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(marginStandard),
@@ -57,15 +63,19 @@ class InlineButtons extends StatelessWidget {
             decoration: BoxDecoration(
               color: sameColor ?? colorPrimary,
               borderRadius: BorderRadius.only(
-                topRight: Radius.circular(radiusStandard),
-                bottomRight: Radius.circular(radiusStandard),
+                topLeft: !isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                topRight: isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                bottomLeft: !isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                bottomRight: isRTL ? Radius.zero : Radius.circular(radiusStandard),
               ),
             ),
             child: InkWell(
               onTap: onPositiveTap,
               borderRadius: BorderRadius.only(
-                topRight: Radius.circular(radiusStandard),
-                bottomRight: Radius.circular(radiusStandard),
+                topLeft: !isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                topRight: isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                bottomLeft: !isRTL ? Radius.zero : Radius.circular(radiusStandard),
+                bottomRight: isRTL ? Radius.zero : Radius.circular(radiusStandard),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(marginStandard),

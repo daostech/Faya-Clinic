@@ -1,4 +1,5 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/button_standard.dart';
 import 'package:flutter/material.dart';
 
@@ -17,7 +18,7 @@ class MyErrorWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              error ?? "An error occured !",
+              error ?? TransUtil.trans("error_loading_data"),
               style: TextStyle(color: Colors.black),
             ),
             SizedBox(
@@ -26,7 +27,7 @@ class MyErrorWidget extends StatelessWidget {
             StandardButton(
               radius: radiusStandard,
               onTap: onTap,
-              text: buttonText ?? "Try Again",
+              text: buttonText ?? TransUtil.trans("btn_try_again"),
             ),
           ],
         ),

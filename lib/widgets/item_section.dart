@@ -1,4 +1,5 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +14,7 @@ class SectionItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _imgWidth = 150.0;
+    final isRTL = TransUtil.isArLocale(context);
     return Container(
       // main  container
       padding: const EdgeInsets.symmetric(horizontal: marginStandard, vertical: marginLarge),
@@ -63,9 +65,9 @@ class SectionItem extends StatelessWidget {
                   ),
                 ),
                 Align(
-                  alignment: Alignment.centerRight,
+                  alignment: isRTL ? Alignment.centerLeft : Alignment.centerRight,
                   child: Icon(
-                    Icons.keyboard_arrow_right_rounded,
+                    isRTL ? Icons.keyboard_arrow_left_rounded : Icons.keyboard_arrow_right_rounded,
                   ),
                 ),
               ],

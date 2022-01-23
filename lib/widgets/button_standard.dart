@@ -1,4 +1,5 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
 
 class StandardButton extends StatelessWidget {
@@ -28,38 +29,40 @@ class StandardButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isRTL = TransUtil.isArLocale(context);
+
     return ClipRRect(
       borderRadius: radius > 0
           ? BorderRadius.all(
               Radius.circular(radius),
             )
           : BorderRadius.only(
-              topLeft: Radius.circular(topLeftRadius),
-              topRight: Radius.circular(topRightRadius),
-              bottomLeft: Radius.circular(bottomLeftRadius),
-              bottomRight: Radius.circular(bottomRightRadius),
+              topLeft: isRTL ? Radius.circular(topRightRadius) : Radius.circular(topLeftRadius),
+              topRight: isRTL ? Radius.circular(topLeftRadius) : Radius.circular(topRightRadius),
+              bottomLeft: isRTL ? Radius.circular(bottomRightRadius) : Radius.circular(bottomLeftRadius),
+              bottomRight: isRTL ? Radius.circular(bottomLeftRadius) : Radius.circular(bottomRightRadius),
             ),
       child: FittedBox(
         child: Container(
           height: height,
           padding: padding ??
               const EdgeInsets.symmetric(
-                vertical: marginSmall,
+                // vertical: marginSmall,
                 horizontal: marginLarge,
               ),
           decoration: BoxDecoration(
             color: colorPrimary,
             borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(topLeftRadius),
-              topRight: Radius.circular(topRightRadius),
-              bottomLeft: Radius.circular(bottomLeftRadius),
-              bottomRight: Radius.circular(bottomRightRadius),
+              topLeft: isRTL ? Radius.circular(topRightRadius) : Radius.circular(topLeftRadius),
+              topRight: isRTL ? Radius.circular(topLeftRadius) : Radius.circular(topRightRadius),
+              bottomLeft: isRTL ? Radius.circular(bottomRightRadius) : Radius.circular(bottomLeftRadius),
+              bottomRight: isRTL ? Radius.circular(bottomLeftRadius) : Radius.circular(bottomRightRadius),
             ),
           ),
           child: InkWell(
             onTap: onTap,
             child: Padding(
-              padding: const EdgeInsets.all(marginStandard),
+              padding: const EdgeInsets.all(marginSmall),
               child: Align(
                 alignment: Alignment.center,
                 child: Text(

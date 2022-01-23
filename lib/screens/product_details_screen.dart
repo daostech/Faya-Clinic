@@ -27,7 +27,7 @@ class ProductDetailsScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               AppBarStandard(
-                title: TransUtil.trans("header_previous_orders"),
+                title: TransUtil.trans("header_product_details"),
               ),
               Container(
                 width: double.infinity,
