@@ -9,7 +9,6 @@ import 'package:faya_clinic/models/order_item.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/user.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
-import 'package:faya_clinic/providers/checkout_controller.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
 import 'package:faya_clinic/repositories/user_repository.dart';
@@ -19,6 +18,7 @@ import 'package:faya_clinic/services/database_service.dart';
 import 'package:faya_clinic/storage/hive_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
@@ -67,9 +67,7 @@ void main() async {
             // ChangeNotifierProvider(
             //   create: (_) => AuthService(),
             // ),
-            ChangeNotifierProvider(
-              create: (_) => CheckoutController(),
-            ), // ! lift down
+
             ChangeNotifierProvider(
               create: (_) => CartController(HiveLocalStorageService(HiveKeys.BOX_CART)),
             ),
@@ -84,6 +82,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.portraitUp,
+      DeviceOrientation.portraitDown,
+    ]);
     return MaterialApp(
       title: 'Faya Clinic',
       debugShowCheckedModeBanner: false,
