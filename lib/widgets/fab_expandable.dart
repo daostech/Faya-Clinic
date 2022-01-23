@@ -8,9 +8,11 @@ class ExpandableFab extends StatefulWidget {
     this.initialOpen,
     @required this.distance,
     @required this.children,
+    this.isRTL = false,
   }) : super(key: key);
 
   final bool initialOpen;
+  final bool isRTL;
   final double distance;
   final List<Widget> children;
 
@@ -89,21 +91,24 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
   }
 
   Widget _buildTapToCloseFab() {
-    return SizedBox(
-      width: 56.0,
-      height: 56.0,
-      child: Center(
-        child: Material(
-          shape: const CircleBorder(),
-          clipBehavior: Clip.antiAlias,
-          elevation: 4.0,
-          child: InkWell(
-            onTap: _toggle,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Icon(
-                Icons.close,
-                color: Theme.of(context).primaryColor,
+    return Container(
+      margin: widget.isRTL ? EdgeInsets.symmetric(horizontal: 30) : EdgeInsets.symmetric(horizontal: 0),
+      child: SizedBox(
+        width: 56.0,
+        height: 56.0,
+        child: Center(
+          child: Material(
+            shape: const CircleBorder(),
+            clipBehavior: Clip.antiAlias,
+            elevation: 4.0,
+            child: InkWell(
+              onTap: _toggle,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Icon(
+                  Icons.close,
+                  color: Theme.of(context).primaryColor,
+                ),
               ),
             ),
           ),
@@ -116,6 +121,7 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
     return IgnorePointer(
       ignoring: _open,
       child: AnimatedContainer(
+        margin: widget.isRTL ? EdgeInsets.symmetric(horizontal: 30) : EdgeInsets.symmetric(horizontal: 0),
         transformAlignment: Alignment.center,
         transform: Matrix4.diagonal3Values(
           _open ? 0.7 : 1.0,
@@ -130,7 +136,10 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
           duration: const Duration(milliseconds: 250),
           child: FloatingActionButton(
             onPressed: _toggle,
-            child: const Icon(Icons.create),
+            child: const Icon(
+              Icons.message,
+              color: Colors.black87,
+            ),
           ),
         ),
       ),
