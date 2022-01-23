@@ -229,13 +229,14 @@ class DatesScreen extends StatelessWidget {
   List<Widget> _buildDatesList() {
     List<Widget> children = [];
 
-    if (controller.selectedSection == null || controller.selectedSubSection == null) {
+    if (controller.pickedDateTime == null) {
       // the section has not been selected yet check if loading and show progress bar
       // otherwise show a message to tell user the select the section item first
       if (controller.isLoading)
         children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
       else
-        children = [_messageContainer(TransUtil.trans("msg_select_section_and_subs"))];
+        // children = [_messageContainer(TransUtil.trans("msg_select_section_and_subs"))];
+        children = [_messageContainer(TransUtil.trans("msg_select_date_first"))];
     } else {
       // the section is already selected check if there any sub sections realted to show them
       // otherwise show a message that

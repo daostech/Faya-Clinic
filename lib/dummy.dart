@@ -1,4 +1,5 @@
 import 'package:faya_clinic/models/address.dart';
+import 'package:faya_clinic/models/date_registered.dart';
 import 'package:faya_clinic/models/payment_method.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/shipping_method.dart';
@@ -16,6 +17,15 @@ class DummyData {
     PaymentMethod(id: "1", method: "PayPal", image: ""),
     PaymentMethod(id: "1", method: "Razorpay", image: ""),
     PaymentMethod(id: "1", method: "stripe", image: ""),
+  ];
+
+  static List<DateRegistered> fakeReservedDates = [
+    DateRegistered(id: "", userId: "", time: "10:00"),
+    DateRegistered(id: "", userId: "", time: "11:00"),
+    DateRegistered(id: "", userId: "", time: "12:00"),
+    DateRegistered(id: "", userId: "", time: "13:00"),
+    DateRegistered(id: "", userId: "", time: "14:00"),
+    DateRegistered(id: "", userId: "", time: "15:00"),
   ];
 
   static List<Address> userAddresses = [

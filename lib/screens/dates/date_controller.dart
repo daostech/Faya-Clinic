@@ -1,5 +1,7 @@
 import 'package:faya_clinic/constants/clinic_dates.dart';
-import 'package:faya_clinic/models/clininc_date.dart';
+import 'package:faya_clinic/dummy.dart';
+import 'package:faya_clinic/models/clinic_date.dart';
+import 'package:faya_clinic/models/date_registered.dart';
 import 'package:faya_clinic/models/requests/date_registered_request.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/service.dart';
@@ -10,6 +12,7 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DateScreenController with ChangeNotifier {
   static const TAG = "DateScreenController: ";
+  //todo add user repo
   final Database database;
   DateScreenController({@required this.database}) {
     init();
@@ -20,7 +23,8 @@ class DateScreenController with ChangeNotifier {
   static List<ClinicService> _services;
 
   List<ClinicService> _selectedServices = [];
-  List<ClinicDate> _availableDates = [];
+  // List<ClinicDate> _availableDates = [];
+  List<ClinicDate> _availableDates = ClinicDates.standardDates; // ! debug
 
   Section selectedSection;
   SubSection selectedSubSection;
@@ -33,7 +37,7 @@ class DateScreenController with ChangeNotifier {
   List<SubSection> get subSectionsList => _subSections;
   List<ClinicService> get servicesList => _services;
   List<ClinicService> get selectedServices => _selectedServices;
-  List<ClinicDate> get availableDates => ClinicDates.standardDates; // ! debug
+  List<ClinicDate> get availableDates => _availableDates;
   DateTime get pickedDateTime => _pickedDateTime;
 
   init() async {
@@ -67,11 +71,24 @@ class DateScreenController with ChangeNotifier {
     updateWith(services: result, loading: false);
   }
 
-  Future<void> fetchTakenDates(DateTime dateTime) async {
+  Future<void> fetchAvailableDates(DateTime dateTime) async {
     updateWith(loading: true);
-    print("$TAG fetchTakenDates: called");
-    // todo implement method
-    updateWith(loading: false);
+    print("$TAG fetchAvailableDates: called");
+    // final formattedDate = MyDateFormatter.toStringDate(dateTime); // todo add new format to match the server format if needed
+    // final allDates = await database.fetchAllDatesOn(formattedDate).catchError((error) {
+    //   print("$TAG [Error] fetchAvailableDates : $error");
+    // });
+    final avClinicDates =
+        getAvailableDates(DummyData.fakeReservedDates); // ! debug change this after the backend issue resolved
+    updateWith(loading: false, availableDates: avClinicDates);
+  }
+
+  List<ClinicDate> getAvailableDates(List<DateRegistered> reserevedDate) {
+    List<ClinicDate> standardClinicDates = [...ClinicDates.standardDates];
+    reserevedDate.forEach((reserved) {
+      standardClinicDates.removeWhere((standard) => standard.startTimeFormatted24H == reserved.time);
+    });
+    return standardClinicDates;
   }
 
   void onSectionSelected(Section section) {
@@ -106,6 +123,7 @@ class DateScreenController with ChangeNotifier {
 
   void onDateTimeChanged(DateRangePickerSelectionChangedArgs args) {
     _pickedDateTime = args.value;
+    fetchAvailableDates(_pickedDateTime);
     print("onDateTimeChanged: pickedDateTime: ${_pickedDateTime.toString()}");
   }
 
@@ -113,21 +131,58 @@ class DateScreenController with ChangeNotifier {
     updateWith(pickedDate: date);
   }
 
-  void createNewDate() {
+  Future<bool> createNewDate() async {
+    print("$TAG createNewDate: request ${request.toJson()}");
     updateWith(loading: true);
-    database.createNewDate(request).then((value) {
-      updateWith(loading: false);
-    }).catchError((error) {
+    final result = await database.createNewDate(request).catchError((error) {
       print("$TAG [Error] createNewDate: ${error.toString()}");
     });
+    if (result.success) {
+      resetForm();
+    }
+    return result?.success ?? false;
   }
 
   bool get isFormReady {
-    return selectedSection != null && selectedSubSection != null && pickedDateTime != null && pickedClinicDate != null;
+    return selectedSection != null &&
+        selectedSubSection != null &&
+        _pickedDateTime != null &&
+        pickedClinicDate != null &&
+        _selectedServices.isNotEmpty;
   }
 
   DateRegisteredRequest get request {
-    return DateRegisteredRequest();
+    final now = DateTime.now();
+
+    final registeredDate = DateTime(
+      now.year,
+      now.month,
+      now.day,
+      pickedClinicDate.startHour,
+      pickedClinicDate.startMinutes,
+    );
+
+    return DateRegisteredRequest(
+      userId: "bbbf3cfa-6d01-4382-91e1-0c20a2adffad", // ! debug
+      sectionId: selectedSection.id,
+      subSectionId: selectedSubSection.id,
+      dateTime: registeredDate,
+      timeStr: pickedClinicDate.startTimeFormatted24H,
+      services: _selectedServices,
+    );
+  }
+
+  void resetForm() {
+    isLoading = false;
+    _subSections = null;
+    _services = null;
+    selectedSection = null;
+    selectedSubSection = null;
+    _availableDates = [];
+    _selectedServices = [];
+    _pickedDateTime = null;
+    pickedClinicDate = null;
+    notifyListeners();
   }
 
   updateWith({
