@@ -37,6 +37,8 @@
     "header_saved_addresses" : "Saved addresses",
     "header_order_details" : "Order details",
     "header_my_dates" : "My dates",
+    "header_write_your_review" : "Write your review",
+    "header_reviews_and_comments" : "Review & Comments",
     
     "tab_team" : "Team",
     "tab_sections" : "Sections",
@@ -68,6 +70,7 @@
     "hint_your_phone" : "Your Phone",
     "hint_add_your_note_optional" : "Add your note (optional)",
     "hint_address_label" : "Label (e.g. Home, Work..)",
+    "hint_write_your_review" : "Write your review",
     
     "label_your_points" : "Your points",
     "label_filter" : "Filter",
@@ -126,6 +129,8 @@
     "msg_no_saved_addresses" : "No saved addresses",
     "msg_please_complete_this_step" : "Please complete this step first !",
     "msg_select_date_first" : "Please select the date first",
+    "msg_no_items_found" : "No items found",
+    "msg_no_reviews_for_product" : "No reviews for this product yet, add your's now !",
 
     "btn_expandable_call" : "Call",
     "btn_expandable_whatsapp" : "Contact via WhatsApp",
@@ -143,5 +148,7 @@
     "btn_create" : "Create",
     "btn_try_again" : "Try again",
     "btn_confirm" : "Confirm",
+    "btn_show_all_reviews" : "Show all reviews",
+    "btn_publish" : "Publish",
     "btn_cancel" : "Cancel"
 }

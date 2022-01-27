@@ -6,6 +6,7 @@ import 'package:faya_clinic/models/home_slider.dart';
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/requests/date_registered_request.dart';
+import 'package:faya_clinic/models/requests/product_review_request.dart';
 import 'package:faya_clinic/models/response/post_response.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/service.dart';
@@ -28,6 +29,8 @@ abstract class Database {
   Future fetchMyFavoriteProducts(userId);
   Future fetchUserDates(String userId);
   Future getTeamsList();
+  Future fetchProductReviews(String productId);
+  Future postProductReview(ProductReviewRequest request);
 
   Future<PostResponse> createNewDate(DateRegisteredRequest request);
 }
@@ -147,5 +150,21 @@ class DatabaseService implements Database {
   getClinicsList() {
     // TODO: implement getMyDates
     throw UnimplementedError();
+  }
+
+  @override
+  Future fetchProductReviews(String productId) {
+    return apiService.getData<dynamic>(
+      builder: (data) => DateRegistered.fromJson(data),
+      path: APIPath.productReviews(productId),
+    );
+  }
+
+  @override
+  Future postProductReview(ProductReviewRequest request) {
+    return apiService.postData<ProductReviewRequest>(
+      path: APIPath.postProductReview(),
+      body: request.toJson(),
+    );
   }
 }

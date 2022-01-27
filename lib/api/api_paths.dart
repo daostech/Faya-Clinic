@@ -7,6 +7,8 @@ class APIPath {
   static String categoriesList() => 'api/Categories/list';
 
   static String productsList() => 'api/Products/list';
+  static String productReviews(String productId) => 'api/Comments/$productId';
+  static String postProductReview() => 'api/Comments';
   static String newArrivalsProductsList() => 'api/Products/list';
   static String servicesList(String subSectionId) => 'api/Service/$subSectionId/list';
   static String slidersList() => 'api/Sliders/list';

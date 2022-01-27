@@ -1,25 +1,39 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/product.dart';
+import 'package:faya_clinic/screens/product_details/components/add_review_widget.dart';
+import 'package:faya_clinic/screens/product_details/components/product_reviews.dart';
+import 'package:faya_clinic/screens/product_details/components/users_reviews.dart';
+import 'package:faya_clinic/screens/product_details/product_details_controller.dart';
+import 'package:faya_clinic/services/database_service.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/app_bar_standard.dart';
 import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({Key key, @required this.product}) : super(key: key);
-  final Product product;
+  const ProductDetailsScreen._({Key key, this.controller}) : super(key: key);
+
+  final ProductDetailsController controller;
+
+  static Widget create(BuildContext context, Product product) {
+    final database = Provider.of<Database>(context, listen: false);
+    return ChangeNotifierProvider<ProductDetailsController>(
+      create: (_) => ProductDetailsController(database: database, product: product),
+      builder: (ctx, child) {
+        return Consumer<ProductDetailsController>(
+          builder: (context, controller, _) => ProductDetailsScreen._(
+            controller: controller,
+          ),
+        );
+      },
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (builder) => AddAddressScreen())),
-      //   child: Icon(
-      //     Icons.add,
-      //     color: Colors.black87,
-      //   ),
-      // ),
       body: Column(
         children: [
           Column(
@@ -37,19 +51,20 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
           Expanded(
             child: SingleChildScrollView(
-              padding: const EdgeInsets.symmetric(horizontal: marginLarge),
+              padding: const EdgeInsets.all(marginLarge),
               child: Column(
                 children: [
                   SizedBox(
                     height: marginxLarge,
                   ),
                   buildProductImage(size),
-                  buildProductInfo(context, product),
+                  buildProductInfo(context, controller.product),
                   divider(),
-                  buildReviewSection(),
+                  ProductReviewsWidget(),
                   divider(),
-                  buildCommentsSection(),
+                  UsersReviewsSection(controller: controller),
                   divider(),
+                  AddProductReviewWidget(controller: controller),
                 ],
               ),
             ),
@@ -78,14 +93,12 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: FittedBox(
-        child: ClipRRect(
-          borderRadius: BorderRadius.all(
-            Radius.circular(6),
-          ),
-          child: NetworkCachedImage(
-            imageUrl: product.randomImage,
-          ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(
+          Radius.circular(6),
+        ),
+        child: NetworkCachedImage(
+          imageUrl: controller.product.randomImage,
         ),
       ),
     );
@@ -103,18 +116,14 @@ class ProductDetailsScreen extends StatelessWidget {
               children: [
                 Text(
                   // "DOLCE & GABANA",
-                  product?.name ?? "DOLCE & GABANA",
+                  product?.name ?? "",
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 Text(
                   // "VELET DESERT OUT",
-                  product?.description ?? "VELET DESERT OUT",
+                  product?.description ?? "",
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
-                // Text(
-                //   "Spray 100 ml",
-                //   style: Theme.of(context).textTheme.subtitle1,
-                // ),
               ],
             ),
           ),
@@ -124,24 +133,6 @@ class ProductDetailsScreen extends StatelessWidget {
             style: Theme.of(context).textTheme.headline4.copyWith(color: colorPrimary),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget buildReviewSection() {
-    return Container(
-      height: 220,
-      child: Center(
-        child: Text("Review Section"),
-      ),
-    );
-  }
-
-  Widget buildCommentsSection() {
-    return Container(
-      height: 220,
-      child: Center(
-        child: Text("Comment Section"),
       ),
     );
   }

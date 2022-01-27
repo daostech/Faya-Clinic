@@ -37,7 +37,9 @@
     "header_saved_addresses": "العناوين المحفوظة",
     "header_order_details": "تفاصيل الطلب",
     "header_my_dates": "التواريخ الخاصة بي",
-  
+    "header_write_your_review" : "اكتب تعليق",
+    "header_reviews_and_comments" : "Review & Comments",
+
     "tab_team": "الفريق",
     "tab_sections": "الأقسام",
     "tab_offers": "عروض",
@@ -68,6 +70,7 @@
     "hint_your_phone": "رقمك",
     "hint_add_your_note_optional": "أضف ملاحظاتك (إختياري)",
     "hint_address_label" : "Label (e.g. Home, Work..)",
+    "hint_write_your_review" : "Write your review",
 
     "label_your_points": "نقاطك",
     "label_filter": "قلتر",
@@ -126,6 +129,8 @@
     "msg_no_saved_addresses" : "لا يوجد عناوين محفوظة",
     "msg_please_complete_this_step" : "يرجى إكمال هذه الخطوة أولاً !",
     "msg_select_date_first" : "من فضلك قم باختيار التاريخ أولاً",
+    "msg_no_items_found" : "لم يتم العثور على نتائج",
+    "msg_no_reviews_for_product" : "No reviews for this product yet, add your's now !",
 
     "btn_expandable_call": "إتصل",
     "btn_expandable_whatsapp": "تواصل عبر واتس أب",
@@ -143,6 +148,8 @@
     "btn_create": "إنشاء",
     "btn_try_again" : "حاول مجدداً",
     "btn_confirm": "تأكيد",
+    "btn_show_all_reviews" : "عرض جميع التقييمات",
+    "btn_publish" : "نشر",
     "btn_cancel": "إلغاء"
   }
   
