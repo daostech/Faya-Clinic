@@ -1,9 +1,12 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/models/product_review.dart';
+import 'package:faya_clinic/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProductReviewItem extends StatelessWidget {
-  const ProductReviewItem({Key key}) : super(key: key);
+  final ProductReview productReview;
+  const ProductReviewItem({Key key, @required this.productReview}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,17 +20,17 @@ class ProductReviewItem extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  "Good Product !",
+                  productReview.userId.substring(0, 20),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
-              Text("12 minutes ago"),
+              Text(MyDateFormatter.toStringDate(productReview.creationDate)),
             ],
           ),
           RatingBar.builder(
-            initialRating: 3,
+            initialRating: productReview.rate?.toDouble() ?? 0.0,
             minRating: 1,
             itemCount: 5,
             direction: Axis.horizontal,
@@ -42,7 +45,7 @@ class ProductReviewItem extends StatelessWidget {
               print(rating);
             },
           ),
-          Text(LOREM_IPSUM),
+          Text(productReview.text),
         ],
       ),
     );

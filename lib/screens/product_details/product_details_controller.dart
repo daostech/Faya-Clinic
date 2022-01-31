@@ -1,4 +1,5 @@
 import 'package:faya_clinic/models/product.dart';
+import 'package:faya_clinic/models/product_review.dart';
 import 'package:faya_clinic/models/requests/product_review_request.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class ProductDetailsController with ChangeNotifier {
     updateWith(posting: true);
     print("$TAG postReview: called");
     final request = ProductReviewRequest(
-      userId: "bbbf3cfa-6d01-4382-91e1-0c20a2adffad", // ! update it with the actual user id
+      userId: "bbbf3cfa-6d01-4382-91e1-0c20a2adffad", // todo update it with the actual user id
       productId: product.id,
       text: _review,
       rate: initialRate,
@@ -64,7 +65,7 @@ class ProductDetailsController with ChangeNotifier {
     return true;
   }
 
-  Future<void> fetchProductReviews() async {
+  Future<List<ProductReview>> fetchProductReviews() async {
     updateWith(loading: true);
     print("$TAG fetchProductReviews: called");
     // if (_allProducts != null) return _allProducts;

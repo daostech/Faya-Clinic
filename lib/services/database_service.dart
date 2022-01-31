@@ -5,6 +5,7 @@ import 'package:faya_clinic/models/date_registered.dart';
 import 'package:faya_clinic/models/home_slider.dart';
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/product.dart';
+import 'package:faya_clinic/models/product_review.dart';
 import 'package:faya_clinic/models/requests/date_registered_request.dart';
 import 'package:faya_clinic/models/requests/product_review_request.dart';
 import 'package:faya_clinic/models/response/post_response.dart';
@@ -154,8 +155,8 @@ class DatabaseService implements Database {
 
   @override
   Future fetchProductReviews(String productId) {
-    return apiService.getData<dynamic>(
-      builder: (data) => DateRegistered.fromJson(data),
+    return apiService.getData<ProductReview>(
+      builder: (data) => ProductReview.fromJson(data),
       path: APIPath.productReviews(productId),
     );
   }

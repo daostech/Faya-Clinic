@@ -14,7 +14,6 @@ class UsersReviewsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       child: body(context),
-      // child: topReviewsList(context),
     );
   }
 
@@ -25,21 +24,21 @@ class UsersReviewsSection extends StatelessWidget {
       }
       return MyErrorWidget(onTap: () => controller.fetchProductReviews());
     }
-    // if (controller.topReviews.isEmpty) {
-    //   return Container(
-    //     height: 220,
-    //     child: Center(
-    //       child: Wrap(
-    //         children: [
-    //           Text(
-    //             TransUtil.trans("msg_no_reviews_for_product"),
-    //             textAlign: TextAlign.center,
-    //           ),
-    //         ],
-    //       ),
-    //     ),
-    //   );
-    // }
+    if (controller.topReviews.isEmpty) {
+      return Container(
+        height: 220,
+        child: Center(
+          child: Wrap(
+            children: [
+              Text(
+                TransUtil.trans("msg_no_reviews_for_product"),
+                textAlign: TextAlign.center,
+              ),
+            ],
+          ),
+        ),
+      );
+    }
     return Container(
       child: Center(
         child: global ? allReviewsList() : topReviewsList(context),
@@ -49,11 +48,11 @@ class UsersReviewsSection extends StatelessWidget {
 
   Widget allReviewsList() {
     return ListView.separated(
-      // itemCount: controller.allReviews.length,
-      itemCount: 10,
-      shrinkWrap: true,
+      itemCount: controller.allReviews.length,
       itemBuilder: (ctx, index) {
-        return ProductReviewItem();
+        return ProductReviewItem(
+          productReview: controller.allReviews[index],
+        );
       },
       separatorBuilder: (ctx, index) {
         return Divider(
@@ -68,12 +67,13 @@ class UsersReviewsSection extends StatelessWidget {
     return Column(
       children: [
         ListView.separated(
-          // itemCount: controller.topReviews.length,
-          itemCount: 3,
+          itemCount: controller.topReviews.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (ctx, index) {
-            return ProductReviewItem();
+            return ProductReviewItem(
+              productReview: controller.allReviews[index],
+            );
           },
           separatorBuilder: (ctx, index) {
             return Divider(
@@ -88,7 +88,7 @@ class UsersReviewsSection extends StatelessWidget {
         Container(
           margin: const EdgeInsets.all(marginLarge),
           child: TextButton(
-            child: Text(TransUtil.trans("btn_show_all")),
+            child: Text(TransUtil.trans("btn_show_all_reviews")),
             onPressed: () => Navigator.of(context)
                 .push(MaterialPageRoute(builder: (builder) => UsersReviewsScreen(controller: controller))),
           ),
