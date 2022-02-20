@@ -47,8 +47,40 @@ class AppBarSearch extends StatelessWidget {
                       focusedErrorBorder: InputBorder.none,
                     ),
                   ),
+                  // hideOnEmpty: true,
                   suggestionsCallback: (pattern) async {
-                    return null;
+                    // await Future.delayed(Duration(seconds: 2));
+                    return [];
+                  },
+                  loadingBuilder: (context) {
+                    return Container(
+                      height: 80,
+                      decoration: BoxDecoration(
+                        // color: colorPrimary,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(radiusStandard),
+                          bottomRight: Radius.circular(radiusStandard),
+                        ),
+                      ),
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  },
+                  noItemsFoundBuilder: (context) {
+                    return Container(
+                      height: 80,
+                      decoration: BoxDecoration(
+                        // color: colorPrimary,
+                        borderRadius: BorderRadius.only(
+                          bottomLeft: Radius.circular(radiusStandard),
+                          bottomRight: Radius.circular(radiusStandard),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(TransUtil.trans("msg_no_items_found")),
+                      ),
+                    );
                   },
                   itemBuilder: (context, suggestion) {
                     return ListTile(

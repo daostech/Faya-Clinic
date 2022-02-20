@@ -51,7 +51,7 @@ class StandardButton extends StatelessWidget {
                 horizontal: marginLarge,
               ),
           decoration: BoxDecoration(
-            color: colorPrimary,
+            color: onTap == null ? colorPrimaryLight : colorPrimary,
             borderRadius: BorderRadius.only(
               topLeft: isRTL ? Radius.circular(topRightRadius) : Radius.circular(topLeftRadius),
               topRight: isRTL ? Radius.circular(topLeftRadius) : Radius.circular(topRightRadius),

@@ -1,6 +1,7 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/product_review.dart';
 import 'package:faya_clinic/utils/date_formatter.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -20,7 +21,7 @@ class ProductReviewItem extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  productReview.userId.substring(0, 20),
+                  productReview.user?.fullName ?? TransUtil.trans("label_unknown_user"),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

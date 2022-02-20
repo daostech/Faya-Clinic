@@ -8,6 +8,7 @@ import '../constants/constants.dart';
 typedef StringFunction = String Function(String val);
 
 class LabeledInput extends StatelessWidget {
+  final TextEditingController controller;
   final EdgeInsets margin;
   final EdgeInsets innerPadding;
   final StringFunction validator;
@@ -43,6 +44,7 @@ class LabeledInput extends StatelessWidget {
     this.actionIcon,
     this.onActionTap,
     this.label,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -93,6 +95,7 @@ class LabeledInput extends StatelessWidget {
                               ),
                             )
                           : TextFormField(
+                              controller: controller,
                               decoration: InputDecoration(
                                 border: InputBorder.none,
                                 focusedBorder: InputBorder.none,
@@ -101,7 +104,7 @@ class LabeledInput extends StatelessWidget {
                                 disabledBorder: InputBorder.none,
                                 hintText: hintText,
                               ),
-                              initialValue: initialValue,
+                              // initialValue: initialValue,
                               obscureText: isObscureText,
                               onChanged: (val) => onChanged(val),
                               cursorColor: colorPrimary,

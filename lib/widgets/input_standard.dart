@@ -8,6 +8,7 @@ import '../constants/constants.dart';
 typedef StringFunction = String Function(String val);
 
 class StandardInput extends StatelessWidget {
+  final TextEditingController controller;
   final EdgeInsets margin;
   final EdgeInsets innerPadding;
   final StringFunction validator;
@@ -30,11 +31,12 @@ class StandardInput extends StatelessWidget {
     this.isObscureText = false,
     this.minLength = 0,
     this.emailFormat = false,
-    this.initialValue = "",
+    this.initialValue,
     this.color,
     this.margin,
     this.innerPadding,
     this.isReadOnly = false,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -67,6 +69,7 @@ class StandardInput extends StatelessWidget {
                 ),
               )
             : TextFormField(
+                controller: controller,
                 decoration: InputDecoration(
                   hintText: hintText,
                 ),

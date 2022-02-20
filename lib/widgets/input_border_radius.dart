@@ -8,6 +8,7 @@ import '../constants/constants.dart';
 typedef StringFunction = String Function(String val);
 
 class RadiusBorderedInput extends StatelessWidget {
+  final TextEditingController controller;
   final EdgeInsets margin;
   final EdgeInsets innerPadding;
   final StringFunction validator;
@@ -43,6 +44,7 @@ class RadiusBorderedInput extends StatelessWidget {
     this.onTap,
     this.actionIcon,
     this.onActionTap,
+    this.controller,
   }) : super(key: key);
 
   @override
@@ -77,6 +79,7 @@ class RadiusBorderedInput extends StatelessWidget {
                           ),
                         )
                       : TextFormField(
+                          controller: controller,
                           decoration: InputDecoration(
                             border: InputBorder.none,
                             focusedBorder: InputBorder.none,

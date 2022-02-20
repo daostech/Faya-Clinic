@@ -48,6 +48,7 @@ class PreviousOrderItem extends StatelessWidget {
             ),
           ),
           ClipRRect(
+            // bottom container
             borderRadius: BorderRadius.only(
               bottomLeft: Radius.circular(radiusStandard),
               bottomRight: Radius.circular(radiusStandard),
