@@ -14,46 +14,10 @@
       },
       "oauth_client": [
         {
-          "client_id": "328010563129-ici8uaau3u3l41ma9ii33bgfgomv9tg5.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyCQAtdH3Nx5vtxSS1Wd5R_eaFiKcSZ13Hk"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "328010563129-ici8uaau3u3l41ma9ii33bgfgomv9tg5.apps.googleusercontent.com",
-              "client_type": 3
-            },
-            {
-              "client_id": "328010563129-ttam2ii8c51e0d99n5kv3o51tlv3cq75.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "com.dvamd.fayaclinic"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:328010563129:android:657b7f73640565bc3257e8",
-        "android_client_info": {
-          "package_name": "com.dvamd.fayaclinic"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "328010563129-oovq4i5jnjn36tnpjto63oun1t0dkqua.apps.googleusercontent.com",
+          "client_id": "328010563129-4djdg5g0oh67n4d1dlnflv6bevnee620.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.dvamd.fayaclinic",
+            "package_name": "com.dvamd.faya_clinic",
             "certificate_hash": "bc7868092f88f6c073da19ea5cb21127c2dd5bff"
           }
         },
