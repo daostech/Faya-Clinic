@@ -5,7 +5,7 @@ import 'package:toast/toast.dart';
 class DialogUtil {
   static const TAG = "DialogUtil:";
 
-  static Future<void> showAlertDialog(BuildContext context, String error) {
+  static Future<void> showAlertDialog(BuildContext context, String error, Function onSubmit) {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -16,10 +16,19 @@ class DialogUtil {
             child: Text(error),
           ),
           actions: <Widget>[
+            // if there is no action no need to show the negative button
+            if (onSubmit != null)
+              TextButton(
+                child: Text(TransUtil.trans('btn_cancel')),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
             TextButton(
               child: Text(TransUtil.trans('btn_ok')),
               onPressed: () {
                 Navigator.of(context).pop();
+                if (onSubmit != null) onSubmit();
               },
             ),
           ],
