@@ -15,8 +15,15 @@ class ClinicController with ChangeNotifier {
     fetchTeamsList();
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    _mounted = false;
+  }
+
   var currentTabIndex = 0;
   var isLoading = false;
+  bool _mounted = true;
 
   List<Team> _teamsList;
   List<Section> _sectionsList;
@@ -25,6 +32,7 @@ class ClinicController with ChangeNotifier {
   List<Team> get teamsList => _teamsList;
   List<Section> get sectionsList => _sectionsList;
   List<dynamic> get offersList => _offersList;
+  bool get mounted => _mounted;
 
   Future<void> fetchTeamsList() async {
     updateWith(loading: true);
@@ -99,6 +107,6 @@ class ClinicController with ChangeNotifier {
     _teamsList = teams ?? _teamsList;
     _sectionsList = sections ?? _sectionsList;
     _offersList = offers ?? _offersList;
-    notifyListeners();
+    if (mounted) notifyListeners();
   }
 }

@@ -4,6 +4,7 @@ import 'package:faya_clinic/models/requests/date_registered_request.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/service.dart';
 import 'package:faya_clinic/models/sub_section.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:faya_clinic/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
@@ -11,11 +12,17 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DateScreenController with ChangeNotifier {
   static const TAG = "DateScreenController: ";
-  //todo add user repo
   final Database database;
-  DateScreenController({@required this.database}) {
+  final AuthRepositoryBase authRepository;
+  DateScreenController({@required this.authRepository, @required this.database}) {
     init();
     // fetchAvailableDates(DateTime(2022, 01, 09));
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _mounted = false;
   }
 
   static List<Section> _sections;
@@ -24,7 +31,6 @@ class DateScreenController with ChangeNotifier {
 
   List<ClinicService> _selectedServices = [];
   List<ClinicDate> _availableDates = [];
-  // List<ClinicDate> _availableDates = ClinicDates.standardDates; // ! debug
 
   Section selectedSection;
   SubSection selectedSubSection;
@@ -32,6 +38,7 @@ class DateScreenController with ChangeNotifier {
   ClinicDate pickedClinicDate;
 
   var isLoading = true;
+  bool _mounted = true;
 
   List<Section> get sectionsList => _sections;
   List<SubSection> get subSectionsList => _subSections;
@@ -39,6 +46,7 @@ class DateScreenController with ChangeNotifier {
   List<ClinicService> get selectedServices => _selectedServices;
   List<ClinicDate> get availableDates => _availableDates;
   DateTime get pickedDateTime => _pickedDateTime;
+  bool get mounted => _mounted;
 
   init() async {
     fetchSections();
@@ -90,14 +98,6 @@ class DateScreenController with ChangeNotifier {
     });
     return standardClinicDates;
   }
-
-  // List<ClinicDate> getAvailableDates(List<DateRegistered> reserevedDate) {
-  //   List<ClinicDate> standardClinicDates = [...ClinicDates.standardDates];
-  //   reserevedDate.forEach((reserved) {
-  //     standardClinicDates.removeWhere((standard) => standard.startTimeFormatted24H == reserved.time);
-  //   });
-  //   return standardClinicDates;
-  // }
 
   void onSectionSelected(Section section) {
     if (section == null) return;
@@ -172,7 +172,7 @@ class DateScreenController with ChangeNotifier {
     );
 
     return DateRegisteredRequest(
-      userId: "bbbf3cfa-6d01-4382-91e1-0c20a2adffad", // ! debug
+      userId: authRepository.userId,
       sectionId: selectedSection.id,
       subSectionId: selectedSubSection.id,
       dateTime: registeredDate,
@@ -191,7 +191,7 @@ class DateScreenController with ChangeNotifier {
     _selectedServices = [];
     _pickedDateTime = null;
     pickedClinicDate = null;
-    notifyListeners();
+    if (mounted) notifyListeners();
   }
 
   updateWith({
@@ -216,6 +216,6 @@ class DateScreenController with ChangeNotifier {
     _selectedServices = selectedServices ?? _selectedServices;
     _pickedDateTime = pickedDateTime ?? _pickedDateTime;
     pickedClinicDate = pickedDate ?? pickedClinicDate;
-    notifyListeners();
+    if (mounted) notifyListeners();
   }
 }

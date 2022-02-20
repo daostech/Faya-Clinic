@@ -3,6 +3,7 @@ import 'package:faya_clinic/models/address.dart';
 import 'package:faya_clinic/models/payment_method.dart';
 import 'package:faya_clinic/models/shipping_method.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:flutter/material.dart';
 
@@ -12,7 +13,8 @@ class CheckoutController with ChangeNotifier {
 
   final Database database;
   final AddressesRepositoryBase addressesRepository;
-  CheckoutController({this.addressesRepository, this.database}) {
+  final AuthRepositoryBase authRepository;
+  CheckoutController({@required this.authRepository, @required this.addressesRepository, @required this.database}) {
     _savedAddresses = addressesRepository.allAddresses;
   }
 
@@ -81,6 +83,7 @@ class CheckoutController with ChangeNotifier {
 
   void placeOrder() {
     print("placeOrder called");
+    // todo add the order request here
   }
 
   void onPaymentSelect(PaymentMethod paymentMethod) {

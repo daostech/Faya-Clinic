@@ -8,7 +8,7 @@ abstract class CartRepositoryBase {
   bool addQuantity(String id);
   bool removeQuantity(String id);
   bool deleteItem(String id);
-  bool deleteAll();
+  deleteAll();
 }
 
 class CartRepository implements CartRepositoryBase {
@@ -32,7 +32,7 @@ class CartRepository implements CartRepositoryBase {
   }
 
   @override
-  List<OrderItem> get allItems => List<OrderItem>.from(localStorage.getAll()) ?? [];
+  List<OrderItem> get allItems => List<OrderItem>.from(localStorage.getAll()) ?? <OrderItem>[];
 
   @override
   set allItems(List<OrderItem> _allItems) {
@@ -40,9 +40,8 @@ class CartRepository implements CartRepositoryBase {
   }
 
   @override
-  bool deleteAll() {
+  deleteAll() {
     localStorage.clearAll();
-    return allItems == null || allItems.length == 0;
   }
 
   @override

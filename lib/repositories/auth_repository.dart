@@ -1,3 +1,6 @@
+import 'package:faya_clinic/repositories/addresses_repository.dart';
+import 'package:faya_clinic/repositories/cart_repository.dart';
+import 'package:faya_clinic/repositories/favorite_repository.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:faya_clinic/api/api_paths.dart';
@@ -33,12 +36,20 @@ abstract class AuthRepositoryBase {
 }
 
 class AuthRepository implements AuthRepositoryBase {
-  // todo add other repos for logout
   final APIService apiService;
   final AuthBase authService;
+  final AddressesRepositoryBase addressesRepository;
+  final FavoriteRepositoryBase favoriteRepository;
+  final CartRepositoryBase cartRepository;
   final LocalStorageService localStorageService;
 
-  AuthRepository({@required this.authService, @required this.localStorageService, @required this.apiService});
+  AuthRepository(
+      {@required this.addressesRepository,
+      @required this.favoriteRepository,
+      @required this.cartRepository,
+      @required this.authService,
+      @required this.localStorageService,
+      @required this.apiService});
 
   @override
   bool get isLoggedIn => localStorageService.getValue(HiveKeys.LOGGED_IN, false);
@@ -96,8 +107,11 @@ class AuthRepository implements AuthRepositoryBase {
     userId = null;
     phoneNumber = null;
     myUser = null;
-    authState = AuthState.LOGGED_OUT;
+    addressesRepository.deleteAll();
+    favoriteRepository.deleteAll();
+    cartRepository.deleteAll();
     authService.logout();
+    authState = AuthState.LOGGED_OUT;
   }
 
   @override

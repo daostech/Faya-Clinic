@@ -12,6 +12,7 @@ import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
+import 'package:faya_clinic/repositories/cart_repository.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
 import 'package:faya_clinic/screens/auth_wrapper.dart';
 import 'package:faya_clinic/services/auth_service.dart';
@@ -43,9 +44,15 @@ void main() async {
       // child: dependenciesWrappr(),
       child: Builder(builder: (context) {
         final api = APIService(API());
+        final favRepo = FavoriteRepository(HiveLocalStorageService(HiveKeys.BOX_FAVORITE));
+        final addressRepo = AddressesRepository(HiveLocalStorageService(HiveKeys.BOX_ADDRESSES));
+        final cartRepo = CartRepository(HiveLocalStorageService(HiveKeys.BOX_CART));
         final authRepo = AuthRepository(
           authService: FirebaseAuthService(),
           apiService: api,
+          favoriteRepository: favRepo,
+          addressesRepository: addressRepo,
+          cartRepository: cartRepo,
           localStorageService: HiveLocalStorageService(
             HiveKeys.BOX_AUTH,
           ),
@@ -59,10 +66,13 @@ void main() async {
               create: (_) => authRepo,
             ),
             Provider<FavoriteRepositoryBase>(
-              create: (_) => FavoriteRepository(HiveLocalStorageService(HiveKeys.BOX_FAVORITE)),
+              create: (_) => favRepo,
             ),
             Provider<AddressesRepositoryBase>(
-              create: (_) => AddressesRepository(HiveLocalStorageService(HiveKeys.BOX_ADDRESSES)),
+              create: (_) => addressRepo,
+            ),
+            Provider<CartRepositoryBase>(
+              create: (_) => cartRepo,
             ),
             ChangeNotifierProvider(
               create: (_) => AuthController(
@@ -70,7 +80,9 @@ void main() async {
               ),
             ),
             ChangeNotifierProvider(
-              create: (_) => CartController(HiveLocalStorageService(HiveKeys.BOX_CART)),
+              create: (_) => CartController(
+                cartRepository: cartRepo,
+              ),
             ),
           ],
           child: MyApp(),

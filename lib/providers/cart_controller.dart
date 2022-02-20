@@ -1,21 +1,20 @@
 import 'package:faya_clinic/models/order_item.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/repositories/cart_repository.dart';
-import 'package:faya_clinic/storage/local_storage.dart';
 import 'package:flutter/material.dart';
 
 class CartController with ChangeNotifier {
   static const TAG = "[CartController] ";
   static const ERR = "[Error] ";
 
-  CartRepositoryBase cartRepository;
+  final CartRepositoryBase cartRepository;
   List<OrderItem> allItems = [];
   String discountCoupon;
   int productCount = 0;
   double cartPrice = 0.0;
 
-  CartController(LocalStorageService localStorage) {
-    cartRepository = CartRepository(localStorage);
+  CartController({@required this.cartRepository}) {
+    // cartRepository = CartRepository(localStorage);
     allItems = cartRepository.allItems;
     cartPrice = totalPrice;
   }

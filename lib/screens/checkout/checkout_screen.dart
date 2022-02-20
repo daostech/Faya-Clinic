@@ -1,5 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/checkout/checkout_controller.dart';
 import 'package:faya_clinic/screens/checkout/tap_address.dart';
 import 'package:faya_clinic/screens/checkout/tap_payment.dart';
@@ -19,9 +20,11 @@ class CheckoutScreen extends StatelessWidget {
     final database = Provider.of<Database>(context, listen: false);
     // final userRepository = Provider.of<UserRepositoryBase>(context, listen: false);
     final addressesRepository = Provider.of<AddressesRepositoryBase>(context, listen: false);
+    final authRepository = Provider.of<AuthRepositoryBase>(context, listen: false);
     return ChangeNotifierProvider<CheckoutController>(
       create: (_) => CheckoutController(
         database: database,
+        authRepository: authRepository,
         addressesRepository: addressesRepository,
       ),
       builder: (ctx, child) {

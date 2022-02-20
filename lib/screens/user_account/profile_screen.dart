@@ -27,17 +27,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     controller.initForm();
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   Future.delayed(Duration(milliseconds: 300)).then((value) {
-
-  //   });
-  // }
-
   void handleBackPressed(BuildContext context, UserAccountController controller) {
     if (controller.hasUpdates) {
-      DialogUtil.showAlertDialog(context, TransUtil.trans("msg_unsaved_changes"), () {
+      DialogUtil.showWarningDialog(context, TransUtil.trans("msg_unsaved_changes"), () {
         Navigator.of(context).pop();
       });
     } else
@@ -57,6 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             children: [
               AppBarStandard(
                 title: TransUtil.trans("header_profile"),
+                onBackTap: () => handleBackPressed(context, controller),
               ),
               Container(
                 width: double.infinity,

@@ -1,5 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/providers/auth_controller.dart';
+import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/favorite_products/favorite_products_screen.dart';
 import 'package:faya_clinic/screens/previous_orders_screen.dart';
@@ -98,7 +99,10 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           _buildListItem(
             title: TransUtil.trans("list_item_logout"),
             leading: Icons.logout,
-            onTap: () => Provider.of<AuthController>(context, listen: false).logout(),
+            onTap: () {
+              Provider.of<AuthController>(context, listen: false).logout();
+              Provider.of<CartController>(context, listen: false).clearCart();
+            },
           ),
         ],
       ),

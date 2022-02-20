@@ -3,6 +3,7 @@ import 'package:faya_clinic/models/clinic_date.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/service.dart';
 import 'package:faya_clinic/models/sub_section.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/dates/date_controller.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:faya_clinic/utils/dialog_util.dart';
@@ -21,8 +22,9 @@ class DatesScreen extends StatelessWidget {
 
   static Widget create(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
+    final authRepository = Provider.of<AuthRepositoryBase>(context, listen: false);
     return ChangeNotifierProvider<DateScreenController>(
-      create: (_) => DateScreenController(database: database),
+      create: (_) => DateScreenController(database: database, authRepository: authRepository),
       builder: (ctx, child) {
         return Consumer<DateScreenController>(
           builder: (context, controller, _) => DatesScreen._(controller: controller),
