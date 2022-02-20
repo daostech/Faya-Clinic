@@ -40,8 +40,6 @@ class Address extends StorageModel {
   String block;
   @HiveField(7)
   int zipCode;
-  // @HiveField(8)
-  // String formatted;
 
   String get formatted => "$country $city $street $apartment $block";
 

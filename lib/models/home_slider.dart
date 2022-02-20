@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:faya_clinic/constants/constants.dart';
+
 HomeSlider homeSliderFromJson(String str) => HomeSlider.fromJson(json.decode(str));
 
 String homeSliderToJson(HomeSlider data) => json.encode(data.toJson());
@@ -14,6 +16,10 @@ class HomeSlider {
   String id;
   String image;
   String description;
+
+  // the image comes from the response hold the file name only
+  // so we add the base url prefix in order to load the image properly
+  String get imageUrl => "$IMG_PREFIX$image";
 
   factory HomeSlider.fromJson(Map<String, dynamic> json) => HomeSlider(
         id: json["id"] == null ? null : json["id"],

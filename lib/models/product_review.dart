@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:faya_clinic/models/user.dart';
+
 ProductReview productReviewFromJson(String str) => ProductReview.fromJson(json.decode(str));
 
 String productReviewToJson(ProductReview data) => json.encode(data.toJson());
@@ -13,6 +15,7 @@ class ProductReview {
     this.rate,
     this.isVisible,
     this.creationDate,
+    this.user,
   });
 
   String id;
@@ -22,15 +25,17 @@ class ProductReview {
   int rate;
   bool isVisible;
   DateTime creationDate;
+  MyUser user;
 
   factory ProductReview.fromJson(Map<String, dynamic> json) => ProductReview(
-        id: json["id"],
-        userId: json["userId"],
-        productId: json["productId"],
-        text: json["text"],
-        rate: json["rate"],
-        isVisible: json["isVisible"],
-        creationDate: DateTime.parse(json["creationDate"]),
+        id: json["id"] == null ? null : json["id"],
+        userId: json["userId"] == null ? null : json["userId"],
+        productId: json["productId"] == null ? null : json["productId"],
+        text: json["text"] == null ? null : json["text"],
+        rate: json["rate"] == null ? null : json["rate"],
+        isVisible: json["isVisible"] == null ? null : json["isVisible"],
+        user: json["users"] == null ? null : MyUser.fromJson(json["users"]),
+        creationDate: json["creationDate"] == null ? null : DateTime.parse(json["creationDate"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -40,6 +45,7 @@ class ProductReview {
         "text": text,
         "rate": rate,
         "isVisible": isVisible,
+        "users": user.toJson(),
         "creationDate": creationDate.toIso8601String(),
       };
 }

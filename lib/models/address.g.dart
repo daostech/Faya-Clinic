@@ -8,7 +8,7 @@ part of 'address.dart';
 
 class AddressAdapter extends TypeAdapter<Address> {
   @override
-  final int typeId = 2;
+  final int typeId = 4;
 
   @override
   Address read(BinaryReader reader) {
@@ -31,7 +31,7 @@ class AddressAdapter extends TypeAdapter<Address> {
   @override
   void write(BinaryWriter writer, Address obj) {
     writer
-      ..writeByte(9)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -55,5 +55,8 @@ class AddressAdapter extends TypeAdapter<Address> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) || other is AddressAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
+      identical(this, other) ||
+      other is AddressAdapter &&
+          runtimeType == other.runtimeType &&
+          typeId == other.typeId;
 }

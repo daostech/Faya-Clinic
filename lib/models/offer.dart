@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'dart:math';
 
+import 'package:faya_clinic/constants/constants.dart';
+
 Offer offerFromJson(String str) => Offer.fromJson(json.decode(str));
 
 String offerToJson(Offer data) => json.encode(data.toJson());
@@ -27,11 +29,15 @@ class Offer {
   dynamic creationDate;
   bool isActive;
 
+  // the image comes from the response hold the file name only
+  // so we add the base url prefix in order to load the image properly
+  String _imageUrl(String img) => "$IMG_PREFIX$img";
+
   List<String> get images {
     List<String> tmps = [img1, img2, img3];
     List<String> imgs = [];
     for (int i = 0; i < 3; i++) {
-      if (tmps[i] != null) imgs.add(tmps[i]);
+      if (tmps[i] != null) imgs.add(_imageUrl(tmps[i]));
     }
     return imgs;
   }

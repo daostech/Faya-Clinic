@@ -10,6 +10,7 @@ class DateRegisteredRequest {
     this.userId,
     this.sectionId,
     this.subSectionId,
+    this.timeStr,
     this.dateTime,
     this.services,
   });
@@ -17,6 +18,7 @@ class DateRegisteredRequest {
   String userId;
   String sectionId;
   String subSectionId;
+  String timeStr;
   DateTime dateTime;
   List<ClinicService> services;
 
