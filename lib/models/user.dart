@@ -1,10 +1,18 @@
 import 'dart:convert';
 
+import 'package:faya_clinic/constants/hive_keys.dart';
+import 'package:faya_clinic/models/storage_model.dart';
+import 'package:hive/hive.dart';
+import 'package:uuid/uuid.dart';
+
+part 'user.g.dart';
+
 MyUser productFromJson(String str) => MyUser.fromJson(json.decode(str));
 
 String productToJson(MyUser data) => json.encode(data.toJson());
 
-class MyUser {
+@HiveType(typeId: HiveKeys.TYPE_USER)
+class MyUser extends StorageModel {
   MyUser({
     this.id,
     this.fullName,
@@ -16,13 +24,21 @@ class MyUser {
     this.dateCreated,
   });
 
+  @HiveField(0)
   String id;
+  @HiveField(1)
   String fullName;
+  @HiveField(2)
   String email;
+  @HiveField(3)
   bool isActive;
+  @HiveField(4)
   int gender;
-  int phone;
+  @HiveField(5)
+  String phone;
+  @HiveField(6)
   String dateBirth;
+  @HiveField(7)
   String dateCreated;
 
   factory MyUser.fromJson(Map<String, dynamic> json) => MyUser(
@@ -46,4 +62,7 @@ class MyUser {
         "dateBirth": dateBirth,
         "dateCreated": dateCreated,
       };
+
+  @override
+  String get primaryKey => this.id ?? Uuid().v4();
 }

@@ -27,7 +27,7 @@ class APIService {
 
   Future<List<T>> getData<T>({
     // @required String accessToken,
-    @required T Function(Map<String, dynamic> data) builder,
+    @required T Function(dynamic data) builder,
     @required String path,
   }) async {
     // final uri = api.endpointUri(endpoint, parameters);
@@ -44,6 +44,24 @@ class APIService {
     throw response;
   }
 
+  Future<T> getObject<T>({
+    // @required String accessToken,
+    @required T Function(dynamic data) builder,
+    @required String path,
+  }) async {
+    final uri = api.endpointUri(path);
+    final response = await http.get(uri);
+
+    if (response.statusCode == 200) {
+      dynamic item = json.decode(response.body);
+      final data = builder(item);
+      print("getObject: data ${data.toString()}");
+      return data;
+    }
+    print('getObject: Request $uri failed\nResponse: ${response.statusCode} ${response.reasonPhrase}');
+    throw response;
+  }
+
   Future<PostResponse> postData<T>({
     Map<String, dynamic> body,
     @required String path,
@@ -55,7 +73,6 @@ class APIService {
     final postResponse = PostResponse.fromJson(jsonDecode(response.body));
     if (response.statusCode == 200) {
       print('postData: Request $uri success\nResponse: 200');
-      // return data;
     } else
       print('postData: Request $uri failed\nResponse: ${response.statusCode} ${response.reasonPhrase}');
     return postResponse;

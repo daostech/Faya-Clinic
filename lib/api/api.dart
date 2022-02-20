@@ -1,8 +1,7 @@
 import 'package:faya_clinic/api/api_keys.dart';
-import 'package:flutter/foundation.dart';
 
 class API {
-  API({@required this.apiKey});
+  API({this.apiKey});
   final String apiKey;
 
   factory API.sandbox() => API(apiKey: APIKeys.key);

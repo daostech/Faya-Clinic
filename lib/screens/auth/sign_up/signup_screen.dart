@@ -1,12 +1,17 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/providers/auth_controller.dart';
+import 'package:faya_clinic/utils/date_formatter.dart';
+import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
+import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:faya_clinic/widgets/input_border_radius.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
-  const SignUpScreen({Key key}) : super(key: key);
+  final AuthController controller;
+  const SignUpScreen({Key key, @required this.controller}) : super(key: key);
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -15,27 +20,44 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   static const TAG = "SignUpScreen: ";
   final _key = GlobalKey<FormState>();
-  final dateFormat = new DateFormat('yyyy-MM-dd');
+  final phoneTxtController = TextEditingController();
+  // final dateFormat = new DateFormat('yyyy-MM-dd');
+
+  AuthController get controller => widget.controller;
 
   DateTime selectedDate;
   var _name = "";
   var _phone = "";
   var _birthdayString = "";
-  var _password = "";
-  var _rPassword = "";
+  var _email = "";
+
+  @override
+  void initState() {
+    super.initState();
+    _phone = controller.authRepository.phoneNumber ?? "";
+    phoneTxtController.text = _phone;
+
+    print("SignUpScreen: _phone: $_phone");
+    print("SignUpScreen: phoneTxtController.text: ${phoneTxtController.text}");
+  }
 
   void submitForm() {
+    print("submitForm: called");
     if (!_key.currentState.validate()) {
-      if (_birthdayString.isEmpty)
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(TransUtil.trans("error_select_birthday"))));
       return;
     }
-    if (_password != _rPassword) {
-      print("$TAG error_password_not_match");
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(TransUtil.trans("error_password_not_match"))));
+    if (_birthdayString.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(TransUtil.trans("error_select_birthday"))));
       return;
     }
-    print("$TAG form is valid: name: $_name, _phone: $_phone, birthday: $_birthdayString, password: $_password");
+
+    try {
+      controller.createUserProfile(_name, _phone, _birthdayString, _email);
+    } catch (e) {
+      DialogUtil.showAlertDialog(context, TransUtil.trans("error_try_again_later"), null);
+    }
+
+    print("$TAG form is valid: name: $_name, _phone: $_phone, birthday: $_birthdayString");
   }
 
   Future<void> _selectDate(BuildContext context) async {
@@ -48,7 +70,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
     if (picked != null)
       setState(() {
         selectedDate = picked;
-        _birthdayString = dateFormat.format(picked);
+        // _birthdayString = dateFormat.format(picked);
+        _birthdayString = MyDateFormatter.toStringDate(picked);
       });
 
     print("$TAG picked: ${picked.toIso8601String()}}");
@@ -148,33 +171,28 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
                               initialValue: _birthdayString.isEmpty
                                   ? TransUtil.trans("hint_your_birthday")
-                                  : dateFormat.format(selectedDate),
+                                  : MyDateFormatter.toStringDate(selectedDate),
                               isRequiredInput: true,
                               isReadOnly: true,
                               actionIcon: Icons.calendar_today_outlined,
                               onActionTap: () => _selectDate(context),
-                              onChanged: (_) {},
+                              onChanged: (val) => _birthdayString = val,
                               validator: null,
                             ),
                             RadiusBorderedInput(
                               margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
                               hintText: TransUtil.trans("hint_enter_your_phone"),
-                              isRequiredInput: true,
+                              // isRequiredInput: true,
+                              controller: phoneTxtController,
+                              isReadOnly: true,
+                              initialValue: _phone,
                               onChanged: (val) => _phone = val,
                             ),
                             RadiusBorderedInput(
                               margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
-                              hintText: TransUtil.trans("hint_your_password"),
-                              isRequiredInput: true,
-                              isObscureText: true,
-                              onChanged: (val) => _password = val,
-                            ),
-                            RadiusBorderedInput(
-                              margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
-                              hintText: TransUtil.trans("hint_repeat_password"),
-                              isRequiredInput: true,
-                              isObscureText: true,
-                              onChanged: (val) => _rPassword = val,
+                              hintText: TransUtil.trans("hint_your_email"),
+                              onChanged: (val) => _email = val,
+                              emailFormat: true,
                             ),
                           ],
                         ),
@@ -183,68 +201,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         height: marginLarge,
                       ),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: marginLarge),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: InkWell(
-                                onTap: () {},
-                                child: Container(
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: colorGrey,
-                                    borderRadius: BorderRadius.only(
-                                      topLeft: Radius.circular(radiusStandard),
-                                      bottomLeft: Radius.circular(radiusStandard),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(marginStandard),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        TransUtil.trans("btn_cancel").toUpperCase(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: marginStandard,
-                            ),
-                            Row(
-                              children: [],
-                            ),
-                            SizedBox(
-                              width: marginStandard,
-                            ),
-                            Expanded(
-                              child: InkWell(
-                                onTap: submitForm,
-                                radius: radiusStandard,
-                                child: Container(
-                                  height: 40,
-                                  decoration: BoxDecoration(
-                                    color: colorPrimary,
-                                    borderRadius: BorderRadius.only(
-                                      topRight: Radius.circular(radiusStandard),
-                                      bottomRight: Radius.circular(radiusStandard),
-                                    ),
-                                  ),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(marginStandard),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        TransUtil.trans("btn_create").toUpperCase(),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
+                        padding: const EdgeInsets.all(marginLarge),
+                        child: InlineButtons(
+                          positiveText: TransUtil.trans("btn_create"),
+                          negativeText: TransUtil.trans("btn_cancel"),
+                          onNegativeTap: () => Provider.of<AuthController>(context, listen: false).logout(),
+                          onPositiveTap: submitForm,
                         ),
                       ),
                     ],

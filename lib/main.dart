@@ -8,11 +8,12 @@ import 'package:faya_clinic/models/address.dart';
 import 'package:faya_clinic/models/order_item.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/user.dart';
+import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
-import 'package:faya_clinic/repositories/user_repository.dart';
-import 'package:faya_clinic/screens/landing_screen.dart';
+import 'package:faya_clinic/screens/auth_wrapper.dart';
 import 'package:faya_clinic/services/auth_service.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:faya_clinic/storage/hive_service.dart';
@@ -42,18 +43,20 @@ void main() async {
       // child: dependenciesWrappr(),
       child: Builder(builder: (context) {
         final api = APIService(API());
+        final authRepo = AuthRepository(
+          authService: FirebaseAuthService(),
+          apiService: api,
+          localStorageService: HiveLocalStorageService(
+            HiveKeys.BOX_AUTH,
+          ),
+        );
         return MultiProvider(
           providers: [
             Provider<Database>(
               create: (_) => DatabaseService(apiService: api),
             ),
-            Provider<UserRepositoryBase>(
-              create: (_) => UserRepository(
-                apiService: api,
-                localStorageService: HiveLocalStorageService(
-                  HiveKeys.BOX_USER_DATA,
-                ),
-              ),
+            Provider<AuthRepositoryBase>(
+              create: (_) => authRepo,
             ),
             Provider<FavoriteRepositoryBase>(
               create: (_) => FavoriteRepository(HiveLocalStorageService(HiveKeys.BOX_FAVORITE)),
@@ -61,13 +64,11 @@ void main() async {
             Provider<AddressesRepositoryBase>(
               create: (_) => AddressesRepository(HiveLocalStorageService(HiveKeys.BOX_ADDRESSES)),
             ),
-            Provider<AuthBase>(
-              create: (_) => AuthService(),
+            ChangeNotifierProvider(
+              create: (_) => AuthController(
+                authRepository: authRepo,
+              ),
             ),
-            // ChangeNotifierProvider(
-            //   create: (_) => AuthService(),
-            // ),
-
             ChangeNotifierProvider(
               create: (_) => CartController(HiveLocalStorageService(HiveKeys.BOX_CART)),
             ),
@@ -93,12 +94,10 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: MyThemes.lightTheme,
-      home: LandingScreen(),
+      home: AuthWrapper(),
     );
   }
 }
-
-// void
 
 Future init() async {
   var appDocDir = await getApplicationDocumentsDirectory();
@@ -122,4 +121,5 @@ Future init() async {
   await Hive.openBox(HiveKeys.BOX_ADDRESSES);
   await Hive.openBox(HiveKeys.BOX_USER_DATA);
   await Hive.openBox(HiveKeys.BOX_CART);
+  await Hive.openBox(HiveKeys.BOX_AUTH);
 }
