@@ -1,3 +1,4 @@
+import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/screens/product_details/components/add_review_widget.dart';
@@ -129,7 +130,7 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
           Text(
             // "\$325",
-            "\$${product?.price?.toString()}",
+            "${AppConfig.PREFFERED_QURRENCY_UNIT}${product?.price?.toString()}",
             style: Theme.of(context).textTheme.headline4.copyWith(color: colorPrimary),
           ),
         ],

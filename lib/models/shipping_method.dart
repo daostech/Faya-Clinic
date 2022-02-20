@@ -9,21 +9,20 @@ class ShippingMethod {
     this.id,
     this.method,
     this.price,
-    this.priceString,
     this.unite,
   });
 
   String id;
   String method;
   double price;
-  String priceString;
   String unite;
+
+  String get priceString => "$unite$price";
 
   factory ShippingMethod.fromJson(Map<String, dynamic> json) => ShippingMethod(
         id: json["id"],
         method: json["method"],
         price: json["price"],
-        priceString: json["priceString"],
         unite: json["unite"],
       );
 
@@ -31,7 +30,6 @@ class ShippingMethod {
         "id": id,
         "method": method,
         "price": price,
-        "priceString": priceString,
         "unite": unite,
       };
 }

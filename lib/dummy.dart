@@ -1,3 +1,4 @@
+import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/models/address.dart';
 import 'package:faya_clinic/models/date_registered.dart';
 import 'package:faya_clinic/models/payment_method.dart';
@@ -6,9 +7,9 @@ import 'package:faya_clinic/models/shipping_method.dart';
 
 class DummyData {
   static List<ShippingMethod> shippingMethods = [
-    ShippingMethod(id: "1", method: "Free Shipping", price: 0.0, unite: "\$", priceString: "\$0.0"),
-    ShippingMethod(id: "2", method: "Flat Rate", price: 10.0, unite: "\$", priceString: "\$10.0"),
-    ShippingMethod(id: "3", method: "Local pickup", price: 20.0, unite: "\$", priceString: "\$20.0"),
+    ShippingMethod(id: "1", method: "Free Shipping", price: 0.0, unite: "${AppConfig.PREFFERED_QURRENCY_UNIT}"),
+    ShippingMethod(id: "2", method: "Flat Rate", price: 10.0, unite: "${AppConfig.PREFFERED_QURRENCY_UNIT}"),
+    ShippingMethod(id: "3", method: "Local pickup", price: 20.0, unite: "${AppConfig.PREFFERED_QURRENCY_UNIT}"),
   ];
 
   static List<PaymentMethod> paymentMethods = [

@@ -1,3 +1,4 @@
+import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/screens/checkout/checkout_controller.dart';
@@ -55,7 +56,7 @@ class CheckoutReviewTap extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(child: Text(TransUtil.trans("label_sub_total"))),
-                      Text("\$${cartController.totalPrice.toStringAsFixed(2)}"),
+                      Text("${AppConfig.PREFFERED_QURRENCY_UNIT}${cartController.totalPrice.toStringAsFixed(2)}"),
                     ],
                   ),
                 ),
@@ -75,7 +76,7 @@ class CheckoutReviewTap extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(child: Text(TransUtil.trans("label_total"))),
-                      Text("\$${controller.totalPriceWithTaxes.toStringAsFixed(2)}"),
+                      Text("${AppConfig.PREFFERED_QURRENCY_UNIT}${controller.totalPriceWithTaxes.toStringAsFixed(2)}"),
                     ],
                   ),
                 ),

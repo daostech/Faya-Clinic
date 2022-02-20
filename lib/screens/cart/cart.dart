@@ -1,8 +1,9 @@
+import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/dummy.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/screens/checkout/checkout_screen.dart';
-import 'package:faya_clinic/screens/product_details_screen.dart';
+import 'package:faya_clinic/screens/product_details/product_details_screen.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/button_standard.dart';
 import 'package:faya_clinic/widgets/item_product.dart';
@@ -171,7 +172,7 @@ class CartScreen extends StatelessWidget {
                     TransUtil.trans("label_total"),
                   ),
                 ),
-                Text("\$${controller.cartPrice}"),
+                Text("${AppConfig.PREFFERED_QURRENCY_UNIT}${controller.cartPrice}"),
               ],
             ),
           ),
@@ -209,9 +210,7 @@ class CartScreen extends StatelessWidget {
                 // onFavoriteToggle: (product) => _favController.toggleFavorite(product),
                 onTap: () => _goTo(
                   context,
-                  ProductDetailsScreen(
-                    product: products[index],
-                  ),
+                  ProductDetailsScreen.create(context, products[index]),
                 ),
               );
             },
