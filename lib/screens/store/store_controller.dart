@@ -21,6 +21,8 @@ class StoreController with ChangeNotifier {
   static List<Product> _favoriteProducts = [];
 
   bool _isLoading = true;
+  bool _mounted = true;
+  bool get mounted => _mounted;
 
   List<Product> get allProducts => _allProducts == null ? null : [..._allProducts];
   List<Product> get newArrivals => _newArrivals == null ? null : [..._newArrivals];
@@ -111,8 +113,6 @@ class StoreController with ChangeNotifier {
 
   bool isFavoriteProduct(Product product) {
     if (product == null) return false;
-    // return favoriteProductsProvider.isFavoriteProduct(product);
-    // return favoriteRepository.isFavorite(product);
     return _favoriteProducts.firstWhere((element) => element.id == product.id, orElse: () => null) != null;
   }
 
@@ -130,6 +130,12 @@ class StoreController with ChangeNotifier {
     _categories = categories ?? _categories;
     _selectedCategories = selectedCategories ?? _selectedCategories;
     _filteredProductsList = filteredProducts ?? _filteredProductsList;
-    notifyListeners();
+    if (mounted) notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _mounted = false;
   }
 }

@@ -140,9 +140,9 @@ class DatabaseService implements Database {
   }
 
   @override
-  Future fetchAllDatesOn(String formattedDateStr) {
-    return apiService.getData<DateRegistered>(
-      builder: (data) => DateRegistered.fromJson(data),
+  Future<List<String>> fetchAllDatesOn(String formattedDateStr) {
+    return apiService.getData<String>(
+      builder: (data) => data.toString(),
       path: APIPath.allDatesOn(formattedDateStr),
     );
   }

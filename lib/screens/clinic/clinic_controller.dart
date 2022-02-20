@@ -1,6 +1,5 @@
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/section.dart';
-import 'package:faya_clinic/models/sub_section.dart';
 import 'package:faya_clinic/models/team.dart';
 import 'package:flutter/material.dart';
 import 'package:faya_clinic/services/database_service.dart';
@@ -43,16 +42,6 @@ class ClinicController with ChangeNotifier {
       print("$TAG [Error] fetchSections : $error");
     });
     updateWith(sections: result, loading: false);
-  }
-
-  Future<List<SubSection>> fetchSubSections(String sectionId) {
-    updateWith(loading: true);
-    print("$TAG fetchSubSections: called");
-    database.fetchSubSectionsList(sectionId).then((value) {
-      updateWith(loading: false);
-    }).catchError((error) {
-      print("$TAG [Error] fetchSubSections : $error");
-    });
   }
 
   Future<void> fetchOffers() async {
@@ -103,7 +92,7 @@ class ClinicController with ChangeNotifier {
     int selectedTabIndex,
     List<Team> teams,
     List<Section> sections,
-    List<dynamic> offers,
+    List<Offer> offers,
   }) {
     isLoading = loading ?? isLoading;
     currentTabIndex = selectedTabIndex ?? currentTabIndex;

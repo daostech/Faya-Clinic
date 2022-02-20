@@ -48,8 +48,8 @@ class CartController with ChangeNotifier {
   }
 
   int addQTY(String id) {
-    final count = allItems.firstWhere((order) => order.id == id, orElse: () => null)?.count++;
     cartRepository.addQuantity(id);
+    allItems = cartRepository.allItems;
     update(price: totalPrice, items: cartRepository.allItems);
     return count;
   }

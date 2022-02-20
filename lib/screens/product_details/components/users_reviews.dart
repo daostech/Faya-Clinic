@@ -18,13 +18,13 @@ class UsersReviewsSection extends StatelessWidget {
   }
 
   Widget body(BuildContext context) {
-    if (controller.topReviews == null) {
+    if (controller.allReviews == null) {
       if (controller.isLoading) {
         return Container(height: 220, child: Center(child: CircularProgressIndicator()));
       }
       return MyErrorWidget(onTap: () => controller.fetchProductReviews());
     }
-    if (controller.topReviews.isEmpty) {
+    if (controller.allReviews.isEmpty) {
       return Container(
         height: 220,
         child: Center(
@@ -85,14 +85,15 @@ class UsersReviewsSection extends StatelessWidget {
         SizedBox(
           height: marginLarge,
         ),
-        Container(
-          margin: const EdgeInsets.all(marginLarge),
-          child: TextButton(
-            child: Text(TransUtil.trans("btn_show_all_reviews")),
-            onPressed: () => Navigator.of(context)
-                .push(MaterialPageRoute(builder: (builder) => UsersReviewsScreen(controller: controller))),
+        if (controller.showAllReviewsEnabled)
+          Container(
+            margin: const EdgeInsets.all(marginLarge),
+            child: TextButton(
+              child: Text(TransUtil.trans("btn_show_all_reviews")),
+              onPressed: () => Navigator.of(context)
+                  .push(MaterialPageRoute(builder: (builder) => UsersReviewsScreen(controller: controller))),
+            ),
           ),
-        ),
       ],
     );
   }

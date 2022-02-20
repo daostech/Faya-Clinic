@@ -1,6 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
-import 'package:faya_clinic/screens/product_details_screen.dart';
+import 'package:faya_clinic/screens/product_details/product_details_screen.dart';
 import 'package:faya_clinic/screens/store/store_all_products.dart';
 import 'package:faya_clinic/screens/store/store_controller.dart';
 import 'package:faya_clinic/services/database_service.dart';
@@ -122,9 +122,7 @@ class StoreScreen extends StatelessWidget {
           onFavoriteToggle: (product) => controller.toggleFavorite(product),
           onTap: () => _goTo(
             context,
-            ProductDetailsScreen(
-              product: controller.newArrivals[index],
-            ),
+            ProductDetailsScreen.create(context, controller.newArrivals[index]),
           ),
         );
       },
@@ -207,9 +205,7 @@ class StoreScreen extends StatelessWidget {
                 onFavoriteToggle: (product) => controller.toggleFavorite(product),
                 onTap: () => _goTo(
                       context,
-                      ProductDetailsScreen(
-                        product: filteredItems[index],
-                      ),
+                      ProductDetailsScreen.create(context, filteredItems[index]),
                     ));
           },
         ),

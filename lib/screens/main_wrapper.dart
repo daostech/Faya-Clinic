@@ -1,12 +1,13 @@
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/screens/account.dart';
-import 'package:faya_clinic/screens/cart.dart';
+import 'package:faya_clinic/screens/user_account/user_account_screen.dart';
+import 'package:faya_clinic/screens/cart/cart.dart';
 import 'package:faya_clinic/screens/clinic/clinic_screen.dart';
-import 'package:faya_clinic/screens/dates.dart';
-import 'package:faya_clinic/screens/home.dart';
+import 'package:faya_clinic/screens/dates/dates_screen.dart';
+import 'package:faya_clinic/screens/home/home.dart';
 import 'package:faya_clinic/screens/notifications.dart';
-import 'package:faya_clinic/screens/store.dart';
+import 'package:faya_clinic/screens/store/store.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
+import 'package:faya_clinic/utils/url_launcher_util.dart';
 import 'package:faya_clinic/widgets/app_bar_search.dart';
 import 'package:faya_clinic/widgets/button_action.dart';
 import 'package:faya_clinic/widgets/fab_expandable.dart';
@@ -25,18 +26,41 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
     TransUtil.trans("btn_expandable_whatsapp"),
   ];
 
+  final _launcher = UrlLauncherUtil();
+
   var _bottomNavSelectedIndex = 0;
   var _currentScreenIndex = 0;
 
-  List<Widget> _screens = [
-    HomeScreen(),
-    ClinicScreen(),
-    StoreScreen(),
-    DatesScreen(),
-    MyAccountScreen(),
-    CartScreen(),
-    NotificationsScreen(),
-  ];
+  // List<Widget> _screens = [
+  //   // HomeScreen(),
+  //   ClinicScreen(),
+  //   StoreScreen(),
+  //   DatesScreen(),
+  //   MyAccountScreen(),
+  //   CartScreen(),
+  //   NotificationsScreen(),
+  // ];
+
+  Widget _buildTab(BuildContext context) {
+    switch (_currentScreenIndex) {
+      case 0:
+        return HomeScreen.create(context);
+      case 1:
+        return ClinicScreen.create(context);
+      case 2:
+        return StoreScreen.create(context);
+      case 3:
+        return DatesScreen.create(context);
+      case 4:
+        return MyAccountScreen.create(context);
+      case 5:
+        return CartScreen();
+      case 6:
+        return NotificationsScreen();
+      default:
+        return Container();
+    }
+  }
 
   void _onItemTapped(int index) {
     setState(() {
@@ -68,6 +92,7 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final isRTL = TransUtil.isArLocale(context);
 
     return Scaffold(
       body: Stack(
@@ -89,7 +114,8 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
             left: 0,
             right: 0,
             bottom: 0,
-            child: _screens[_currentScreenIndex],
+            // child: _screens[_currentScreenIndex],
+            child: _buildTab(context),
             // child: Center(
             //   child: Text("Center"),
             // ),
@@ -97,6 +123,7 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
         ],
       ),
       floatingActionButton: ExpandableFab(
+        isRTL: isRTL,
         distance: 112.0,
         children: [
           ActionButton(
@@ -104,7 +131,7 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
             icon: const Icon(Icons.call),
           ),
           ActionButton(
-            onPressed: () => _showAction(context, 1),
+            onPressed: () => _launcher.openWhatsApp(),
             icon: const Icon(Icons.chat),
           ),
         ],

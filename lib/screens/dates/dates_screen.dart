@@ -34,7 +34,7 @@ class DatesScreen extends StatelessWidget {
   void submit(BuildContext context) async {
     final ok = await controller.createNewDate();
     if (!ok) {
-      DialogUtil.showAlertDialog(context, TransUtil.trans("error_try_again_later"), () {});
+      DialogUtil.showAlertDialog(context, TransUtil.trans("error_try_again_later"), null);
     } else {
       DialogUtil.showToastMessage(context, TransUtil.trans("msg_date_created"));
     }

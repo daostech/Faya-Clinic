@@ -1,6 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/dummy.dart';
-import 'package:faya_clinic/screens/add_address_screen.dart';
+import 'package:faya_clinic/screens/user_addresses/add_address_screen.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/app_bar_standard.dart';
 import 'package:faya_clinic/widgets/item_previous_order.dart';

@@ -41,6 +41,7 @@ class CheckoutShippingTap extends StatelessWidget {
                 groupValue: selectedMethod,
                 title: Text(controller.shippingMethods[index].method),
                 subtitle: Text(controller.shippingMethods[index].priceString),
+                activeColor: colorPrimary,
                 contentPadding: const EdgeInsets.all(0),
                 selected: controller.isSelectedShippingMethod(index),
                 onChanged: (method) => controller.onShippingSelect(method, cartController.totalPrice),

@@ -3,7 +3,6 @@ import 'package:faya_clinic/models/address.dart';
 import 'package:faya_clinic/models/payment_method.dart';
 import 'package:faya_clinic/models/shipping_method.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
-import 'package:faya_clinic/repositories/user_repository.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:flutter/material.dart';
 
@@ -12,9 +11,8 @@ class CheckoutController with ChangeNotifier {
   static const ERR = "[Error] ";
 
   final Database database;
-  final UserRepositoryBase userRepository;
   final AddressesRepositoryBase addressesRepository;
-  CheckoutController({this.addressesRepository, this.userRepository, this.database}) {
+  CheckoutController({this.addressesRepository, this.database}) {
     _savedAddresses = addressesRepository.allAddresses;
   }
 
@@ -105,7 +103,7 @@ class CheckoutController with ChangeNotifier {
     // check if the user has saved the current address in this session
     // and prevent them to trigger this function more than once
     if (_addressSaved) return false;
-    if (address.label == null) address.label = "${address.apartment} | ${address.block}";
+    if (address.label == null) address.label = "${address.apartment}  ${address.block}";
     addressesRepository.addAddress(address);
     updateWith(savedAddresses: addressesRepository.allAddresses);
     _addressSaved = _savedAddresses.contains(address);

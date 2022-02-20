@@ -1,12 +1,11 @@
 import 'package:faya_clinic/constants/clinic_dates.dart';
-import 'package:faya_clinic/dummy.dart';
 import 'package:faya_clinic/models/clinic_date.dart';
-import 'package:faya_clinic/models/date_registered.dart';
 import 'package:faya_clinic/models/requests/date_registered_request.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/service.dart';
 import 'package:faya_clinic/models/sub_section.dart';
 import 'package:faya_clinic/services/database_service.dart';
+import 'package:faya_clinic/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -16,6 +15,7 @@ class DateScreenController with ChangeNotifier {
   final Database database;
   DateScreenController({@required this.database}) {
     init();
+    // fetchAvailableDates(DateTime(2022, 01, 09));
   }
 
   static List<Section> _sections;
@@ -23,8 +23,8 @@ class DateScreenController with ChangeNotifier {
   static List<ClinicService> _services;
 
   List<ClinicService> _selectedServices = [];
-  // List<ClinicDate> _availableDates = [];
-  List<ClinicDate> _availableDates = ClinicDates.standardDates; // ! debug
+  List<ClinicDate> _availableDates = [];
+  // List<ClinicDate> _availableDates = ClinicDates.standardDates; // ! debug
 
   Section selectedSection;
   SubSection selectedSubSection;
@@ -74,22 +74,30 @@ class DateScreenController with ChangeNotifier {
   Future<void> fetchAvailableDates(DateTime dateTime) async {
     updateWith(loading: true);
     print("$TAG fetchAvailableDates: called");
-    // final formattedDate = MyDateFormatter.toStringDate(dateTime); // todo add new format to match the server format if needed
-    // final allDates = await database.fetchAllDatesOn(formattedDate).catchError((error) {
-    //   print("$TAG [Error] fetchAvailableDates : $error");
-    // });
-    final avClinicDates =
-        getAvailableDates(DummyData.fakeReservedDates); // ! debug change this after the backend issue resolved
+    final formattedDate =
+        MyDateFormatter.toStringDate(dateTime); // todo add new format to match the server format if needed
+    final List<String> allDates = await database.fetchAllDatesOn(formattedDate).catchError((error) {
+      print("$TAG [Error] fetchAvailableDates : $error");
+    });
+    final avClinicDates = getAvailableDates(allDates);
     updateWith(loading: false, availableDates: avClinicDates);
   }
 
-  List<ClinicDate> getAvailableDates(List<DateRegistered> reserevedDate) {
+  List<ClinicDate> getAvailableDates(List<String> reserevedDate) {
     List<ClinicDate> standardClinicDates = [...ClinicDates.standardDates];
     reserevedDate.forEach((reserved) {
-      standardClinicDates.removeWhere((standard) => standard.startTimeFormatted24H == reserved.time);
+      standardClinicDates.removeWhere((standard) => standard.startTimeFormatted24H == reserved);
     });
     return standardClinicDates;
   }
+
+  // List<ClinicDate> getAvailableDates(List<DateRegistered> reserevedDate) {
+  //   List<ClinicDate> standardClinicDates = [...ClinicDates.standardDates];
+  //   reserevedDate.forEach((reserved) {
+  //     standardClinicDates.removeWhere((standard) => standard.startTimeFormatted24H == reserved.time);
+  //   });
+  //   return standardClinicDates;
+  // }
 
   void onSectionSelected(Section section) {
     if (section == null) return;
@@ -137,9 +145,10 @@ class DateScreenController with ChangeNotifier {
     final result = await database.createNewDate(request).catchError((error) {
       print("$TAG [Error] createNewDate: ${error.toString()}");
     });
-    if (result.success) {
+    if (result != null && result.success) {
       resetForm();
     }
+    updateWith(loading: false);
     return result?.success ?? false;
   }
 

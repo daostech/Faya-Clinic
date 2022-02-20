@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
@@ -151,7 +152,7 @@ class ProductItem extends StatelessWidget {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      product.price.toString(),
+                      "${AppConfig.PREFFERED_QURRENCY_UNIT}${product.price.toString()}",
                       textAlign: TextAlign.end,
                     ),
                   ),

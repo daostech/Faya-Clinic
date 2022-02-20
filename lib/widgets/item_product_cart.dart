@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/order_item.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
@@ -95,7 +96,7 @@ class CartProductItem extends StatelessWidget {
                   height: marginSmall,
                 ),
                 Text(
-                  price?.toStringAsFixed(2),
+                  "${AppConfig.PREFFERED_QURRENCY_UNIT}${price?.toStringAsFixed(2)}",
                   style: TextStyle(color: Colors.black54),
                   // overflow: TextOverflow.ellipsis,
                 ),

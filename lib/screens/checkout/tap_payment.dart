@@ -39,6 +39,7 @@ class CheckoutPaymentTap extends StatelessWidget {
                 value: controller.paymentMethods[index],
                 groupValue: selectedMethod,
                 title: Text(controller.paymentMethods[index].method),
+                activeColor: colorPrimary,
                 contentPadding: const EdgeInsets.all(0),
                 selected: controller.isSelectedPayment(index),
                 onChanged: (method) => controller.updateWith(paymentMethod: method),

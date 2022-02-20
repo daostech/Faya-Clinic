@@ -1,5 +1,5 @@
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/screens/product_details_screen.dart';
+import 'package:faya_clinic/screens/product_details/product_details_screen.dart';
 import 'package:faya_clinic/screens/store/store_controller.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/error_widget.dart';
@@ -110,9 +110,7 @@ class StoreAllProductsBottomSheet extends StatelessWidget {
               onFavoriteToggle: (product) => controller.toggleFavorite(product),
               onTap: () => _goTo(
                 context,
-                ProductDetailsScreen(
-                  product: controller.filteredProductsList[index],
-                ),
+                ProductDetailsScreen.create(context, controller.filteredProductsList[index]),
               ),
             );
           },

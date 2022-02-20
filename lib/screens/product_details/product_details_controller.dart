@@ -11,32 +11,34 @@ class ProductDetailsController with ChangeNotifier {
   // todo add auth repo
 
   ProductDetailsController({this.product, this.database}) {
-    print("$TAG product id: ${product.id}");
     init();
   }
 
   final reviewTxtController = TextEditingController();
 
-  List _reviews;
+  List<ProductReview> _reviews;
 
+  final topReviewsCount = 3;
+  var initialRate = 3;
   var _loading = true;
   var _postingReview = false;
-  var initialRate = 3;
-  var _review = "";
+  var _userReview = "";
 
   bool get isLoading => _loading;
   bool get postingReview => _postingReview;
-  // int get reviewsCount => _comments?.length ?? 0;
-  int get reviewsCount => 5;
+  bool get showAllReviewsEnabled => _reviews.length > topReviewsCount;
 
   List get allReviews => _reviews;
 
   List get topReviews {
     if (_reviews == null) return null;
-    if (_reviews.length < 4)
+    if (_reviews.length <= topReviewsCount)
       return _reviews;
-    else
-      return _reviews?.sublist(0, 3);
+    else {
+      // get the last 3 reviews
+      _reviews.sort((a, b) => b.creationDate.compareTo(a.creationDate));
+      return _reviews.sublist(_reviews.length - topReviewsCount, _reviews.length);
+    }
   }
 
   init() async {
@@ -47,9 +49,9 @@ class ProductDetailsController with ChangeNotifier {
     updateWith(posting: true);
     print("$TAG postReview: called");
     final request = ProductReviewRequest(
-      userId: "bbbf3cfa-6d01-4382-91e1-0c20a2adffad", // todo update it with the actual user id
+      userId: "bbbf3cfa-6d01-4382-91e1-0c20a2adffad", // todo update it with the actual user id + add the user data
       productId: product.id,
-      text: _review,
+      text: _userReview,
       rate: initialRate,
     );
     final result = await database.postProductReview(request).catchError((error) {
@@ -58,18 +60,17 @@ class ProductDetailsController with ChangeNotifier {
     });
 
     if (result != null) {
-      fetchProductReviews();
+      fetchProductReviews(true);
       reviewTxtController.text = "";
     }
     updateWith(posting: false, review: "");
     return true;
   }
 
-  Future<List<ProductReview>> fetchProductReviews() async {
-    updateWith(loading: true);
+  Future<void> fetchProductReviews([bool ignoreStartLoading = false]) async {
+    if (!ignoreStartLoading) updateWith(loading: true);
     print("$TAG fetchProductReviews: called");
-    // if (_allProducts != null) return _allProducts;
-    await Future.delayed(Duration(seconds: 2));
+    // await Future.delayed(Duration(seconds: 2));
     final result = await database.fetchProductReviews(product.id).catchError((error) {
       print("$TAG [Error] fetchProductReviews : $error");
     });
@@ -80,7 +81,7 @@ class ProductDetailsController with ChangeNotifier {
     _loading = loading ?? _loading;
     _postingReview = posting ?? _postingReview;
     _reviews = reviews ?? _reviews;
-    _review = review ?? _review;
+    _userReview = review ?? _userReview;
     notifyListeners();
   }
 }

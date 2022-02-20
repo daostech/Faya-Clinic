@@ -14,6 +14,13 @@ class HomeController with ChangeNotifier {
   HomeController({@required this.favoriteRepository, @required this.database}) {
     init();
   }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _mounted = false;
+  }
+
   final Database database;
   // final FavoriteProductsProvider favoriteProductsProvider;
   final FavoriteRepositoryBase favoriteRepository;
@@ -26,6 +33,8 @@ class HomeController with ChangeNotifier {
   static List<Product> _favoriteProducts = [];
 
   var isLoading = true;
+  bool _mounted = true;
+  bool get mounted => _mounted;
 
   List<HomeSlider> get sliders => _sliders;
   List<Offer> get lastOffers => _lastOffers;
@@ -55,7 +64,7 @@ class HomeController with ChangeNotifier {
     } else
       _favoriteProducts.add(product);
     favoriteRepository.toggleProduct(product);
-    notifyListeners();
+    if (mounted) notifyListeners();
   }
 
   Future<void> fetchHomeSliders() async {
@@ -126,6 +135,6 @@ class HomeController with ChangeNotifier {
     _lastOffers = offers ?? _lastOffers;
     _lastProducts = newArrivals ?? _lastProducts;
     _favoriteProducts = favoriteProducts ?? _favoriteProducts;
-    notifyListeners();
+    if (mounted) notifyListeners();
   }
 }
