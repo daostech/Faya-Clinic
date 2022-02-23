@@ -1,6 +1,7 @@
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/product_review.dart';
 import 'package:faya_clinic/models/requests/product_review_request.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:flutter/material.dart';
 
@@ -8,9 +9,9 @@ class ProductDetailsController with ChangeNotifier {
   static const TAG = "ProductDetailsController: ";
   final Database database;
   final Product product;
-  // todo add auth repo
+  final AuthRepositoryBase authRepository;
 
-  ProductDetailsController({this.product, this.database}) {
+  ProductDetailsController({@required this.product, @required this.database, @required this.authRepository}) {
     init();
   }
 
@@ -49,14 +50,13 @@ class ProductDetailsController with ChangeNotifier {
     updateWith(posting: true);
     print("$TAG postReview: called");
     final request = ProductReviewRequest(
-      userId: "bbbf3cfa-6d01-4382-91e1-0c20a2adffad", // todo update it with the actual user id + add the user data
+      userId: authRepository.userId,
       productId: product.id,
       text: _userReview,
       rate: initialRate,
     );
     final result = await database.postProductReview(request).catchError((error) {
       print("$TAG [Error] postReview : $error");
-      return false;
     });
 
     if (result != null) {
@@ -64,7 +64,7 @@ class ProductDetailsController with ChangeNotifier {
       reviewTxtController.text = "";
     }
     updateWith(posting: false, review: "");
-    return true;
+    return result.success;
   }
 
   Future<void> fetchProductReviews([bool ignoreStartLoading = false]) async {

@@ -1,6 +1,7 @@
 import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/product.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/product_details/components/add_review_widget.dart';
 import 'package:faya_clinic/screens/product_details/components/product_reviews.dart';
 import 'package:faya_clinic/screens/product_details/components/users_reviews.dart';
@@ -19,8 +20,9 @@ class ProductDetailsScreen extends StatelessWidget {
 
   static Widget create(BuildContext context, Product product) {
     final database = Provider.of<Database>(context, listen: false);
+    final authRepo = Provider.of<AuthRepositoryBase>(context, listen: false);
     return ChangeNotifierProvider<ProductDetailsController>(
-      create: (_) => ProductDetailsController(database: database, product: product),
+      create: (_) => ProductDetailsController(database: database, product: product, authRepository: authRepo),
       builder: (ctx, child) {
         return Consumer<ProductDetailsController>(
           builder: (context, controller, _) => ProductDetailsScreen._(
