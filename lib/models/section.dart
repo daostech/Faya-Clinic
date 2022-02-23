@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:faya_clinic/constants/constants.dart';
+
 Section sectionFromJson(String str) => Section.fromJson(json.decode(str));
 
 String sectionToJson(Section data) => json.encode(data.toJson());
@@ -16,6 +18,10 @@ class Section {
   String name;
   String image;
   String description;
+
+  // the image comes from the response hold the file name only
+  // so we add the base url prefix in order to load the image properly
+  String get imageUrl => "$IMG_PREFIX$image";
 
   factory Section.fromJson(Map<String, dynamic> json) => Section(
         id: json["id"] == null ? null : json["id"],

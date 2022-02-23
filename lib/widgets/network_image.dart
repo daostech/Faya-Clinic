@@ -3,10 +3,12 @@ import 'package:faya_clinic/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class NetworkCachedImage extends StatelessWidget {
-  const NetworkCachedImage({Key key, this.width = 70, this.height = 70, this.imageUrl}) : super(key: key);
+  const NetworkCachedImage({Key key, this.width = 70, this.height = 70, this.imageUrl, this.circularShapeError = false})
+      : super(key: key);
   final double width;
   final double height;
   final String imageUrl;
+  final bool circularShapeError;
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +20,12 @@ class NetworkCachedImage extends StatelessWidget {
         ),
       ),
       errorWidget: (context, url, error) => Container(
-        padding: EdgeInsets.all(marginStandard),
+        // padding: EdgeInsets.all(marginStandard),
         height: width,
         width: height,
         decoration: BoxDecoration(
           color: colorGrey,
+          shape: circularShapeError ? BoxShape.circle : BoxShape.rectangle,
         ),
         child: Center(
           child: Padding(

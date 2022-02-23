@@ -31,13 +31,13 @@ class Offer {
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String _imageUrl(String img) => "$IMG_PREFIX$img";
+  String imageUrl(String img) => "$IMG_PREFIX$img";
 
   List<String> get images {
     List<String> tmps = [img1, img2, img3];
     List<String> imgs = [];
     for (int i = 0; i < 3; i++) {
-      if (tmps[i] != null) imgs.add(_imageUrl(tmps[i]));
+      if (tmps[i] != null) imgs.add(imageUrl(tmps[i]));
     }
     return imgs;
   }

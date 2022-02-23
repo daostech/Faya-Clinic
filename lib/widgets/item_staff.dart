@@ -33,7 +33,7 @@ class StaffItem extends StatelessWidget {
               top: 0,
               right: 0,
               left: 0,
-              height: height * 0.25,
+              height: width * 0.25,
               child: Container(
                 color: colorPrimary,
               ),
@@ -41,11 +41,12 @@ class StaffItem extends StatelessWidget {
             Positioned(
               // profile picture container
               top: height * 0.1,
-              right: 0,
-              left: 0,
-              height: height * 0.3,
+              // right: 0,
+              // left: 0,
+              height: width * 0.3,
+              width: width,
               child: Container(
-                width: 75,
+                padding: const EdgeInsets.all(1),
                 decoration: BoxDecoration(
                   color: colorGreyLight,
                   shape: BoxShape.circle,
@@ -54,11 +55,14 @@ class StaffItem extends StatelessWidget {
                     color: Colors.white,
                   ),
                 ),
-                child: FittedBox(
+                child: CircleAvatar(
                   child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(500)),
+                    borderRadius: BorderRadius.all(Radius.circular(5000)),
                     child: NetworkCachedImage(
-                      imageUrl: team?.image,
+                      width: width,
+                      height: height,
+                      circularShapeError: true,
+                      imageUrl: team?.imageUrl,
                     ),
                   ),
                 ),

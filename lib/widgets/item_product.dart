@@ -99,7 +99,7 @@ class ProductItem extends StatelessWidget {
                   width: _imgWidth,
                   height: _imgWidth,
                   child: CachedNetworkImage(
-                    imageUrl: product.randomImage,
+                    imageUrl: product.images[0],
                     progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                       child: Center(
                         child: CircularProgressIndicator(),

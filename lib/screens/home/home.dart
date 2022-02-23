@@ -156,7 +156,7 @@ class HomeScreen extends StatelessWidget {
       itemBuilder: (_, index) => SectionItem(
         title: controller.lastOffers[index].title,
         subTitle: controller.lastOffers[index].description,
-        image: controller.lastOffers[index].randomImage,
+        image: controller.lastOffers[index].images[0],
         onTap: () => _goTo(context, ClinicOfferDetailsScreen(offer: controller.lastOffers[index])),
       ),
     );
@@ -171,7 +171,7 @@ class HomeScreen extends StatelessWidget {
       itemBuilder: (_, index) => SectionItem(
         title: controller.sectionsList[index].name,
         subTitle: controller.sectionsList[index].description,
-        image: controller.sectionsList[index].image,
+        image: controller.sectionsList[index].imageUrl,
         onTap: () => _goTo(context, ClinicSubSectionsScreen(sectionId: controller.sectionsList[index].id)),
       ),
     );

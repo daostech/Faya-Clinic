@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:faya_clinic/constants/constants.dart';
+
 Team teamFromJson(String str) => Team.fromJson(json.decode(str));
 
 String teamToJson(Team data) => json.encode(data.toJson());
@@ -16,6 +18,10 @@ class Team {
   String image;
   String name;
   String description;
+
+  // the image comes from the response hold the file name only
+  // so we add the base url prefix in order to load the image properly
+  String get imageUrl => "$IMG_PREFIX$image";
 
   factory Team.fromJson(Map<String, dynamic> json) => Team(
         id: json["id"] == null ? null : json["id"],

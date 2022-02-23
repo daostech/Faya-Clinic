@@ -43,7 +43,7 @@ class ClinicSectionsTab extends StatelessWidget {
                   ))),
           title: controller.sectionsList[index].name,
           subTitle: controller.sectionsList[index].description,
-          image: controller.sectionsList[index].image,
+          image: controller.sectionsList[index].imageUrl,
         );
       },
     );

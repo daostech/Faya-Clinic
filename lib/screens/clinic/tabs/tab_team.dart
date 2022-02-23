@@ -10,13 +10,14 @@ class ClinicTeamTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     final controller = context.read<ClinicController>();
     return Container(
-      child: _buildContent(controller),
+      child: _buildContent(controller, width),
     );
   }
 
-  Widget _buildContent(ClinicController controller) {
+  Widget _buildContent(ClinicController controller, width) {
     if (controller.teamsList == null) {
       if (controller.isLoading) {
         return Center(
@@ -36,6 +37,8 @@ class ClinicTeamTab extends StatelessWidget {
       itemCount: controller.teamsList.length,
       itemBuilder: (ctx, index) {
         return StaffItem(
+          width: width,
+          height: width * 0.7,
           team: controller.teamsList[index],
         );
       },

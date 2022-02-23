@@ -34,7 +34,7 @@ class StoreController with ChangeNotifier {
     _favoriteProducts?.clear();
     _favoriteProducts.addAll(favoriteRepository.allProducts);
     await fetchAllProducts();
-    // await fetchNewArrivalsProducts();
+    await fetchNewArrivalsProducts();
     await fetchAllCategories();
     updateWith(loading: false);
   }

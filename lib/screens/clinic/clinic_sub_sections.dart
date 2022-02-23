@@ -66,7 +66,7 @@ class _ClinicSubSectionsScreenState extends State<ClinicSubSectionsScreen> {
       itemBuilder: (ctx, index) {
         print("subSections.length: ${subSections.length}");
         return SectionItem(
-          image: subSections[index].img1,
+          image: subSections[index].imageUrl,
           title: subSections[index].name,
           subTitle: subSections[index].description,
           onTap: () => Navigator.of(context).push(

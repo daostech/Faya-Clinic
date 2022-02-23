@@ -36,7 +36,7 @@ class CheckoutReviewProductItem extends StatelessWidget {
               width: _imgWidth,
               height: _imgHeight,
               child: CachedNetworkImage(
-                imageUrl: orderItem?.image,
+                imageUrl: orderItem?.imageUrl,
                 progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                   child: Center(
                     child: CircularProgressIndicator(),

@@ -29,7 +29,7 @@ class OfferItem extends StatelessWidget {
           width: width,
           height: width,
           child: NetworkCachedImage(
-            imageUrl: offer.randomImage,
+            imageUrl: offer.images[0],
           ),
         ),
       ),

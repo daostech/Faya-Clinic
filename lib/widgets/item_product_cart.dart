@@ -51,7 +51,7 @@ class CartProductItem extends StatelessWidget {
                 width: _imgWidth,
                 height: _imgWidth,
                 child: CachedNetworkImage(
-                  imageUrl: orderItem?.image,
+                  imageUrl: orderItem?.imageUrl,
                   progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                     child: Center(
                       child: CircularProgressIndicator(),
