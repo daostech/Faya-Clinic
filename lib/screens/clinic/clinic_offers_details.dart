@@ -1,3 +1,5 @@
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/screens/dates/dates_screen_global.dart';
@@ -27,12 +29,30 @@ class ClinicOfferDetailsScreen extends StatelessWidget {
               borderRadius: BorderRadius.all(
                 Radius.circular(radiusStandard),
               ),
-              child: Container(
-                // image main container
-                width: _size.width,
-                height: _size.width,
-                child: NetworkCachedImage(
-                  imageUrl: offer.img1,
+              child: CarouselSlider(
+                items: offer.images
+                    ?.map(
+                      (e) => Center(
+                        child: NetworkCachedImage(
+                          imageUrl: e,
+                        ),
+                      ),
+                    )
+                    ?.toList(),
+                options: CarouselOptions(
+                  height: _size.width,
+                  aspectRatio: 16 / 9,
+                  viewportFraction: 0.9,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 3),
+                  autoPlayAnimationDuration: Duration(milliseconds: 800),
+                  autoPlayCurve: Curves.fastOutSlowIn,
+                  enlargeCenterPage: true,
+                  onPageChanged: (index, reason) {},
+                  scrollDirection: Axis.horizontal,
                 ),
               ),
             ),
