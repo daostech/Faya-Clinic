@@ -13,6 +13,11 @@ class UrlLauncherUtil {
     _launchUniversalLink(encoded);
   }
 
+  static void openURL(String url) {
+    final encoded = Uri.encodeFull(url);
+    _launchUniversalLink(encoded);
+  }
+
   static void openMap(LatLng latLng) async {
     String googleUrl = 'https://www.google.com/maps/search/?api=1&query=${latLng.latitude},${latLng.longitude}';
     if (await canLaunch(googleUrl)) {
@@ -22,7 +27,7 @@ class UrlLauncherUtil {
     }
   }
 
-  Future<void> _launchUniversalLink(String url) async {
+  static Future<void> _launchUniversalLink(String url) async {
     if (await canLaunch(url)) {
       final bool nativeAppLaunchSucceeded = await launch(
         url,

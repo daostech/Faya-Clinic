@@ -1,3 +1,4 @@
+import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
@@ -8,7 +9,9 @@ import 'package:faya_clinic/screens/user_account/profile_screen.dart';
 import 'package:faya_clinic/screens/user_account/user_account_controller.dart';
 import 'package:faya_clinic/screens/user_addresses/user_addresses.dart';
 import 'package:faya_clinic/screens/user_dates/user_dates_screen.dart';
+import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
+import 'package:faya_clinic/utils/url_launcher_util.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -58,6 +61,14 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
         ),
       ),
     );
+  }
+
+  void openUrl(String url) {
+    try {
+      UrlLauncherUtil.openURL(url);
+    } catch (error) {
+      DialogUtil.showAlertDialog(context, error.toString(), null);
+    }
   }
 
   @override
@@ -130,18 +141,18 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
             title: TransUtil.trans("list_item_faq"),
             leading: Icons.question_answer,
             withDivider: true,
-            onTap: () {},
+            onTap: () => openUrl(AppConfig.URL_FAQs),
           ),
           _buildListItem(
             title: TransUtil.trans("list_item_privacy_policy"),
             leading: Icons.lock,
             withDivider: true,
-            onTap: () {},
+            onTap: () => openUrl(AppConfig.URL_PRIVACY_POLICY),
           ),
           _buildListItem(
             title: TransUtil.trans("list_item_terms_conditions"),
             leading: Icons.note,
-            onTap: () {},
+            onTap: () => openUrl(AppConfig.URL_TERMS_CONDITIONS),
           ),
         ],
       ),
