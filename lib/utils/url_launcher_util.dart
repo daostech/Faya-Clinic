@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UrlLauncherUtil {
@@ -10,6 +11,15 @@ class UrlLauncherUtil {
   void openWhatsApp() {
     final encoded = Uri.encodeFull(_WHATSAPP);
     _launchUniversalLink(encoded);
+  }
+
+  static void openMap(LatLng latLng) async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=${latLng.latitude},${latLng.longitude}';
+    if (await canLaunch(googleUrl)) {
+      await launch(googleUrl);
+    } else {
+      throw 'error_cant_open_map';
+    }
   }
 
   Future<void> _launchUniversalLink(String url) async {
