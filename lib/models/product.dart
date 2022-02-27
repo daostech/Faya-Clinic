@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'dart:math';
 
+import 'package:faya_clinic/common/listable.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/constants/hive_keys.dart';
 import 'package:faya_clinic/models/storage_model.dart';
@@ -15,7 +16,7 @@ Product productFromJson(String str) => Product.fromJson(json.decode(str));
 String productToJson(Product data) => json.encode(data.toJson());
 
 @HiveType(typeId: HiveKeys.TYPE_PRODUCT)
-class Product extends StorageModel {
+class Product extends StorageModel implements ListAble {
   Product({
     this.id,
     this.name,
@@ -107,4 +108,15 @@ class Product extends StorageModel {
 
   @override
   String get primaryKey => this.id ?? Uuid().v4();
+
+  @override
+  bool containsKeyword(String keyword) {
+    return name.toLowerCase().contains(keyword.toLowerCase());
+  }
+
+  @override
+  String get titleValue => name;
+
+  @override
+  String get imageUrl => images != null && images.isNotEmpty ? images[0] : "";
 }

@@ -1,12 +1,13 @@
 import 'dart:convert';
 
+import 'package:faya_clinic/common/listable.dart';
 import 'package:faya_clinic/constants/constants.dart';
 
 Section sectionFromJson(String str) => Section.fromJson(json.decode(str));
 
 String sectionToJson(Section data) => json.encode(data.toJson());
 
-class Section {
+class Section implements ListAble {
   Section({
     this.id,
     this.name,
@@ -36,4 +37,11 @@ class Section {
         "image": image,
         "text": description,
       };
+  @override
+  bool containsKeyword(String keyword) {
+    return name.toLowerCase().contains(keyword.toLowerCase());
+  }
+
+  @override
+  String get titleValue => name;
 }

@@ -1,7 +1,17 @@
 import 'package:badges/badges.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:faya_clinic/common/listable.dart';
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/models/offer.dart';
+import 'package:faya_clinic/models/product.dart';
+import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
+import 'package:faya_clinic/providers/search_controller.dart';
+import 'package:faya_clinic/screens/clinic/clinic_offers_details.dart';
+import 'package:faya_clinic/screens/clinic/clinic_sub_sections.dart';
+import 'package:faya_clinic/screens/product_details/product_details_screen.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
+import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
@@ -11,9 +21,40 @@ class AppBarSearch extends StatelessWidget {
   final Function onNotificationTap;
   const AppBarSearch({Key key, this.onCartTap, this.onNotificationTap}) : super(key: key);
 
+  _goTo(BuildContext context, Widget widget) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (builder) => widget));
+  }
+
+  _handleOnTap(BuildContext context, ListAble item) {
+    // todo check the item type and open its details
+    if (item is Product) {
+      _goTo(context, ProductDetailsScreen.create(context, item));
+    }
+    if (item is Section) {
+      _goTo(context, ClinicSubSectionsScreen(sectionId: item.id));
+    }
+    if (item is Offer) {
+      _goTo(context, ClinicOfferDetailsScreen(offer: item));
+    }
+  }
+
+  Widget _itemTrailingIcon(ListAble item) {
+    if (item is Product) {
+      return Icon(Icons.shopping_cart);
+    }
+    if (item is Section) {
+      return Icon(Icons.medical_services_outlined);
+    }
+    if (item is Offer) {
+      return Icon(Icons.local_offer_rounded);
+    }
+    return Container();
+  }
+
   @override
   Widget build(BuildContext context) {
     final paddingTop = MediaQuery.of(context).padding.top;
+    final controller = context.watch<SearchController>();
     return Container(
       color: colorPrimary,
       padding: EdgeInsets.fromLTRB(marginLarge, paddingTop + marginLarge, marginLarge, marginLarge),
@@ -33,7 +74,7 @@ class AppBarSearch extends StatelessWidget {
                     Radius.circular(radiusStandard),
                   ),
                 ),
-                child: TypeAheadField(
+                child: TypeAheadField<ListAble>(
                   textFieldConfiguration: TextFieldConfiguration(
                     autofocus: false,
                     style: DefaultTextStyle.of(context).style.copyWith(fontStyle: FontStyle.italic),
@@ -49,10 +90,11 @@ class AppBarSearch extends StatelessWidget {
                   ),
                   // hideOnEmpty: true,
                   suggestionsCallback: (pattern) async {
-                    // await Future.delayed(Duration(seconds: 2));
-                    return [];
+                    print("AppBarSearch suggestionsCallback called");
+                    return await controller.onSearch(pattern);
                   },
                   loadingBuilder: (context) {
+                    print("AppBarSearch loadingBuilder called");
                     return Container(
                       height: 80,
                       decoration: BoxDecoration(
@@ -68,6 +110,7 @@ class AppBarSearch extends StatelessWidget {
                     );
                   },
                   noItemsFoundBuilder: (context) {
+                    print("AppBarSearch noItemsFoundBuilder called");
                     return Container(
                       height: 80,
                       decoration: BoxDecoration(
@@ -84,14 +127,16 @@ class AppBarSearch extends StatelessWidget {
                   },
                   itemBuilder: (context, suggestion) {
                     return ListTile(
-                      leading: Icon(Icons.shopping_cart),
-                      title: Text(suggestion['name']),
-                      subtitle: Text('\$${suggestion['price']}'),
+                      leading: CircleAvatar(
+                        child: NetworkCachedImage(
+                          imageUrl: suggestion.imageUrl,
+                        ),
+                      ),
+                      title: Text(suggestion.titleValue),
+                      trailing: _itemTrailingIcon(suggestion),
                     );
                   },
-                  onSuggestionSelected: (suggestion) {
-                    // Navigator.of(context).push(MaterialPageRoute(builder: (context) => ProductPage(product: suggestion)));
-                  },
+                  onSuggestionSelected: (item) => _handleOnTap(context, item),
                 ),
               ),
             ),

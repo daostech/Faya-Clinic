@@ -10,6 +10,7 @@ import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/user.dart';
 import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
+import 'package:faya_clinic/providers/search_controller.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/repositories/cart_repository.dart';
@@ -44,9 +45,13 @@ void main() async {
       // child: dependenciesWrappr(),
       child: Builder(builder: (context) {
         final api = APIService(API());
+        final db = DatabaseService(apiService: api);
         final favRepo = FavoriteRepository(HiveLocalStorageService(HiveKeys.BOX_FAVORITE));
         final addressRepo = AddressesRepository(HiveLocalStorageService(HiveKeys.BOX_ADDRESSES));
-        final cartRepo = CartRepository(HiveLocalStorageService(HiveKeys.BOX_CART));
+        final cartRepo = CartRepository(
+          apiService: api,
+          localStorage: HiveLocalStorageService(HiveKeys.BOX_CART),
+        );
         final authRepo = AuthRepository(
           authService: FirebaseAuthService(),
           apiService: api,
@@ -60,7 +65,7 @@ void main() async {
         return MultiProvider(
           providers: [
             Provider<Database>(
-              create: (_) => DatabaseService(apiService: api),
+              create: (_) => db,
             ),
             Provider<AuthRepositoryBase>(
               create: (_) => authRepo,
@@ -83,6 +88,9 @@ void main() async {
               create: (_) => CartController(
                 cartRepository: cartRepo,
               ),
+            ),
+            ChangeNotifierProvider(
+              create: (_) => SearchController(db),
             ),
           ],
           child: MyApp(),

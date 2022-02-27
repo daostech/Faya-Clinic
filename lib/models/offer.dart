@@ -2,13 +2,14 @@ import 'dart:convert';
 
 import 'dart:math';
 
+import 'package:faya_clinic/common/listable.dart';
 import 'package:faya_clinic/constants/constants.dart';
 
 Offer offerFromJson(String str) => Offer.fromJson(json.decode(str));
 
 String offerToJson(Offer data) => json.encode(data.toJson());
 
-class Offer {
+class Offer implements ListAble {
   Offer({
     this.id,
     this.title,
@@ -31,13 +32,13 @@ class Offer {
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String imageUrl(String img) => "$IMG_PREFIX$img";
+  String _imageUrl(String img) => "$IMG_PREFIX$img";
 
   List<String> get images {
     List<String> tmps = [img1, img2, img3];
     List<String> imgs = [];
     for (int i = 0; i < 3; i++) {
-      if (tmps[i] != null) imgs.add(imageUrl(tmps[i]));
+      if (tmps[i] != null) imgs.add(_imageUrl(tmps[i]));
     }
     return imgs;
   }
@@ -75,4 +76,15 @@ class Offer {
         "creationDate": creationDate,
         "isActive": isActive,
       };
+
+  @override
+  bool containsKeyword(String keyword) {
+    return title.toLowerCase().contains(keyword.toLowerCase());
+  }
+
+  @override
+  String get titleValue => title;
+
+  @override
+  String get imageUrl => images != null && images.isNotEmpty ? images[0] : "";
 }
