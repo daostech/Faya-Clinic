@@ -12,7 +12,7 @@ import 'package:faya_clinic/services/auth_service.dart';
 import 'package:faya_clinic/storage/local_storage.dart';
 import 'package:faya_clinic/extensions/enum.dart';
 
-class AuthState extends Enum<String> {
+class AuthState extends AppEnum<String> {
   const AuthState(String val) : super(val);
   static const AuthState LOGGED_IN = const AuthState('loggedIn');
   static const AuthState LOGGED_OUT = const AuthState('loggedOut');
