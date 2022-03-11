@@ -1,4 +1,5 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/checkout/checkout_controller.dart';
@@ -7,6 +8,7 @@ import 'package:faya_clinic/screens/checkout/tap_payment.dart';
 import 'package:faya_clinic/screens/checkout/tap_review.dart';
 import 'package:faya_clinic/screens/checkout/tap_shipping.dart';
 import 'package:faya_clinic/services/database_service.dart';
+import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/app_bar_standard.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +23,17 @@ class CheckoutScreen extends StatelessWidget {
     // final userRepository = Provider.of<UserRepositoryBase>(context, listen: false);
     final addressesRepository = Provider.of<AddressesRepositoryBase>(context, listen: false);
     final authRepository = Provider.of<AuthRepositoryBase>(context, listen: false);
+    final cartController = Provider.of<CartController>(context, listen: false);
+
+    final coupon = cartController.appliedCoupon;
+    final orderItems = cartController.allItems;
     return ChangeNotifierProvider<CheckoutController>(
       create: (_) => CheckoutController(
         database: database,
         authRepository: authRepository,
         addressesRepository: addressesRepository,
+        appliedCoupon: coupon,
+        orderItems: orderItems,
       ),
       builder: (ctx, child) {
         return Consumer<CheckoutController>(
@@ -35,38 +43,51 @@ class CheckoutScreen extends StatelessWidget {
     );
   }
 
+  handleError(context, controller) {
+    DialogUtil.showAlertDialog(context, controller.error, null);
+    controller.onErrorHandled();
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Column(
-            // app bar + tabs container
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppBarStandard(
-                title: TransUtil.trans("header_checkout"),
-              ),
-              Container(
-                width: double.infinity,
-                color: colorPrimary,
-                child: Row(
-                  children: [
-                    _buildTabItem(context, 0, TransUtil.trans("tab_address")),
-                    _buildTabItem(context, 1, TransUtil.trans("tab_shipping")),
-                    _buildTabItem(context, 2, TransUtil.trans("tab_review")),
-                    _buildTabItem(context, 3, TransUtil.trans("tab_payment")),
-                  ],
+    return Consumer<CheckoutController>(builder: (context, controller, _) {
+      if (controller.hasError) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          print("addPostFrameCallback called");
+          handleError(context, controller);
+        });
+      }
+      return Scaffold(
+        body: Column(
+          children: [
+            Column(
+              // app bar + tabs container
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppBarStandard(
+                  title: TransUtil.trans("header_checkout"),
                 ),
-              ),
-            ],
-          ),
-          Expanded(
-            child: currentTab,
-          ),
-        ],
-      ),
-    );
+                Container(
+                  width: double.infinity,
+                  color: colorPrimary,
+                  child: Row(
+                    children: [
+                      _buildTabItem(context, 0, TransUtil.trans("tab_address")),
+                      _buildTabItem(context, 1, TransUtil.trans("tab_shipping")),
+                      _buildTabItem(context, 2, TransUtil.trans("tab_review")),
+                      _buildTabItem(context, 3, TransUtil.trans("tab_payment")),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            Expanded(
+              child: currentTab,
+            ),
+          ],
+        ),
+      );
+    });
   }
 
   Widget _buildTabItem(BuildContext context, int index, String title) {

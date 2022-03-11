@@ -21,6 +21,8 @@ class APIPath {
   static String userOrdersList(String sectionId) => 'api/Clinics/list';
 
   static String createUser() => 'api/UsersMobile';
-  static String createOrder() => 'api/Order';
+  static String createOrder() => 'api/Orders';
   static String createDate() => 'api/DatesRegistered';
+
+  static String fetchCoupon(String code) => 'api/Coupons/filter/$code';
 }

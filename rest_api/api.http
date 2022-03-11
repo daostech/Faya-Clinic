@@ -1,0 +1,418 @@
+@baseUrl = https://sys.fayaclinica.com/api
+@authorization = ""
+@catId = 796be263-3c08-4055-8f2c-08f2c688b31f
+
+# Used to get an access token given an autorization key
+POST {{baseUrl}}/token
+Authorization: Basic {{authorization}}
+
+###
+# GET Categories List
+GET {{baseUrl}}/Categories/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Category by Id
+GET {{baseUrl}}/Categories/{{catId}}
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Clinics
+GET {{baseUrl}}/Clinics/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET DatesRegistered
+GET {{baseUrl}}/DatesRegistered/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET DatesRegisteredOn
+GET {{baseUrl}}/DatesRegistered/date/2022-01-09
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET User DatesRegistered
+GET {{baseUrl}}/DatesRegistered/userDates/bbbf3cfa-6d01-4382-91e1-0c20a2adffad
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Orders
+GET {{baseUrl}}/Orders/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Products
+GET {{baseUrl}}/Products/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Sliders
+GET {{baseUrl}}/Sliders/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Section
+GET {{baseUrl}}/Section/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET SubSection
+GET {{baseUrl}}/SubSection/e81dd78c-3268-4a50-826c-82621180543b/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Services
+GET {{baseUrl}}/Service/99f541e3-3cf7-49d1-9514-9d4809778b66/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET SubCategories
+GET {{baseUrl}}/SubCategories/f344c12f-3d5f-4cb0-9ad1-9752373d89c7/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET UserById
+GET {{baseUrl}}/UsersMobile/byId/jdiadjklasjldjfhoas
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Users list
+GET {{baseUrl}}/UsersMobile/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Team
+GET {{baseUrl}}/Team/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Team
+GET {{baseUrl}}/Offers/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Comments
+GET {{baseUrl}}/Comments/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET CommentsById
+GET {{baseUrl}}/Comments/394cbf2a-7ad4-42b0-8c56-cf0a72792d2e
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET Coupons
+GET {{baseUrl}}/Coupons/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET CouponsById
+GET {{baseUrl}}/Coupons/061bebbb-2cbc-475f-b901-2a74a221518e
+# GET {{baseUrl}}/Coupons/061bebbb-2cbc-475f-b901-2a74a221518e
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# POST Products
+POST {{baseUrl}}/Products
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "img1": "https://www.beautyindependent.com/wp-content/uploads/2019/07/beauty-contract-manufacturers-2000x1000.jpg",
+  "img4": "https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg",
+  "img2": "https://www.nano-lab.com.tr/Content/1/SubCategory/acl4blel.jpg",
+  "img3": "https://retailminded.com/wp-content/uploads/2016/03/EN_GreenOlive-1.jpg",
+  "productName": "Product name 7",
+  "capition": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+  "categoryId": "f344c12f-3d5f-4cb0-9ad1-9752373d89c7",
+  "price": 99,
+}
+
+
+###
+# POST Section
+POST {{baseUrl}}/Section
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "name": "section 1",
+  "text": "section desc",
+}
+
+
+###
+# POST SubSection
+POST {{baseUrl}}/SubSection
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "name": "sub section 6",
+  "text": "text here ",
+  "fullText": "full text here ",
+  "img1": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSELycZjlpOd3aPyR8Cfx5OLGSbn0zRrHAwyA&usqp=CAU",
+  "sectionId": "9b96f1d4-5630-426b-996a-fded136e42de",
+}
+
+
+###
+# POST Service
+POST {{baseUrl}}/Service
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "name": "Service 2",
+}
+
+
+###
+# POST Offer
+POST {{baseUrl}}/Offers
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "title": "Offer 4",
+  "text": "description here",
+  "img1": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSELycZjlpOd3aPyR8Cfx5OLGSbn0zRrHAwyA&usqp=CAU",
+  "img2": "https://bandslabels.co.uk/wp-content/uploads/2020/09/promotional-special-offer-pre-printed-labels-special-offer-red-flexi-labels.png",
+  "img3": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcROPjHJE4VT9ukPhbzaGxz9SdKx_vWogF_mLDiYhwlicyTrGmiGLEg5bNfIyMGEr7cvPzc&usqp=CAU",
+}
+
+###
+# POST Slider
+POST {{baseUrl}}/Sliders
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "image": "https://cdn-a.william-reed.com/var/wrbm_gb_food_pharma/storage/images/publications/cosmetics/cosmeticsdesign-europe.com/article/2021/03/22/cannabis-beauty-cbd-cosmetics-innovation-and-science-soars-but-hurdles-remain-says-belinda-carli/12290515-1-eng-GB/Cannabis-beauty-CBD-cosmetics-innovation-and-science-soars-but-hurdles-remain-says-Belinda-Carli_wrbm_large.jpg",
+  "text": "Slider 5",
+}
+
+###
+# POST Categories
+POST {{baseUrl}}/Categories
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "name": "category 4",
+}
+
+
+###
+# POST Categories
+POST {{baseUrl}}/Users
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "fullName": "Test User",
+  "email": "test@test.com",
+  "isActive": true,
+  "gender": 0,
+  "phone": "0123456789",
+  "dateBirth": "2022-01-09T11:19:36.725Z",
+}
+
+
+###
+# POST Date
+POST {{baseUrl}}/DatesRegistered
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "userId": "bbbf3cfa-6d01-4382-91e1-0c20a2adffad",
+  "time": "11:30",
+  "dateSection": {
+    "subSectionId": "99f541e3-3cf7-49d1-9514-9d4809778b66",
+    "dateSubSection": {
+      "dateSectionId": "e81dd78c-3268-4a50-826c-82621180543b",
+      "dateSection": "test",
+      "serviceIds": [
+        "e2e269df-0f1e-4597-926a-a7f8711b10f8",
+        "4255d5b5-291b-4905-abab-fd41c2c418f9",
+      ]
+    }
+  },
+  "registeredDate": "2022-01-12T11:06:42.526Z",
+}
+
+
+###
+# POST Comment
+POST {{baseUrl}}/Comments
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "userId": "bbbf3cfa-6d01-4382-91e1-0c20a2adffad",
+  "productId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+  "text": "good product !",
+  "rate": 3,
+  "isVisible": true,
+  "users": {
+    "id": "bbbf3cfa-6d01-4382-91e1-0c20a2adffad",
+    "fullName": "User Name",
+    "email": "string",       
+  },
+}
+
+
+###
+# POST User
+POST {{baseUrl}}/UsersMobile
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "id": "jdiadjklasjldjfhoas",
+  "fullName": "Test User2",
+  "email": "email@email.com",
+  "isActive": true,
+  "gender": 0,
+  "phone": "2314242342",
+  "dateBirth": "2022-02-11T17:33:17.962Z",  
+}
+
+
+###
+# PUT User
+PUT {{baseUrl}}/UsersMobile/jdiadjklasjldjfhoas
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{  
+  "id": "jdiadjklasjldjfhoas",
+  "fullName": "Test User222",
+  "email": "email@email22.com",
+  "isActive": true,
+  "gender": 0,
+  "phone": "1234567890",
+}
+
+
+###
+# POST Order
+PUT {{baseUrl}}/Orders
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+    "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "UserId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "CouponId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "CouponCode": "string",
+    "OrderCode": "string",
+    "Date": "2022-03-06T22:02:11.860Z",
+    "Status": "string",
+    "Note": "string",
+    "Total": 0,
+    "PaymentMethod": "string",
+    "PaymentPrice": "string",
+    "OrderAddress": {
+        "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "label": "string",
+        "City": "string",
+        "Country": "string",
+        "Apartment": "string",
+        "Street": "string",
+        "Block": "string",
+        "ZipCode": "string",
+        "OrderId": "3fa85f64-5717-4562-b3fc-2c963f66afa6"
+    },
+    "OrderItems": [
+        {
+            "Item": "string",
+            "count": "2",
+            "price": "1",
+            "total": "2"
+        }
+    ],
+    "CreationDate": "2022-03-06T22:02:11.860Z"
+}
+
+
+# {
+#   "UserId": "bF2r9T48vxYVxZF0V73vxAyWKyi2",
+#   "CouponId": "3e088d76-6b00-4bd0-ac60-1f0f6f3a6114",
+#   "CouponCode": "Coupon1",
+#   "OrderCode": "string",
+#   "Date": "2022-03-10T16:48:09.654Z",
+#   "Status": "string",
+#   "Note": "string",
+#   "Total": 0,
+#   "PaymentMethod": "string",
+#   "PaymentPrice": "string",
+#   "OrderAddress": {
+#     "Id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+#     "label": "string",
+#     "City": "string",
+#     "Country": "string",
+#     "Apartment": "string",
+#     "Street": "string",
+#     "Block": "string",
+#     "ZipCode": "string",
+#   },
+#   "OrderItems": [
+#     {
+#       "Item": "string",
+#       "Price": 0,
+#       "Count": 1,
+#       "Total": 1,
+#     }
+#   ],
+#   "CreationDate": "2022-03-10T16:48:09.654Z"
+# }
+
+
+###
+# POST Coupon
+POST {{baseUrl}}/Coupons
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+{
+  "Title": "Coupon1",
+  "DiscountValue": 10,
+  "EndDate": "2022-03-09T17:14:16.071Z",
+}
+
+
+###
+# GET Coupon by Code
+GET {{baseUrl}}/Coupons/filter/ahh
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# DELETE User
+POST {{baseUrl}}/UsersMobile/6xINyJ9JIAYEo0wNnLBLzVoSdEm2
+Content-Type: application/json
+# Authorization: Bearer {{accessToken}}

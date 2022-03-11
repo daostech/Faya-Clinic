@@ -1,10 +1,14 @@
 import 'package:faya_clinic/dummy.dart';
 import 'package:faya_clinic/models/address.dart';
+import 'package:faya_clinic/models/coupon.dart';
+import 'package:faya_clinic/models/order_item.dart';
 import 'package:faya_clinic/models/payment_method.dart';
+import 'package:faya_clinic/models/requests/create_order_request.dart';
 import 'package:faya_clinic/models/shipping_method.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/services/database_service.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutController with ChangeNotifier {
@@ -12,9 +16,17 @@ class CheckoutController with ChangeNotifier {
   static const ERR = "[Error] ";
 
   final Database database;
+  final List<OrderItem> orderItems;
+  final Coupon appliedCoupon;
   final AddressesRepositoryBase addressesRepository;
   final AuthRepositoryBase authRepository;
-  CheckoutController({@required this.authRepository, @required this.addressesRepository, @required this.database}) {
+  CheckoutController({
+    @required this.authRepository,
+    @required this.addressesRepository,
+    @required this.database,
+    this.appliedCoupon,
+    this.orderItems,
+  }) {
     _savedAddresses = addressesRepository.allAddresses;
   }
 
@@ -28,11 +40,18 @@ class CheckoutController with ChangeNotifier {
   var userAddedNote = "";
   var totalPriceWithTaxes = 0.0;
 
+  var _error = "";
+  var _laoding = false;
+
   Address selectedAddress;
   ShippingMethod _selectedShippingMethod;
   PaymentMethod _selectedPaymentMethod;
 
   int get currentTabIndex => _currentTabIndex;
+  bool get hasError => _error.isNotEmpty;
+  String get error => _error;
+  bool get isLaoding => _laoding;
+
   ShippingMethod get selectedShippingMethod => _selectedShippingMethod;
   PaymentMethod get selectedPaymentMethod => _selectedPaymentMethod;
   List<Address> get savedAddresses => _savedAddresses;
@@ -81,9 +100,37 @@ class CheckoutController with ChangeNotifier {
     }
   }
 
-  void placeOrder() {
+  Future<bool> placeOrder() async {
     print("placeOrder called");
-    // todo add the order request here
+    updateWith(isLaoding: true);
+    final request = CreateOrderRequest(
+      userId: authRepository.userId,
+      couponId: appliedCoupon?.id,
+      couponCode: appliedCoupon?.title,
+      orderAddress: selectedAddress,
+      paymentMethod: selectedPaymentMethod.method,
+      paymentPrice: selectedPaymentMethod.id,
+      status: OrderStatus.PENDING.value,
+      note: userAddedNote,
+      orderItems: orderItems,
+      total: totalPriceWithTaxes,
+      date: DateTime.now(),
+    );
+
+    final result = await database.createNewOrder(request).catchError((error) {
+      updateWith(isLaoding: false, error: error.toString());
+    });
+    if (result != null && result.success) {
+      updateWith(isLaoding: false);
+    } else {
+      updateWith(isLaoding: false, error: TransUtil.trans("error_failed_creating_order"));
+    }
+
+    print("$TAG request body: ${request.toJson()}");
+    print("$TAG result success: ${result?.success}");
+    print("$TAG result value: ${result?.value}");
+    print("$TAG result statusCode: ${result?.statusCode}");
+    return result?.success;
   }
 
   void onPaymentSelect(PaymentMethod paymentMethod) {
@@ -128,14 +175,22 @@ class CheckoutController with ChangeNotifier {
     }
   }
 
+  void onErrorHandled() {
+    _error = "";
+  }
+
   void updateWith({
     int tabIndex,
+    String error,
+    bool isLaoding,
     ShippingMethod shippingMethod,
     PaymentMethod paymentMethod,
     Address address,
     List<Address> savedAddresses,
   }) {
     this._currentTabIndex = tabIndex ?? this._currentTabIndex;
+    this._error = error ?? this._error;
+    this._laoding = isLaoding ?? this._laoding;
     this._selectedShippingMethod = shippingMethod ?? this._selectedShippingMethod;
     this._selectedPaymentMethod = paymentMethod ?? this._selectedPaymentMethod;
     this._savedAddresses = savedAddresses ?? this._savedAddresses;

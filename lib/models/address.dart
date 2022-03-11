@@ -65,6 +65,17 @@ class Address extends StorageModel {
         "zipCode": zipCode,
       };
 
+  Map<String, dynamic> toJsonForOrder() => {
+        "Id": id,
+        "label": label,
+        "Country": country,
+        "City": city,
+        "Apartment": apartment,
+        "Street": street,
+        "Block": block,
+        "ZipCode": zipCode,
+      };
+
   @override
   String get primaryKey => this.id ?? Uuid().v4();
 }

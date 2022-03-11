@@ -1,3 +1,4 @@
+import 'package:faya_clinic/models/coupon.dart';
 import 'package:faya_clinic/models/order_item.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/repositories/cart_repository.dart';
@@ -7,20 +8,28 @@ class CartController with ChangeNotifier {
   static const TAG = "[CartController] ";
   static const ERR = "[Error] ";
 
+  final coupunTxtController = TextEditingController();
   final CartRepositoryBase cartRepository;
   List<OrderItem> allItems = [];
-  String discountCoupon;
-  int productCount = 0;
-  double cartPrice = 0.0;
+  Coupon appliedCoupon;
+
+  var productCount = 0;
+
+  var _cartPrice = 0.0;
+  var _error = "";
+  var _isLoading = false;
 
   CartController({@required this.cartRepository}) {
-    // cartRepository = CartRepository(localStorage);
     allItems = cartRepository.allItems;
-    cartPrice = totalPrice;
+    _cartPrice = totalPrice;
   }
 
   int get count => allItems?.length ?? 0;
   bool get isCartEmpty => allItems.length == 0;
+  bool get hasError => _error.isNotEmpty;
+  bool get isLoading => _isLoading;
+  bool get hasCoupun => appliedCoupon != null;
+  String get error => _error;
 
   double get totalPrice {
     if (allItems == null || allItems.isEmpty) return 0.0;
@@ -28,6 +37,8 @@ class CartController with ChangeNotifier {
     for (OrderItem item in allItems) {
       price += item.price * item.count;
     }
+    // if the applied coupon is not null subtract the coupon discount value from the total
+    if (appliedCoupon != null) price -= appliedCoupon.discountValue ?? 0;
     return price;
   }
 
@@ -76,6 +87,28 @@ class CartController with ChangeNotifier {
     return allItems.firstWhere((order) => order.id == id, orElse: () => null) != null;
   }
 
+  void checkCuopon() async {
+    update(isLoading: true, error: "");
+    final coupon = await cartRepository.fetchCoupun(coupunTxtController.text);
+    if (coupon != null) {
+      _cartPrice -= (coupon.discountValue ?? 0);
+      update(
+        appliedCoupon: coupon,
+        isLoading: false,
+      );
+    } else {
+      update(error: "error_not_valid_coupun", isLoading: false);
+    }
+    print("coupon null ${coupon == null} error: $error name: ${coupunTxtController.text}");
+  }
+
+  void deleteCuopon() {
+    print("deleteCuopon called");
+    coupunTxtController.text = "";
+    appliedCoupon = null;
+    notifyListeners();
+  }
+
   void deleteProduct(String id) {
     allItems.removeWhere((order) => order.id == id);
     cartRepository.deleteItem(id);
@@ -89,14 +122,18 @@ class CartController with ChangeNotifier {
 
   void update({
     List<OrderItem> items,
-    String discount,
     int count,
     double price,
+    String error,
+    bool isLoading,
+    Coupon appliedCoupon,
   }) {
     this.allItems = items ?? this.allItems;
-    this.discountCoupon = discount ?? this.discountCoupon;
     this.productCount = count ?? this.productCount;
-    this.cartPrice = price ?? this.cartPrice;
+    this._cartPrice = price ?? this._cartPrice;
+    this._error = error ?? this._error;
+    this.appliedCoupon = appliedCoupon ?? this.appliedCoupon;
+    this._isLoading = isLoading ?? this._isLoading;
     notifyListeners();
   }
 }

@@ -68,6 +68,14 @@ class OrderItem extends StorageModel {
         "total": total,
       };
 
+  Map<String, dynamic> toJsonForOrder() => {
+        "Id": id,
+        "Item": item,
+        "Price": price,
+        "Count": count,
+        "Total": total,
+      };
+
   @override
   String get primaryKey => this.id ?? Uuid().v4();
 }

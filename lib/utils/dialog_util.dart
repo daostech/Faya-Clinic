@@ -37,6 +37,38 @@ class DialogUtil {
     );
   }
 
+  static Future<void> showWarningDialog(BuildContext context, String error, Function onSubmit) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(TransUtil.trans('label_warning')),
+          content: SingleChildScrollView(
+            child: Text(error),
+          ),
+          actions: <Widget>[
+            // if there is no action no need to show the negative button
+            if (onSubmit != null)
+              TextButton(
+                child: Text(TransUtil.trans('btn_cancel')),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            TextButton(
+              child: Text(TransUtil.trans('btn_ok')),
+              onPressed: () {
+                Navigator.of(context).pop();
+                if (onSubmit != null) onSubmit();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   static Future<void> showDeleteWarningDialog(BuildContext context, Function onDeleteClick) {
     return showDialog<void>(
       context: context,

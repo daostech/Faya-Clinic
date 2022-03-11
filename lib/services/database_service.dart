@@ -6,6 +6,7 @@ import 'package:faya_clinic/models/home_slider.dart';
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/product_review.dart';
+import 'package:faya_clinic/models/requests/create_order_request.dart';
 import 'package:faya_clinic/models/requests/date_registered_request.dart';
 import 'package:faya_clinic/models/requests/product_review_request.dart';
 import 'package:faya_clinic/models/response/post_response.dart';
@@ -24,14 +25,14 @@ abstract class Database {
   Future fetchServicesList(String subSectionId);
   Future fetchProductCategories();
   Future fetchAllDatesOn(String formattedDateStr);
-  Future getClinicsList();
   Future fetchOffersList();
   Future fetchMyPreviousOrders();
   Future fetchMyFavoriteProducts(userId);
   Future fetchUserDates(String userId);
   Future getTeamsList();
   Future fetchProductReviews(String productId);
-  Future postProductReview(ProductReviewRequest request);
+  Future<PostResponse> postProductReview(ProductReviewRequest request);
+  Future<PostResponse> createNewOrder(CreateOrderRequest request);
 
   Future<PostResponse> createNewDate(DateRegisteredRequest request);
 }
@@ -148,12 +149,6 @@ class DatabaseService implements Database {
   }
 
   @override
-  getClinicsList() {
-    // TODO: implement getMyDates
-    throw UnimplementedError();
-  }
-
-  @override
   Future fetchProductReviews(String productId) {
     return apiService.getData<ProductReview>(
       builder: (data) => ProductReview.fromJson(data),
@@ -162,9 +157,17 @@ class DatabaseService implements Database {
   }
 
   @override
-  Future postProductReview(ProductReviewRequest request) {
+  Future<PostResponse> postProductReview(ProductReviewRequest request) {
     return apiService.postData<ProductReviewRequest>(
       path: APIPath.postProductReview(),
+      body: request.toJson(),
+    );
+  }
+
+  @override
+  Future<PostResponse> createNewOrder(CreateOrderRequest request) {
+    return apiService.postData<CreateOrderRequest>(
+      path: APIPath.createOrder(),
       body: request.toJson(),
     );
   }

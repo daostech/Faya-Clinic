@@ -1,3 +1,6 @@
+import 'package:faya_clinic/api/api_paths.dart';
+import 'package:faya_clinic/api/api_service.dart';
+import 'package:faya_clinic/models/coupon.dart';
 import 'package:faya_clinic/models/order_item.dart';
 import 'package:faya_clinic/storage/local_storage.dart';
 
@@ -8,12 +11,15 @@ abstract class CartRepositoryBase {
   bool addQuantity(String id);
   bool removeQuantity(String id);
   bool deleteItem(String id);
+
+  Future<Coupon> fetchCoupun(String name);
   deleteAll();
 }
 
 class CartRepository implements CartRepositoryBase {
+  final APIService apiService;
   final LocalStorageService localStorage;
-  CartRepository(this.localStorage);
+  CartRepository({this.apiService, this.localStorage});
 
   @override
   bool addQuantity(String id) {
@@ -64,5 +70,16 @@ class CartRepository implements CartRepositoryBase {
 
   bool existItem(String id) {
     return allItems.firstWhere((element) => element.id == id, orElse: () => null) != null;
+  }
+
+  @override
+  Future<Coupon> fetchCoupun(String name) async {
+    try {
+      final result =
+          await apiService.getObject<Coupon>(builder: (data) => Coupon.fromJson(data), path: APIPath.fetchCoupon(name));
+      return result;
+    } catch (error) {
+      return null;
+    }
   }
 }

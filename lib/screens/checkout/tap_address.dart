@@ -1,5 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/address.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/checkout/checkout_controller.dart';
 import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
@@ -8,6 +9,7 @@ import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:faya_clinic/widgets/input_standard.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/src/provider.dart';
 
 class CheckoutAddressTap extends StatefulWidget {
   final CheckoutController controller;
@@ -113,6 +115,8 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
   @override
   Widget build(BuildContext context) {
     // final controller = context.read<CheckoutController>();
+    final authRepo = context.read<AuthRepositoryBase>();
+
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -121,20 +125,23 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
               children: [
                 StandardInput(
                   isReadOnly: true,
-                  initialValue: "Ali",
+                  initialValue: authRepo.myUser.fullName ?? "",
+                  onChanged: (_) {},
                 ),
+                // StandardInput(
+                //   isReadOnly: true,
+                //   initialValue: "Daoud",
+                //   onChanged: (_) {},
+                // ),
                 StandardInput(
                   isReadOnly: true,
-                  initialValue: "Daoud",
+                  initialValue: authRepo.myUser.phone ?? "",
+                  onChanged: (_) {},
                 ),
                 StandardInput(
-                  isReadOnly: true,
-                  initialValue: "05366389928",
-                ),
-                StandardInput(
-                  isReadOnly: false,
-                  initialValue: "ali@ali.com",
-                  onChanged: (val) {},
+                  isReadOnly: authRepo.myUser.email != null || authRepo.myUser.email.isNotEmpty,
+                  initialValue: authRepo.myUser.email ?? "",
+                  onChanged: (_) {},
                 ),
               ],
             ),

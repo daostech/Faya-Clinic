@@ -73,6 +73,8 @@
     "hint_address_label" : "Label (e.g. Home, Work..)",
     "hint_write_your_review" : "Write your review",
     "hint_enter_your_code" : "Enter SMS verification code",
+    "hint_enter_your_coupon" : "Enter your coupon",
+    "hint_write_message" : "Write a message",
 
     "label_your_points" : "Your points",
     "label_filter" : "Filter",
@@ -93,7 +95,12 @@
     "label_am" : "am",
     "label_pm" : "pm",
     "label_error" : "Error !",
+    "label_warning" : "Warning !",
     "label_unknown_user" : "Unknown user",
+    "label_coupon_discount" : "Coupon discount",
+    "label_applied_coupon" : "Applied coupon",
+    
+    "clinic_formatted_address" : "City, Street No, Building, Floor",
 
     "nav_label_home" : "Home",    
     "nav_label_clinic" : "Clinic",
@@ -117,6 +124,8 @@
     "error_empty_field" : "Required field !",
     "error_min_length_is" : "Minimum length is ",
     "error_sms_code_short_lenght" : "SMS code should contains 6 digits",
+    "error_cant_open_map" : "Could not open the map",    
+    "error_failed_creating_order" : "Failed creating order",
     
     "msg_date_created" : "Date Created Successfully",
     "msg_select_section_first" : "please make sure to select the section first",
@@ -141,6 +150,7 @@
     "msg_cart_is_empty" : "No Items in the cart",
 
     "btn_expandable_call" : "Call",
+    "btn_get_directions" : "Get directions",
     "btn_expandable_whatsapp" : "Contact via WhatsApp",
     "btn_book_your_date_now" : "Book your date now",
     "btn_sign_in" : "Sign In",
@@ -148,6 +158,8 @@
     "btn_ok" : "Ok",    
     "btn_checkout" : "Checkout",
     "btn_buy" : "Buy",
+    "btn_search": "Search",
+    "btn_delete" : "Delete",
     "btn_select_address" : "Select address",
     "btn_save_address" : "Save address",
     "btn_continue" : "Continue",

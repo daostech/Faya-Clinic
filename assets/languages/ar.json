@@ -73,6 +73,8 @@
     "hint_address_label" : "نوع العنوان (مثال: عمل, منزل..)",
     "hint_write_your_review" : "أضف التقييم الخاص بك",
     "hint_enter_your_code" : "أدخل رمز التأكيد من فضلك",
+    "hint_enter_your_coupon" : "أدخل كوبون الخصم",
+    "hint_write_message" : "اكتب رسالة",
 
     "label_your_points": "نقاطك",
     "label_filter": "قلتر",
@@ -93,7 +95,12 @@
     "label_am" : "ص",
     "label_pm" : "م",
     "label_error" : "خطأ !",
+    "label_warning" : "تنبيه !",
     "label_unknown_user" : "مستخدم غير معروف",
+    "label_coupon_discount" : "خصم الكوبون",
+    "label_applied_coupon" : "الكوبون المستخدم",
+
+    "clinic_formatted_address" : "المدينة, رقم الشارع, البناء, الطابق",
 
     "nav_label_home": "الرئيسية",
     "nav_label_clinic": "العيادة",
@@ -117,6 +124,8 @@
     "error_empty_field" : "حقل مطلوب !",
     "error_min_length_is" : "Minimum length is ",
     "error_sms_code_short_lenght" : "رمز التأكيد يجب أن يحتوي على ٦ أرقام",
+    "error_cant_open_map" : "تعذر فتح الخريطة",
+    "error_failed_creating_order" : "تعذر انشاء الطلب",
 
     "msg_date_created": "تم إنشاء التاريخ بنجاح",
     "msg_select_section_first": "يرجى التأكد من تحديد القسم أولاً",
@@ -141,6 +150,7 @@
     "msg_cart_is_empty" : "لا يوجد منتجات في السلة",
 
     "btn_expandable_call": "إتصل",
+    "btn_get_directions" : "احصل على الإتجاهات",
     "btn_expandable_whatsapp": "تواصل عبر واتس أب",
     "btn_book_your_date_now": "احجز موعدك الآن",
     "btn_sign_in": "تسجيل الدخول",
@@ -148,6 +158,8 @@
     "btn_ok" : "تم",
     "btn_checkout": "دفع",
     "btn_buy": "إشتري",
+    "btn_search": "ابحث",
+    "btn_delete" : "حذف",
     "btn_select_address": "حدد العنوان",
     "btn_save_address": "حفظ العنوان",
     "btn_continue": "متابعة",

@@ -26,7 +26,7 @@ class StandardInput extends StatelessWidget {
     Key key,
     this.hintText,
     this.validator,
-    this.onChanged,
+    @required this.onChanged,
     this.isRequiredInput = false,
     this.isObscureText = false,
     this.minLength = 0,

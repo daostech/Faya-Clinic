@@ -51,9 +51,13 @@ class APIService {
   }) async {
     final uri = api.endpointUri(path);
     final response = await http.get(uri);
+    print("getObject: path ${path.toString()}");
+    print("getObject: uri ${uri.toString()}");
 
     if (response.statusCode == 200) {
+      print("getObject: response 200}");
       dynamic item = json.decode(response.body);
+      print("getObject: item ${item.toString()}");
       final data = builder(item);
       print("getObject: data ${data.toString()}");
       return data;

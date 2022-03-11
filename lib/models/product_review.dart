@@ -34,7 +34,7 @@ class ProductReview {
         text: json["text"] == null ? null : json["text"],
         rate: json["rate"] == null ? null : json["rate"],
         isVisible: json["isVisible"] == null ? null : json["isVisible"],
-        user: json["users"] == null ? null : MyUser.fromJson(json["users"]),
+        user: json["mobileUsers"] == null ? null : MyUser.fromJson(json["mobileUsers"]),
         creationDate: json["creationDate"] == null ? null : DateTime.parse(json["creationDate"]),
       );
 
@@ -45,7 +45,7 @@ class ProductReview {
         "text": text,
         "rate": rate,
         "isVisible": isVisible,
-        "users": user.toJson(),
+        "mobileUsers": user.toJson(),
         "creationDate": creationDate.toIso8601String(),
       };
 }

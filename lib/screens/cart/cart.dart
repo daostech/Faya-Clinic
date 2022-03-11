@@ -4,8 +4,10 @@ import 'package:faya_clinic/dummy.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/screens/checkout/checkout_screen.dart';
 import 'package:faya_clinic/screens/product_details/product_details_screen.dart';
+import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/button_standard.dart';
+import 'package:faya_clinic/widgets/input_standard.dart';
 import 'package:faya_clinic/widgets/item_product.dart';
 import 'package:faya_clinic/widgets/item_product_cart.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
@@ -13,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
-  const CartScreen({Key key}) : super(key: key);
+  CartScreen({Key key}) : super(key: key);
 
   void _goTo(BuildContext context, Widget widget) {
     Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => widget));
@@ -23,6 +25,7 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.watch<CartController>();
     final size = MediaQuery.of(context).size;
+
     return SectionCornerContainer(
       title: TransUtil.trans("header_cart"),
       child: SingleChildScrollView(
@@ -115,24 +118,79 @@ class CartScreen extends StatelessWidget {
         horizontal: marginLarge,
       ),
       margin: const EdgeInsets.symmetric(vertical: marginLarge),
-      child: Row(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        // input + error container
         children: [
-          Expanded(
-            child: TextField(),
+          Row(
+            // coupon input container
+            children: [
+              Expanded(
+                child: StandardInput(
+                  controller: controller.coupunTxtController,
+                  hintText: TransUtil.trans("hint_enter_your_coupon"),
+                  isReadOnly: controller.hasCoupun,
+                  initialValue: controller.hasCoupun ? controller.appliedCoupon?.title : null,
+                  onChanged: (_) {},
+                ),
+              ),
+              SizedBox(
+                width: marginLarge,
+              ),
+              StandardButton(
+                text: controller.hasCoupun ? TransUtil.trans("btn_delete") : TransUtil.trans("btn_search"),
+                topRightRadius: radiusStandard,
+                bottomRightRadius: radiusStandard,
+                textStyle: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+                onTap: () => controller.hasCoupun ? controller.deleteCuopon() : controller.checkCuopon(),
+              ),
+            ],
           ),
-          SizedBox(
-            width: marginLarge,
-          ),
-          StandardButton(
-            text: TransUtil.trans("btn_buy"),
-            topRightRadius: radiusStandard,
-            bottomRightRadius: radiusStandard,
-            textStyle: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
+          if (controller.appliedCoupon != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: marginLarge),
+              child: Text.rich(
+                TextSpan(
+                  children: [
+                    TextSpan(
+                      text: TransUtil.trans("label_applied_coupon"),
+                      style: TextStyle(color: colorGreenSuccess),
+                    ),
+                    WidgetSpan(
+                        child: SizedBox(
+                      width: marginSmall,
+                    )),
+                    WidgetSpan(
+                      child: SizedBox(
+                        width: marginSmall,
+                      ),
+                    ),
+                    TextSpan(
+                      text: controller.appliedCoupon?.title ?? "N/A",
+                      style: TextStyle(color: colorGreenSuccess),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            onTap: () {},
-          ),
+          if (controller.hasError)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: marginLarge),
+              child: Text(
+                TransUtil.trans(controller.error),
+                style: TextStyle(color: colorRedError),
+              ),
+            ),
+          if (controller.isLoading)
+            Container(
+              height: 70,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
         ],
       ),
     );
@@ -161,6 +219,24 @@ class CartScreen extends StatelessWidget {
               ],
             ),
           ),
+          if (controller.hasCoupun)
+            Container(
+              margin: const EdgeInsets.symmetric(
+                vertical: marginStandard,
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      TransUtil.trans("label_coupon_discount"),
+                    ),
+                  ),
+                  // todo check whether the coupon is an amount or percentage
+                  Text(
+                      "${AppConfig.PREFFERED_QURRENCY_UNIT}${controller.appliedCoupon.discountValue.toString() ?? "${0.0.toString()}"}"),
+                ],
+              ),
+            ),
           Container(
             margin: const EdgeInsets.symmetric(
               vertical: marginStandard,
@@ -172,7 +248,7 @@ class CartScreen extends StatelessWidget {
                     TransUtil.trans("label_total"),
                   ),
                 ),
-                Text("${AppConfig.PREFFERED_QURRENCY_UNIT}${controller.cartPrice}"),
+                Text("${AppConfig.PREFFERED_QURRENCY_UNIT}${controller.totalPrice}"),
               ],
             ),
           ),
