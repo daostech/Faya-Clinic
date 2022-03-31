@@ -101,6 +101,7 @@
     "label_unknown_user" : "مستخدم غير معروف",
     "label_coupon_discount" : "خصم الكوبون",
     "label_applied_coupon" : "الكوبون المستخدم",
+    "label_yesterday" : "البارحة",
 
     "clinic_formatted_address" : "المدينة, رقم الشارع, البناء, الطابق",
 
@@ -150,10 +151,11 @@
     "msg_please_complete_this_step" : "يرجى إكمال هذه الخطوة أولاً !",
     "msg_select_date_first" : "من فضلك قم باختيار التاريخ أولاً",
     "msg_no_items_found" : "لم يتم العثور على نتائج",
-    "msg_no_reviews_for_product" : "No reviews for this product yet, add your's now !",
+    "msg_no_reviews_for_product" : "لا يوجد تقييمات لهذا المنتج بعد, أضف تقييمك الآن",
     "msg_cart_is_empty" : "لا يوجد منتجات في السلة",
-    "msg_order_created_successfully" : "Order created successfully",
-    "msg_you_dont_have_orders" : "No previous orders found",
+    "msg_order_created_successfully" : "تم انشاء الطلب بنجاح",
+    "msg_you_dont_have_orders" : "لا يوجد أي طلبات سابقة",
+    "msg_no_notifications" : "لا يوجد اي إشعارات بعد",
 
     "btn_expandable_call": "إتصل",
     "btn_get_directions" : "احصل على الإتجاهات",

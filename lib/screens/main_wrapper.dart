@@ -1,10 +1,12 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/providers/notifications_controller.dart';
+import 'package:faya_clinic/screens/chat/chat_screen.dart';
 import 'package:faya_clinic/screens/user_account/user_account_screen.dart';
 import 'package:faya_clinic/screens/cart/cart.dart';
 import 'package:faya_clinic/screens/clinic/clinic_screen.dart';
 import 'package:faya_clinic/screens/dates/dates_screen.dart';
 import 'package:faya_clinic/screens/home/home.dart';
-import 'package:faya_clinic/screens/notifications.dart';
+import 'package:faya_clinic/screens/notifications/notifications_screen.dart';
 import 'package:faya_clinic/screens/store/store.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/utils/url_launcher_util.dart';
@@ -12,9 +14,11 @@ import 'package:faya_clinic/widgets/app_bar_search.dart';
 import 'package:faya_clinic/widgets/button_action.dart';
 import 'package:faya_clinic/widgets/fab_expandable.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeMainWrapper extends StatefulWidget {
-  const HomeMainWrapper({Key key}) : super(key: key);
+  final NotificationsController controller;
+  const HomeMainWrapper({Key key, this.controller}) : super(key: key);
 
   @override
   _HomeMainWrapperState createState() => _HomeMainWrapperState();
@@ -27,19 +31,10 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
   ];
 
   final _launcher = UrlLauncherUtil();
+  NotificationsController controller;
 
   var _bottomNavSelectedIndex = 0;
   var _currentScreenIndex = 0;
-
-  // List<Widget> _screens = [
-  //   // HomeScreen(),
-  //   ClinicScreen(),
-  //   StoreScreen(),
-  //   DatesScreen(),
-  //   MyAccountScreen(),
-  //   CartScreen(),
-  //   NotificationsScreen(),
-  // ];
 
   Widget _buildTab(BuildContext context) {
     switch (_currentScreenIndex) {
@@ -69,6 +64,7 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
       // the main index that control the screens is _currentScreenIndex
       if (index < 5) _bottomNavSelectedIndex = index;
       _currentScreenIndex = index;
+      if (index == 6) controller.onNotificationsScreenOpened();
     });
   }
 
@@ -87,6 +83,12 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
         );
       },
     );
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    controller = context.watch<NotificationsController>();
   }
 
   @override
@@ -127,7 +129,7 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
         distance: 112.0,
         children: [
           ActionButton(
-            onPressed: () => _showAction(context, 0),
+            onPressed: () => ChatScreen.create(context),
             icon: const Icon(Icons.call),
           ),
           ActionButton(

@@ -10,11 +10,13 @@ import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/user.dart';
 import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
+import 'package:faya_clinic/providers/notifications_controller.dart';
 import 'package:faya_clinic/providers/search_controller.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/repositories/cart_repository.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
+import 'package:faya_clinic/repositories/notification_repository.dart';
 import 'package:faya_clinic/screens/auth_wrapper.dart';
 import 'package:faya_clinic/services/auth_service.dart';
 import 'package:faya_clinic/services/database_service.dart';
@@ -50,6 +52,7 @@ void main() async {
         final db = DatabaseService(apiService: api);
         final favRepo = FavoriteRepository(HiveLocalStorageService(HiveKeys.BOX_FAVORITE));
         final addressRepo = AddressesRepository(HiveLocalStorageService(HiveKeys.BOX_ADDRESSES));
+        final notificationsRepo = NotificationsRepository(api);
         final cartRepo = CartRepository(
           apiService: api,
           localStorage: HiveLocalStorageService(HiveKeys.BOX_CART),
@@ -93,6 +96,13 @@ void main() async {
             ),
             ChangeNotifierProvider(
               create: (_) => SearchController(db),
+            ),
+            ChangeNotifierProvider(
+              create: (_) => NotificationsController(
+                authRepository: authRepo,
+                notificationsRepository: notificationsRepo,
+              ),
+              lazy: true,
             ),
           ],
           child: MyApp(),

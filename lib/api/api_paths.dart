@@ -28,4 +28,8 @@ class APIPath {
   static String createDate() => '${AppConfig.API_ENDPATH}DatesRegistered';
 
   static String fetchCoupon(String code) => '${AppConfig.API_ENDPATH}Coupons/filter/$code';
+
+  // static String userNotifications(String userId) => '${AppConfig.API_ENDPATH}notifications/$userId';
+  static String userNotifications(String userId) => '${AppConfig.API_ENDPATH}notifications/list';
+  static String updateNotification() => '${AppConfig.API_ENDPATH}notifications';
 }

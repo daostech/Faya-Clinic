@@ -1,8 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
 
 class MyDateFormatter {
   static final _dateFormat = new DateFormat('yyyy-MM-dd', 'en_US');
+  static final _monthDayFormat = new DateFormat('MM/dd', 'en_US');
   static final _dateTimeFormat = new DateFormat('yyyy-MM-ddThh:mm:ss', 'en_US');
   static final _timeFormat = new DateFormat('hh:mm', 'en_US'); // 12 hours format
   static final _timeFormat24 = new DateFormat.Hm('en_US'); // 24 hours format
@@ -50,6 +52,31 @@ class MyDateFormatter {
     final now = DateTime.now();
     final dateTime = DateTime(now.year, now.month, now.day, hh, mm);
     return _timeFormat24.format(dateTime);
+  }
+
+  /// check for the notification date time for the following cases:
+  /// 1- if it is today => return the time in the following format hh:mm
+  /// 2- else if it yesterday return yesterday label without any date info
+  /// 3- otherwise returnt return the date as the following format MM/dd
+  static String notificationDate(DateTime dateTime) {
+    if (dateTime == null) return "";
+    if (_isToday(dateTime)) {
+      return _timeFormat.format(dateTime);
+    }
+    if (_isYesterday(dateTime)) {
+      return TransUtil.trans("label_yesterday");
+    }
+    return _monthDayFormat.format(dateTime);
+  }
+
+  static bool _isToday(DateTime dateTime) {
+    final now = DateTime.now();
+    return dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day;
+  }
+
+  static bool _isYesterday(DateTime dateTime) {
+    final now = DateTime.now();
+    return dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day - 1;
   }
 
   /// returns true if the sent DateTime instance is in the am period and false otherwise

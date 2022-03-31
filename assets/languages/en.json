@@ -106,6 +106,7 @@
     "label_card_cvv_required" : "Card CVV*",
     "label_card_expiry_date_required" : "Card expiry date*",
     "label_card_number_required" : "Card Number*",
+    "label_yesterday" : "Yesterday",
     
     "clinic_formatted_address" : "City, Street No, Building, Floor",
 
@@ -159,6 +160,7 @@
     "msg_cart_is_empty" : "No Items in the cart",
     "msg_order_created_successfully" : "Order created successfully",
     "msg_you_dont_have_orders" : "No previous orders found",
+    "msg_no_notifications" : "No notifications yet !",
 
     "btn_expandable_call" : "Call",
     "btn_get_directions" : "Get directions",

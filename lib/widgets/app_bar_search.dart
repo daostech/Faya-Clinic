@@ -1,11 +1,11 @@
 import 'package:badges/badges.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faya_clinic/common/listable.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
+import 'package:faya_clinic/providers/notifications_controller.dart';
 import 'package:faya_clinic/providers/search_controller.dart';
 import 'package:faya_clinic/screens/clinic/clinic_offers_details.dart';
 import 'package:faya_clinic/screens/clinic/clinic_sub_sections.dart';
@@ -148,33 +148,40 @@ class AppBarSearch extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: onCartTap,
-                  child: context.select<CartController, int>((controller) => controller.count) == 0
-                      ? Icon(
-                          Icons.shopping_cart_outlined,
-                          color: Colors.black87,
-                        )
-                      : Badge(
-                          toAnimate: true,
-                          animationType: BadgeAnimationType.scale,
-                          animationDuration: Duration(milliseconds: 300),
-                          shape: BadgeShape.circle,
-                          badgeColor: colorPrimaryLight,
-                          borderRadius: BorderRadius.circular(8),
-                          badgeContent:
-                              Text(context.select<CartController, int>((controller) => controller.count).toString()),
-                          child: Icon(
-                            Icons.shopping_cart_outlined,
-                            color: Colors.black87,
-                          ),
-                        ),
+                  child: Badge(
+                    toAnimate: true,
+                    animationType: BadgeAnimationType.scale,
+                    animationDuration: Duration(milliseconds: 300),
+                    shape: BadgeShape.circle,
+                    badgeColor: colorPrimaryLight,
+                    borderRadius: BorderRadius.circular(8),
+                    showBadge: context.select<CartController, int>((controller) => controller.count) > 0,
+                    badgeContent:
+                        Text(context.select<CartController, int>((controller) => controller.count).toString()),
+                    child: Icon(
+                      Icons.shopping_cart_outlined,
+                      color: Colors.black87,
+                    ),
+                  ),
                 ),
                 SizedBox(
-                  width: marginStandard,
+                  width: marginLarge,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(marginSmall),
-                  child: InkWell(
-                    onTap: onNotificationTap,
+                InkWell(
+                  onTap: onNotificationTap,
+                  child: Badge(
+                    toAnimate: true,
+                    animationType: BadgeAnimationType.scale,
+                    animationDuration: Duration(milliseconds: 300),
+                    shape: BadgeShape.circle,
+                    badgeColor: colorPrimaryLight,
+                    borderRadius: BorderRadius.circular(8),
+                    showBadge: context
+                            .select<NotificationsController, int>((controller) => controller.unReadNotificationsCount) >
+                        0,
+                    badgeContent: Text(context
+                        .select<NotificationsController, int>((controller) => controller.unReadNotificationsCount)
+                        .toString()),
                     child: Icon(
                       Icons.notifications_none_rounded,
                       color: Colors.black87,
