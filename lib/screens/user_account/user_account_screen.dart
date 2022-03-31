@@ -4,7 +4,7 @@ import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/favorite_products/favorite_products_screen.dart';
-import 'package:faya_clinic/screens/previous_orders_screen.dart';
+import 'package:faya_clinic/screens/user_orders/user_orders_screen.dart';
 import 'package:faya_clinic/screens/user_account/profile_screen.dart';
 import 'package:faya_clinic/screens/user_account/user_account_controller.dart';
 import 'package:faya_clinic/screens/user_addresses/user_addresses.dart';
@@ -257,7 +257,8 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           _buildListItem(
             title: TransUtil.trans("list_item_previous_orders"),
             leading: Icons.shopping_bag_rounded,
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (builder) => PreviousOrdersScreen())),
+            onTap: () =>
+                Navigator.of(context).push(MaterialPageRoute(builder: (builder) => UserOrdersScreen.create(context))),
           ),
         ],
       ),

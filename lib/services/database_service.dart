@@ -4,6 +4,7 @@ import 'package:faya_clinic/models/category.dart';
 import 'package:faya_clinic/models/date_registered.dart';
 import 'package:faya_clinic/models/home_slider.dart';
 import 'package:faya_clinic/models/offer.dart';
+import 'package:faya_clinic/models/order.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/product_review.dart';
 import 'package:faya_clinic/models/requests/create_order_request.dart';
@@ -26,12 +27,13 @@ abstract class Database {
   Future fetchProductCategories();
   Future fetchAllDatesOn(String formattedDateStr);
   Future fetchOffersList();
-  Future fetchMyPreviousOrders();
+  Future<List<Order>> fetchUserPreviousOrders(userId);
   Future fetchMyFavoriteProducts(userId);
-  Future fetchUserDates(String userId);
+  Future<List<DateRegistered>> fetchUserDates(String userId);
   Future getTeamsList();
   Future fetchProductReviews(String productId);
   Future<PostResponse> postProductReview(ProductReviewRequest request);
+  Future<PostResponse> updateUserProfile(ProductReviewRequest request, String userId);
   Future<PostResponse> createNewOrder(CreateOrderRequest request);
 
   Future<PostResponse> createNewDate(DateRegisteredRequest request);
@@ -57,7 +59,7 @@ class DatabaseService implements Database {
   }
 
   @override
-  fetchUserDates(userId) {
+  Future<List<DateRegistered>> fetchUserDates(userId) {
     return apiService.getData<DateRegistered>(
       builder: (data) => DateRegistered.fromJson(data),
       path: APIPath.userDatesList(userId),
@@ -71,9 +73,11 @@ class DatabaseService implements Database {
   }
 
   @override
-  fetchMyPreviousOrders() {
-    // TODO: implement getMyPreviousOrders
-    throw UnimplementedError();
+  Future<List<Order>> fetchUserPreviousOrders(userId) {
+    return apiService.getData<Order>(
+      path: APIPath.userOrdersList(userId),
+      builder: (data) => Order.fromJson(data),
+    );
   }
 
   @override
@@ -168,6 +172,14 @@ class DatabaseService implements Database {
   Future<PostResponse> createNewOrder(CreateOrderRequest request) {
     return apiService.postData<CreateOrderRequest>(
       path: APIPath.createOrder(),
+      body: request.toJson(),
+    );
+  }
+
+  @override
+  Future<PostResponse> updateUserProfile(ProductReviewRequest request, String userId) {
+    return apiService.putObject<CreateOrderRequest>(
+      path: APIPath.updateUserProfile(userId),
       body: request.toJson(),
     );
   }
