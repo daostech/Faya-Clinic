@@ -31,6 +31,7 @@
     "header_add_addresses": "اضف عنوان",
     "header_favorite_products": "المنتجات المفضلة",
     "header_password_confirmation": "تأكيد كلمة المرور",
+    "header_sms_confirmation" : "SMS Confirmation",
     "header_previous_orders": "الطلبات السابقة",
     "header_product_details": "تفاصيل المنتج",
     "header_sub_sections": "أقسام فرعية",
@@ -75,6 +76,7 @@
     "hint_enter_your_code" : "أدخل رمز التأكيد من فضلك",
     "hint_enter_your_coupon" : "أدخل كوبون الخصم",
     "hint_write_message" : "اكتب رسالة",
+    "hint_card_holder_name" : "First name and last name",
 
     "label_your_points": "نقاطك",
     "label_filter": "قلتر",
@@ -126,6 +128,8 @@
     "error_sms_code_short_lenght" : "رمز التأكيد يجب أن يحتوي على ٦ أرقام",
     "error_cant_open_map" : "تعذر فتح الخريطة",
     "error_failed_creating_order" : "تعذر انشاء الطلب",
+    "error_updating_profile" : "فشل تحديث البروفايل",
+    "error_invalid_email_format" : "Invalid email format",
 
     "msg_date_created": "تم إنشاء التاريخ بنجاح",
     "msg_select_section_first": "يرجى التأكد من تحديد القسم أولاً",
@@ -148,6 +152,8 @@
     "msg_no_items_found" : "لم يتم العثور على نتائج",
     "msg_no_reviews_for_product" : "No reviews for this product yet, add your's now !",
     "msg_cart_is_empty" : "لا يوجد منتجات في السلة",
+    "msg_order_created_successfully" : "Order created successfully",
+    "msg_you_dont_have_orders" : "No previous orders found",
 
     "btn_expandable_call": "إتصل",
     "btn_get_directions" : "احصل على الإتجاهات",

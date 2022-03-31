@@ -31,6 +31,7 @@
     "header_add_addresses" : "Add Address",
     "header_favorite_products" : "Favorite Products",
     "header_password_confirmation" : "Password Confirmation",
+    "header_sms_confirmation" : "SMS Confirmation",
     "header_previous_orders" : "Previous orders",
     "header_product_details" : "Product details",
     "header_sub_sections" : "Sub sections",
@@ -75,6 +76,8 @@
     "hint_enter_your_code" : "Enter SMS verification code",
     "hint_enter_your_coupon" : "Enter your coupon",
     "hint_write_message" : "Write a message",
+    "hint_card_holder_name" : "First name and last name",
+    "hint_card_expiry_date" : "MM/YY",
 
     "label_your_points" : "Your points",
     "label_filter" : "Filter",
@@ -99,6 +102,10 @@
     "label_unknown_user" : "Unknown user",
     "label_coupon_discount" : "Coupon discount",
     "label_applied_coupon" : "Applied coupon",
+    "label_card_holder_name_required" : "Card holder name*",
+    "label_card_cvv_required" : "Card CVV*",
+    "label_card_expiry_date_required" : "Card expiry date*",
+    "label_card_number_required" : "Card Number*",
     
     "clinic_formatted_address" : "City, Street No, Building, Floor",
 
@@ -126,6 +133,8 @@
     "error_sms_code_short_lenght" : "SMS code should contains 6 digits",
     "error_cant_open_map" : "Could not open the map",    
     "error_failed_creating_order" : "Failed creating order",
+    "error_updating_profile" : "Error updating profile",
+    "error_invalid_email_format" : "Invalid email format",
     
     "msg_date_created" : "Date Created Successfully",
     "msg_select_section_first" : "please make sure to select the section first",
@@ -148,6 +157,8 @@
     "msg_no_items_found" : "No items found",
     "msg_no_reviews_for_product" : "No reviews for this product yet, add your's now !",
     "msg_cart_is_empty" : "No Items in the cart",
+    "msg_order_created_successfully" : "Order created successfully",
+    "msg_you_dont_have_orders" : "No previous orders found",
 
     "btn_expandable_call" : "Call",
     "btn_get_directions" : "Get directions",

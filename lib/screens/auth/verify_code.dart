@@ -74,7 +74,7 @@ class VerifySMSCode extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      TransUtil.trans("header_password_confirmation"),
+                      TransUtil.trans("header_sms_confirmation"),
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: fontSizeLarge,
@@ -89,6 +89,7 @@ class VerifySMSCode extends StatelessWidget {
                         hintText: TransUtil.trans("hint_enter_your_code"),
                         isRequiredInput: true,
                         minLength: 6,
+                        textInputType: TextInputType.number,
                         onChanged: (value) => smsCode = value,
                         validator: (value) {
                           if (value.isEmpty) {
