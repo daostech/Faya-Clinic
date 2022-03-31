@@ -29,8 +29,8 @@ class DateScreenController with ChangeNotifier {
   static List<SubSection> _subSections;
   static List<ClinicService> _services;
 
-  List<ClinicService> _selectedServices = [];
   List<ClinicDate> _availableDates = [];
+  List<ClinicService> _selectedServices = [];
 
   Section selectedSection;
   SubSection selectedSubSection;
@@ -80,7 +80,7 @@ class DateScreenController with ChangeNotifier {
   }
 
   Future<void> fetchAvailableDates(DateTime dateTime) async {
-    updateWith(loading: true);
+    updateWith(loading: true, availableDates: <ClinicDate>[]);
     print("$TAG fetchAvailableDates: called");
     final formattedDate =
         MyDateFormatter.toStringDate(dateTime); // todo add new format to match the server format if needed
@@ -153,20 +153,15 @@ class DateScreenController with ChangeNotifier {
   }
 
   bool get isFormReady {
-    return selectedSection != null &&
-        selectedSubSection != null &&
-        _pickedDateTime != null &&
-        pickedClinicDate != null &&
-        _selectedServices.isNotEmpty;
+    return selectedSection != null && selectedSubSection != null && _pickedDateTime != null && pickedClinicDate != null;
+    // _selectedServices.isNotEmpty;
   }
 
   DateRegisteredRequest get request {
-    final now = DateTime.now();
-
     final registeredDate = DateTime(
-      now.year,
-      now.month,
-      now.day,
+      pickedDateTime.year,
+      pickedDateTime.month,
+      pickedDateTime.day,
       pickedClinicDate.startHour,
       pickedClinicDate.startMinutes,
     );

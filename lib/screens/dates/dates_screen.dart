@@ -240,9 +240,11 @@ class DatesScreen extends StatelessWidget {
         // children = [_messageContainer(TransUtil.trans("msg_select_section_and_subs"))];
         children = [_messageContainer(TransUtil.trans("msg_select_date_first"))];
     } else {
-      // the section is already selected check if there any sub sections realted to show them
-      // otherwise show a message that
-      if (controller.availableDates.isEmpty)
+      // the pickedDateTime is already selected check if there any available date to show them
+      // otherwise show a message that indicates that there is no availabe date on the pickedDateTime
+      if (controller.isLoading)
+        children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
+      else if (controller.availableDates.isEmpty)
         children = [_messageContainer(TransUtil.trans("msg_no_available_dates_for_today"))];
       else
         children = controller.availableDates.map((element) => _buildDateRadioTile(element)).toList();

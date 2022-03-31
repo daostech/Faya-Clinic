@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:faya_clinic/models/service.dart';
-import 'package:faya_clinic/utils/date_formatter.dart';
 
 String dateRegisteredToJson(DateRegisteredRequest request) => json.encode(request.toJson());
 
@@ -22,8 +21,8 @@ class DateRegisteredRequest {
   DateTime dateTime;
   List<ClinicService> services;
 
-  String get time => MyDateFormatter.toStringTime(dateTime);
-  String get registeredDate => MyDateFormatter.toStringDate(dateTime);
+  String get time => timeStr;
+  String get registeredDate => dateTime.toIso8601String();
   List<String> get serviceIds => services == null ? [] : services.map((e) => e.id).toList();
 
   Map<String, dynamic> get dateSubSection => {
