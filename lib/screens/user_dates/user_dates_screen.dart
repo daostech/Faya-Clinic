@@ -1,4 +1,5 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/user_dates/user_dates_controller.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
@@ -13,8 +14,12 @@ class UserDatesScreen extends StatelessWidget {
 
   static Widget create(BuildContext context) {
     final database = Provider.of<Database>(context, listen: false);
+    final authRepo = Provider.of<AuthRepositoryBase>(context, listen: false);
     return ChangeNotifierProvider<UserDatesController>(
-      create: (_) => UserDatesController(database: database),
+      create: (_) => UserDatesController(
+        database: database,
+        authRepository: authRepo,
+      ),
       builder: (ctx, child) {
         return Consumer<UserDatesController>(
           builder: (context, controller, _) => UserDatesScreen._(controller: controller),
@@ -50,7 +55,7 @@ class UserDatesScreen extends StatelessWidget {
   }
 
   Widget _buildContent() {
-    if (controller.userDates == null) {
+    if (controller.userDates.isEmpty) {
       if (controller.isLoading)
         return Center(
           child: CircularProgressIndicator(),

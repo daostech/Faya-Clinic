@@ -1,5 +1,7 @@
+import 'package:faya_clinic/constants/clinic_dates.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/date_registered.dart';
+import 'package:faya_clinic/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 
 class UserDateItem extends StatelessWidget {
@@ -11,6 +13,7 @@ class UserDateItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final clinicTime = ClinicDates.getClinicDateByStartTime(dateRegistered.time);
     return Container(
       // main  container
       margin: const EdgeInsets.all(marginStandard),
@@ -48,15 +51,17 @@ class UserDateItem extends StatelessWidget {
               ),
             ),
           ),
+          // todo implement section name
           Text(
             "Hair removal",
             style: TextStyle(
               color: Colors.black87,
             ),
           ),
+          // todo implement sub section name
           _subtitle("Candela lazer"),
-          _subtitle(dateRegistered?.registeredDate?.toString() ?? "date"),
-          _subtitle("11:00 am - 11:30 am"),
+          _subtitle(MyDateFormatter.toStringDate(dateRegistered?.registeredDate) ?? "date"),
+          _subtitle("${clinicTime?.formattedStartEnd12H}"),
         ],
       ),
     );

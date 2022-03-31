@@ -27,4 +27,21 @@ class ClinicDates {
     ClinicDate(21, 0, 21, 30),
     ClinicDate(21, 30, 22, 0),
   ];
+
+  static ClinicDate getClinicDateByStartTime(String startTime) {
+    print("ClinicDate: getClinicDateByStartTime called on $startTime");
+    // the standard time format is as follow HH:MM
+    // check if the format correct try to parse the start time
+    // then look for the match ClinicDate and return it
+    if (startTime == null || startTime.length != 5) return null;
+    final startHH = int.parse("${startTime[0]}${startTime[1]}");
+    final startMM = int.parse("${startTime[3]}${startTime[4]}");
+
+    print("ClinicDate: getClinicDateByStartTime startHH $startHH");
+    print("ClinicDate: getClinicDateByStartTime startMM $startMM");
+    return standardDates.firstWhere(
+      (element) => element.startHour == startHH && element.startMinutes == startMM,
+      orElse: () => null,
+    );
+  }
 }
