@@ -30,7 +30,7 @@ class SubSection {
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String get imageUrl => "${AppConfig.BASE_URL}$img1";
+  String get imageUrl => "${AppConfig.RAW_BASE_URL}/$img1";
 
   factory SubSection.fromJson(Map<String, dynamic> json) => SubSection(
         id: json["id"] == null ? null : json["id"],

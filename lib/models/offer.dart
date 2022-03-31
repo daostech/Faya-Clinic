@@ -32,7 +32,7 @@ class Offer implements ListAble {
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String _imageUrl(String img) => "${AppConfig.BASE_URL}$img";
+  String _imageUrl(String img) => "${AppConfig.RAW_BASE_URL}/$img";
 
   List<String> get images {
     List<String> tmps = [img1, img2, img3];

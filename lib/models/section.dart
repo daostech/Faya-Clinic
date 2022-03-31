@@ -22,7 +22,7 @@ class Section implements ListAble {
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String get imageUrl => "${AppConfig.BASE_URL}$image";
+  String get imageUrl => "${AppConfig.RAW_BASE_URL}/$image";
 
   factory Section.fromJson(Map<String, dynamic> json) => Section(
         id: json["id"] == null ? null : json["id"],
