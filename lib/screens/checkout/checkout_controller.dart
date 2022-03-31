@@ -1,5 +1,6 @@
 import 'package:faya_clinic/dummy.dart';
 import 'package:faya_clinic/models/address.dart';
+import 'package:faya_clinic/models/bank_card.dart';
 import 'package:faya_clinic/models/coupon.dart';
 import 'package:faya_clinic/models/order_item.dart';
 import 'package:faya_clinic/models/payment_method.dart';
@@ -10,6 +11,7 @@ import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class CheckoutController with ChangeNotifier {
   static const TAG = "[CheckoutController] ";
@@ -32,6 +34,7 @@ class CheckoutController with ChangeNotifier {
 
   final List paymentMethods = DummyData.paymentMethods;
   final List shippingMethods = DummyData.shippingMethods;
+  final bankCard = BankCardInfo();
   List<Address> _savedAddresses;
 
   var _currentTabIndex = 0;
@@ -51,6 +54,7 @@ class CheckoutController with ChangeNotifier {
   bool get hasError => _error.isNotEmpty;
   String get error => _error;
   bool get isLaoding => _laoding;
+  bool get hasPayment => selectedPaymentMethod?.id == "3";
 
   ShippingMethod get selectedShippingMethod => _selectedShippingMethod;
   PaymentMethod get selectedPaymentMethod => _selectedPaymentMethod;
@@ -103,11 +107,20 @@ class CheckoutController with ChangeNotifier {
   Future<bool> placeOrder() async {
     print("placeOrder called");
     updateWith(isLaoding: true);
+    if (hasPayment) {
+      return makePayment();
+    } else {
+      return _createOrder();
+    }
+  }
+
+  Future<bool> _createOrder() async {
     final request = CreateOrderRequest(
       userId: authRepository.userId,
       couponId: appliedCoupon?.id,
       couponCode: appliedCoupon?.title,
-      orderAddress: selectedAddress,
+      orderCode: Uuid().v4(),
+      orderAddress: selectedAddress..id ??= Uuid().v4(),
       paymentMethod: selectedPaymentMethod.method,
       paymentPrice: selectedPaymentMethod.id,
       status: OrderStatus.PENDING.value,
@@ -130,12 +143,23 @@ class CheckoutController with ChangeNotifier {
     print("$TAG result success: ${result?.success}");
     print("$TAG result value: ${result?.value}");
     print("$TAG result statusCode: ${result?.statusCode}");
-    return result?.success;
+    return result?.success ?? false;
+  }
+
+  Future<bool> makePayment() async {
+    // todo handle payment
+
+    // todo if payment ok
+    // _createOrder();
+    updateWith(isLaoding: false, error: TransUtil.trans("error_failed_creating_order"));
+    return false;
   }
 
   void onPaymentSelect(PaymentMethod paymentMethod) {
     updateWith(paymentMethod: paymentMethod);
   }
+
+  void onBankCardExpiryDateSelected(DateTime dateTime) {}
 
   void onShippingSelect(ShippingMethod shippingMethod, double cartPrice) {
     totalPriceWithTaxes = shippingMethod.price + cartPrice;
@@ -194,7 +218,6 @@ class CheckoutController with ChangeNotifier {
     this._selectedShippingMethod = shippingMethod ?? this._selectedShippingMethod;
     this._selectedPaymentMethod = paymentMethod ?? this._selectedPaymentMethod;
     this._savedAddresses = savedAddresses ?? this._savedAddresses;
-    // this._selectedAddress = address ?? this._selectedAddress;
     notifyListeners();
   }
 }

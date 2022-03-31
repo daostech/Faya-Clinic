@@ -1,5 +1,6 @@
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 import 'package:toast/toast.dart';
 
 class DialogUtil {
@@ -99,6 +100,17 @@ class DialogUtil {
           ],
         );
       },
+    );
+  }
+
+  static Future<DateTime> showYearMonthPickerDialog(BuildContext context) {
+    final now = DateTime.now();
+    return showMonthYearPicker(
+      context: context,
+      initialDate: now,
+      locale: TransUtil.getCurrentLocale(context),
+      firstDate: DateTime(now.year - 20),
+      lastDate: DateTime(now.year + 20),
     );
   }
 

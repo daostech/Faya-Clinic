@@ -14,10 +14,10 @@ class DummyData {
 
   static List<PaymentMethod> paymentMethods = [
     PaymentMethod(id: "1", method: "Direct bank transfer", image: ""),
-    PaymentMethod(id: "1", method: "Cash on delivery", image: ""),
-    PaymentMethod(id: "1", method: "PayPal", image: ""),
-    PaymentMethod(id: "1", method: "Razorpay", image: ""),
-    PaymentMethod(id: "1", method: "stripe", image: ""),
+    PaymentMethod(id: "2", method: "Cash on delivery", image: ""),
+    PaymentMethod(id: "3", method: "Credit/Bank card", image: ""),
+    // PaymentMethod(id: "1", method: "Razorpay", image: ""),
+    // PaymentMethod(id: "1", method: "stripe", image: ""),
   ];
 
   static List<DateRegistered> fakeReservedDates = [

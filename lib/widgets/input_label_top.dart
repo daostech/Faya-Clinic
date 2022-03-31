@@ -25,6 +25,7 @@ class LabeledInput extends StatelessWidget {
   final bool emailFormat;
   final bool isReadOnly;
   final int minLength;
+  final int maxLength;
 
   const LabeledInput({
     Key key,
@@ -34,6 +35,7 @@ class LabeledInput extends StatelessWidget {
     this.isRequiredInput = false,
     this.isObscureText = false,
     this.minLength = 0,
+    this.maxLength,
     this.emailFormat = false,
     this.initialValue = "",
     this.color,
@@ -105,6 +107,7 @@ class LabeledInput extends StatelessWidget {
                                 hintText: hintText,
                               ),
                               // initialValue: initialValue,
+                              maxLength: maxLength,
                               obscureText: isObscureText,
                               onChanged: (val) => onChanged(val),
                               cursorColor: colorPrimary,

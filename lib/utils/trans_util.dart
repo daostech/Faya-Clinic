@@ -11,6 +11,10 @@ class TransUtil {
     return EasyLocalization.of(context).locale.toString();
   }
 
+  static Locale getCurrentLocale(BuildContext context) {
+    return EasyLocalization.of(context).locale;
+  }
+
   static void changeLocale(BuildContext context, String localeCode) {
     context.setLocale(Locale(localeCode));
   }

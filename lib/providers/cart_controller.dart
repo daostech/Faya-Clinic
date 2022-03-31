@@ -88,6 +88,10 @@ class CartController with ChangeNotifier {
   }
 
   void checkCuopon() async {
+    if (coupunTxtController.text.isEmpty) {
+      update(error: "error_empty_field");
+      return;
+    }
     update(isLoading: true, error: "");
     final coupon = await cartRepository.fetchCoupun(coupunTxtController.text);
     if (coupon != null) {
@@ -118,6 +122,16 @@ class CartController with ChangeNotifier {
     allItems.clear();
     cartRepository.deleteAll();
     update(items: allItems);
+  }
+
+  void onOrderCreated() {
+    _isLoading = false;
+    allItems = <OrderItem>[];
+    _cartPrice = 0;
+    productCount = 0;
+    _error = "";
+    appliedCoupon = null;
+    notifyListeners();
   }
 
   void update({
