@@ -99,7 +99,7 @@ class ProductItem extends StatelessWidget {
                   width: _imgWidth,
                   height: _imgWidth,
                   child: CachedNetworkImage(
-                    imageUrl: product.images[0],
+                    imageUrl: product.images.length > 0 ? product.images[0] : null,
                     progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                       child: Center(
                         child: CircularProgressIndicator(),
@@ -111,7 +111,7 @@ class ProductItem extends StatelessWidget {
                       height: _imgWidth,
                       width: _imgWidth,
                       decoration: BoxDecoration(
-                        color: Theme.of(context).accentColor,
+                        color: colorGrey,
                       ),
                       child: Center(
                         child: Padding(

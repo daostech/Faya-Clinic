@@ -15,6 +15,12 @@ class NetworkCachedImage extends StatelessWidget {
     return CachedNetworkImage(
       imageUrl: imageUrl,
       progressIndicatorBuilder: (context, url, downloadProgress) => Container(
+        height: width,
+        width: height,
+        decoration: BoxDecoration(
+          color: colorGrey,
+          shape: circularShapeError ? BoxShape.circle : BoxShape.rectangle,
+        ),
         child: Center(
           child: CircularProgressIndicator(),
         ),

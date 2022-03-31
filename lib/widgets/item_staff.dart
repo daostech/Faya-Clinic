@@ -41,31 +41,36 @@ class StaffItem extends StatelessWidget {
             Positioned(
               // profile picture container
               top: height * 0.1,
-              // right: 0,
-              // left: 0,
-              height: width * 0.3,
-              width: width,
-              child: Container(
-                padding: const EdgeInsets.all(1),
-                decoration: BoxDecoration(
-                  color: colorGreyLight,
-                  shape: BoxShape.circle,
-                  border: Border.all(
-                    width: 2.0,
-                    color: Colors.white,
-                  ),
-                ),
-                child: CircleAvatar(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(5000)),
-                    child: NetworkCachedImage(
-                      width: width,
-                      height: height,
-                      circularShapeError: true,
-                      imageUrl: team?.imageUrl,
+              right: 0,
+              left: 0,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    height: width * 0.3,
+                    width: width * 0.3,
+                    padding: const EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: colorGreyLight,
+                      shape: BoxShape.circle,
+                      border: Border.all(
+                        width: 2.0,
+                        color: Colors.white,
+                      ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.all(Radius.circular(5000)),
+                      child: NetworkCachedImage(
+                        width: width * 0.3,
+                        height: width * 0.3,
+                        // width: double.infinity,
+                        // height: double.infinity,
+                        circularShapeError: true,
+                        imageUrl: team?.imageUrl,
+                      ),
                     ),
                   ),
-                ),
+                ],
               ),
             ),
             Positioned(
