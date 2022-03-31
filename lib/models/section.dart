@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:faya_clinic/common/listable.dart';
-import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/constants/config.dart';
 
 Section sectionFromJson(String str) => Section.fromJson(json.decode(str));
 
@@ -22,7 +22,7 @@ class Section implements ListAble {
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String get imageUrl => "$IMG_PREFIX$image";
+  String get imageUrl => "${AppConfig.BASE_URL}$image";
 
   factory Section.fromJson(Map<String, dynamic> json) => Section(
         id: json["id"] == null ? null : json["id"],

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:faya_clinic/common/listable.dart';
-import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/hive_keys.dart';
 import 'package:faya_clinic/models/storage_model.dart';
 import 'package:hive/hive.dart';
@@ -55,7 +55,7 @@ class Product extends StorageModel implements ListAble {
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String _imageUrl(String img) => "$IMG_PREFIX$img";
+  String _imageUrl(String img) => "${AppConfig.BASE_URL}$img";
 
   List<String> get images {
     List<String> tmps = [img1, img2, img3];

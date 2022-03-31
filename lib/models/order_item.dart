@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/hive_keys.dart';
 import 'package:faya_clinic/models/storage_model.dart';
 import 'package:hive/hive.dart';
@@ -46,7 +46,7 @@ class OrderItem extends StorageModel {
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String get imageUrl => "$IMG_PREFIX$image";
+  String get imageUrl => "${AppConfig.BASE_URL}$image";
 
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
         id: json["id"] == null ? null : json["id"],
@@ -65,7 +65,7 @@ class OrderItem extends StorageModel {
         "image": image,
         "price": price,
         "count": count,
-        "total": total,
+        "total": totalPrice,
       };
 
   Map<String, dynamic> toJsonForOrder() => {
@@ -73,7 +73,7 @@ class OrderItem extends StorageModel {
         "Item": item,
         "Price": price,
         "Count": count,
-        "Total": total,
+        "Total": totalPrice,
       };
 
   @override

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:faya_clinic/common/listable.dart';
-import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/constants/config.dart';
 
 Offer offerFromJson(String str) => Offer.fromJson(json.decode(str));
 
@@ -32,7 +32,7 @@ class Offer implements ListAble {
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String _imageUrl(String img) => "$IMG_PREFIX$img";
+  String _imageUrl(String img) => "${AppConfig.BASE_URL}$img";
 
   List<String> get images {
     List<String> tmps = [img1, img2, img3];
