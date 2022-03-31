@@ -1,3 +1,4 @@
+import 'package:faya_clinic/models/response/post_response.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
 import 'package:faya_clinic/repositories/cart_repository.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
@@ -31,7 +32,7 @@ abstract class AuthRepositoryBase {
       Function(UserCredential credential, String phone) onPhoneVerified, Function(Exception e) onVerificationFailed);
   Future createUserProfile(CreateUserProfileRequest requestBody);
   Future<MyUser> fetchUserProfile();
-  Future<bool> updateUserProfile(CreateUserProfileRequest requestBody);
+  Future<PostResponse> updateUserProfile(CreateUserProfileRequest requestBody);
   void logout();
 }
 
@@ -127,19 +128,18 @@ class AuthRepository implements AuthRepositoryBase {
 
   @override
   Future<MyUser> fetchUserProfile() async {
-    final userData =
-        await apiService.getObject<MyUser>(builder: (data) => MyUser.fromJson(data), path: APIPath.userProfile(userId));
+    final userData = await apiService.getObject<MyUser>(
+        builder: (data) => MyUser.fromJson(data), path: APIPath.getUserProfile(userId));
     myUser = userData;
     return myUser;
   }
 
   @override
-  Future<bool> updateUserProfile(CreateUserProfileRequest requestBody) async {
-    final response = await apiService.postData(path: APIPath.createUser(), body: requestBody.toJson());
+  Future<PostResponse> updateUserProfile(CreateUserProfileRequest requestBody) async {
+    final response = await apiService.putObject(path: APIPath.updateUserProfile(userId), body: requestBody.toJson());
     if (response.success) {
-      // if the update done re fetch the user data and store it in the local
       myUser = await fetchUserProfile();
     }
-    return response.success;
+    return response;
   }
 }

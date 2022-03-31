@@ -1,14 +1,14 @@
 import 'package:faya_clinic/models/requests/create_profile_request.dart';
 import 'package:faya_clinic/models/user.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
-import 'package:faya_clinic/utils/dialog_util.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
 
 class UserAccountController with ChangeNotifier {
   final AuthRepositoryBase authRepository;
   UserAccountController({@required this.authRepository}) {
     print("UserAccountController called");
-    user = authRepository.myUser;
+    _user = authRepository.myUser;
   }
 
   final formKey = GlobalKey<FormState>();
@@ -19,12 +19,16 @@ class UserAccountController with ChangeNotifier {
   var _loading = false;
   var _error = "";
 
-  MyUser user;
+  String get error => _error;
+  bool get hasError => _error.isNotEmpty;
+  MyUser get user => _user;
+
+  MyUser _user;
 
   bool get hasUpdates {
-    return userNameTxtController.text != user.fullName ||
-        emailTxtController.text != user.email ||
-        phoneTxtController.text != user.phone;
+    return userNameTxtController.text != _user.fullName ||
+        emailTxtController.text != _user.email ||
+        phoneTxtController.text != _user.phone;
   }
 
   MyUser get newUserData => MyUser(
@@ -34,40 +38,55 @@ class UserAccountController with ChangeNotifier {
       );
 
   void initForm() {
-    userNameTxtController.text = user.fullName;
-    emailTxtController.text = user.email;
-    phoneTxtController.text = user.phone;
+    userNameTxtController.text = _user.fullName;
+    emailTxtController.text = _user.email;
+    phoneTxtController.text = _user.phone;
   }
 
-  void submitForm(BuildContext context) {
+  Future<bool> submitForm() async {
     print("submitForm called");
     if (formKey.currentState.validate()) {
       if (!hasUpdates) {
-        Navigator.of(context).pop();
+        // Navigator.of(context).pop();
+        return false;
       } else {
-        // userRepository.saveUserData(newUserData);
-        // user = userRepository.userData;
         try {
-          final request = CreateUserProfileRequest();
-          authRepository.updateUserProfile(request);
-          updateWith(isLoading: false);
+          final request = CreateUserProfileRequest(
+            userId: _user.id,
+            userName: userNameTxtController.text,
+            email: emailTxtController.text,
+            phoneNumber: _user.phone,
+            birthDate: _user.dateBirth,
+          );
+          final result = await authRepository.updateUserProfile(request);
+          if (result.success) {
+            // the authRepository will handle updating the user in the local if
+            // updating profile done. Just get it from local no need to fetch it again
+            updateWith(isLoading: false, user: authRepository.myUser);
+            return true;
+          } else {
+            updateWith(isLoading: false, error: TransUtil.trans("error_updating_profile"));
+          }
         } catch (error) {
           updateWith(isLoading: false, error: error.toString());
         }
-
-        notifyListeners();
-        Navigator.of(context).pop();
-        DialogUtil.showToastMessage(context, "not working yet !");
       }
     }
+    return false;
+  }
+
+  void onErrorHandled() {
+    _error = "";
   }
 
   void updateWith({
     bool isLoading,
     String error,
+    MyUser user,
   }) {
     this._loading = isLoading ?? this._loading;
     this._error = error ?? this._error;
+    this._user = user ?? this._user;
     notifyListeners();
   }
 }

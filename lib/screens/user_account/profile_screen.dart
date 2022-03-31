@@ -36,123 +36,137 @@ class _ProfileScreenState extends State<ProfileScreen> {
       Navigator.of(context).pop();
   }
 
+  void handleError(BuildContext context, UserAccountController controller) {
+    DialogUtil.showAlertDialog(context, controller.error, null);
+    controller.onErrorHandled();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    // final controller = context.watch<UserAccountController>();
-    return Scaffold(
-      body: Column(
-        children: [
-          Column(
-            // app bar + tabs container
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              AppBarStandard(
-                title: TransUtil.trans("header_profile"),
-                onBackTap: () => handleBackPressed(context, controller),
-              ),
-              Container(
-                width: double.infinity,
-                color: colorPrimary,
-              ),
-            ],
-          ),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(marginStandard, 50, marginStandard, 0),
-              child: Column(
-                children: [
-                  Container(
-                    // user avatar container
-                    // todo add network image
-                    width: size.width * 0.25,
-                    height: size.width * 0.25,
-                    decoration: BoxDecoration(
-                      color: colorGreyLight,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(radiusStandard),
+    return Consumer<UserAccountController>(builder: (context, controller, _) {
+      if (controller.hasError) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          print("addPostFrameCallback called");
+          handleError(context, controller);
+        });
+      }
+      return Scaffold(
+        body: Column(
+          children: [
+            Column(
+              // app bar + tabs container
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                AppBarStandard(
+                  title: TransUtil.trans("header_profile"),
+                  onBackTap: () => handleBackPressed(context, controller),
+                ),
+                Container(
+                  width: double.infinity,
+                  color: colorPrimary,
+                ),
+              ],
+            ),
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(marginStandard, 50, marginStandard, 0),
+                child: Column(
+                  children: [
+                    Container(
+                      // user avatar container
+                      // todo add network image
+                      width: size.width * 0.25,
+                      height: size.width * 0.25,
+                      decoration: BoxDecoration(
+                        color: colorGreyLight,
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(radiusStandard),
+                        ),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black26,
+                            offset: Offset(1.0, 1.0),
+                            blurRadius: 1.0,
+                          ),
+                        ],
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(1.0, 1.0),
-                          blurRadius: 1.0,
-                        ),
-                      ],
                     ),
-                  ),
-                  SizedBox(
-                    height: marginLarge,
-                  ),
-                  Text(
-                    controller.user?.fullName ?? TransUtil.trans("label_username"),
-                    style: TextStyle(
-                      color: colorPrimary,
-                      fontWeight: FontWeight.bold,
-                      fontSize: fontSizeLarge,
+                    SizedBox(
+                      height: marginLarge,
                     ),
-                  ),
-                  SizedBox(
-                    height: marginSmall,
-                  ),
-                  Text(
-                    TransUtil.trans("label_please_fill_details"),
-                  ),
-                  SizedBox(
-                    height: marginxLarge,
-                  ),
-                  Form(
-                    key: controller.formKey,
-                    child: Column(
-                      children: [
-                        LabeledInput(
-                          controller: controller.userNameTxtController,
-                          label: TransUtil.trans("label_name_required"),
-                          hintText: TransUtil.trans("hint_your_name"),
-                          initialValue: controller.user?.fullName ?? "",
-                          isRequiredInput: true,
-                          onChanged: (_) {},
-                        ),
-                        LabeledInput(
-                          controller: controller.emailTxtController,
-                          label: TransUtil.trans("label_email"),
-                          hintText: TransUtil.trans("hint_your_email"),
-                          initialValue: controller.user?.email ?? "",
-                          isRequiredInput: true,
-                          onChanged: (_) {},
-                        ),
-                        LabeledInput(
-                          controller: controller.phoneTxtController,
-                          label: TransUtil.trans("label_phone"),
-                          hintText: TransUtil.trans("hint_your_phone"),
-                          initialValue: controller.user?.phone ?? "",
-                          isRequiredInput: true,
-                          onChanged: (_) {},
-                        ),
-                        LabeledInput(
-                          label: TransUtil.trans("label_birthday"),
-                          initialValue: MyDateFormatter.toStringFormatted(controller.user?.dateBirth) ?? "",
-                          isReadOnly: true,
-                          onChanged: (_) {},
-                        ),
-                      ],
+                    Text(
+                      controller.user?.fullName ?? TransUtil.trans("label_username"),
+                      style: TextStyle(
+                        color: colorPrimary,
+                        fontWeight: FontWeight.bold,
+                        fontSize: fontSizeLarge,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: marginLarge,
-                  ),
-                  InlineButtons(
-                    positiveText: TransUtil.trans("btn_save"),
-                    negativeText: TransUtil.trans("btn_cancel"),
-                    onPositiveTap: () => controller.submitForm(context),
-                    onNegativeTap: () => handleBackPressed(context, controller),
-                  ),
-                ],
+                    SizedBox(
+                      height: marginSmall,
+                    ),
+                    Text(
+                      TransUtil.trans("label_please_fill_details"),
+                    ),
+                    SizedBox(
+                      height: marginxLarge,
+                    ),
+                    Form(
+                      key: controller.formKey,
+                      child: Column(
+                        children: [
+                          LabeledInput(
+                            controller: controller.userNameTxtController,
+                            label: TransUtil.trans("label_name_required"),
+                            hintText: TransUtil.trans("hint_your_name"),
+                            initialValue: controller.user?.fullName ?? "",
+                            isRequiredInput: true,
+                            onChanged: (_) {},
+                          ),
+                          LabeledInput(
+                            controller: controller.emailTxtController,
+                            label: TransUtil.trans("label_email"),
+                            hintText: TransUtil.trans("hint_your_email"),
+                            initialValue: controller.user?.email ?? "",
+                            isRequiredInput: true,
+                            onChanged: (_) {},
+                          ),
+                          LabeledInput(
+                            controller: controller.phoneTxtController,
+                            label: TransUtil.trans("label_phone"),
+                            hintText: TransUtil.trans("hint_your_phone"),
+                            initialValue: controller.user?.phone ?? "",
+                            isReadOnly: true,
+                            onChanged: (_) {},
+                          ),
+                          LabeledInput(
+                            label: TransUtil.trans("label_birthday"),
+                            initialValue: MyDateFormatter.toStringFormatted(controller.user?.dateBirth) ?? "",
+                            isReadOnly: true,
+                            onChanged: (_) {},
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: marginLarge,
+                    ),
+                    InlineButtons(
+                      positiveText: TransUtil.trans("btn_save"),
+                      negativeText: TransUtil.trans("btn_cancel"),
+                      onPositiveTap: () => controller.submitForm().then((success) {
+                        if (success) Navigator.of(context).pop();
+                      }),
+                      onNegativeTap: () => handleBackPressed(context, controller),
+                    ),
+                  ],
+                ),
               ),
             ),
-          ),
-        ],
-      ),
-    );
+          ],
+        ),
+      );
+    });
   }
 }

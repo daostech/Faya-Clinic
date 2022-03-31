@@ -66,6 +66,22 @@ class APIService {
     throw response;
   }
 
+  Future<PostResponse> putObject<T>({
+    Map<String, dynamic> body,
+    @required String path,
+  }) async {
+    final uri = api.endpointUri(path);
+
+    String encodedBody = json.encode(body);
+    final response = await http.put(uri, headers: {"Content-Type": "application/json"}, body: encodedBody);
+    final postResponse = PostResponse.fromJson(jsonDecode(response.body));
+    if (response.statusCode == 200) {
+      print('putObject: Request $uri success\nResponse: 200');
+    } else
+      print('putObject: Request $uri failed\nResponse: ${response.statusCode} ${response.reasonPhrase}');
+    return postResponse;
+  }
+
   Future<PostResponse> postData<T>({
     Map<String, dynamic> body,
     @required String path,

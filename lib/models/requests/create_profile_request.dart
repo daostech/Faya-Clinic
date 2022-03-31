@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-String productReviewToJson(CreateUserProfileRequest data) => json.encode(data.toJson());
-
 class CreateUserProfileRequest {
   CreateUserProfileRequest({
     this.userId,
