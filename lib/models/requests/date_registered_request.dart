@@ -1,45 +1,41 @@
 import 'dart:convert';
 
-import 'package:faya_clinic/models/service.dart';
+DateRegisteredRequest dateRegisteredRequestFromJson(String str) => DateRegisteredRequest.fromJson(json.decode(str));
 
-String dateRegisteredToJson(DateRegisteredRequest request) => json.encode(request.toJson());
+String dateRegisteredRequestToJson(DateRegisteredRequest data) => json.encode(data.toJson());
 
 class DateRegisteredRequest {
   DateRegisteredRequest({
     this.userId,
-    this.sectionId,
+    this.dateSectionId,
     this.subSectionId,
-    this.timeStr,
-    this.dateTime,
-    this.services,
+    this.serviceIds,
+    this.registeredDate,
+    this.time,
   });
 
   String userId;
-  String sectionId;
+  String dateSectionId;
   String subSectionId;
-  String timeStr;
-  DateTime dateTime;
-  List<ClinicService> services;
+  List<String> serviceIds;
+  DateTime registeredDate;
+  String time;
 
-  String get time => timeStr;
-  String get registeredDate => dateTime.toIso8601String();
-  List<String> get serviceIds => services == null ? [] : services.map((e) => e.id).toList();
-
-  Map<String, dynamic> get dateSubSection => {
-        "dateSectionId": sectionId,
-        "dateSection": "string",
-        "serviceIds": serviceIds,
-      };
-
-  Map<String, dynamic> get dateSection => {
-        "subSectionId": subSectionId,
-        "dateSubSection": dateSubSection,
-      };
+  factory DateRegisteredRequest.fromJson(Map<String, dynamic> json) => DateRegisteredRequest(
+        userId: json["userId"],
+        dateSectionId: json["dateSectionId"],
+        subSectionId: json["subSectionId"],
+        serviceIds: List<String>.from(json["ServiceIds"].map((x) => x)),
+        registeredDate: DateTime.parse(json["registeredDate"]),
+        time: json["time"],
+      );
 
   Map<String, dynamic> toJson() => {
         "userId": userId,
+        "dateSectionId": dateSectionId,
+        "subSectionId": subSectionId,
+        "ServiceIds": List<dynamic>.from(serviceIds.map((x) => x)),
+        "registeredDate": registeredDate.toIso8601String(),
         "time": time,
-        "dateSection": dateSection,
-        "registeredDate": registeredDate,
       };
 }

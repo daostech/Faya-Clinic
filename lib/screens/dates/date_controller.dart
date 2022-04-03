@@ -153,11 +153,16 @@ class DateScreenController with ChangeNotifier {
   }
 
   bool get isFormReady {
-    return selectedSection != null && selectedSubSection != null && _pickedDateTime != null && pickedClinicDate != null;
-    // _selectedServices.isNotEmpty;
+    return selectedSection != null &&
+        selectedSubSection != null &&
+        _pickedDateTime != null &&
+        pickedClinicDate != null &&
+        _selectedServices.isNotEmpty;
   }
 
   DateRegisteredRequest get request {
+    final _serviciesIds = _selectedServices.map((service) => service.id).toList();
+
     final registeredDate = DateTime(
       pickedDateTime.year,
       pickedDateTime.month,
@@ -168,11 +173,11 @@ class DateScreenController with ChangeNotifier {
 
     return DateRegisteredRequest(
       userId: authRepository.userId,
-      sectionId: selectedSection.id,
+      dateSectionId: selectedSection.id,
       subSectionId: selectedSubSection.id,
-      dateTime: registeredDate,
-      timeStr: pickedClinicDate.startTimeFormatted24H,
-      services: _selectedServices,
+      registeredDate: registeredDate,
+      time: pickedClinicDate.startTimeFormatted24H,
+      serviceIds: _serviciesIds,
     );
   }
 
