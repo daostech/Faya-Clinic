@@ -23,7 +23,7 @@ class DateRegisteredRequest {
 
   factory DateRegisteredRequest.fromJson(Map<String, dynamic> json) => DateRegisteredRequest(
         userId: json["userId"],
-        dateSectionId: json["dateSectionId"],
+        dateSectionId: json["sectionId"],
         subSectionId: json["subSectionId"],
         serviceIds: List<String>.from(json["ServiceIds"].map((x) => x)),
         registeredDate: DateTime.parse(json["registeredDate"]),
@@ -32,7 +32,7 @@ class DateRegisteredRequest {
 
   Map<String, dynamic> toJson() => {
         "userId": userId,
-        "dateSectionId": dateSectionId,
+        "sectionId": dateSectionId,
         "subSectionId": subSectionId,
         "ServiceIds": List<dynamic>.from(serviceIds.map((x) => x)),
         "registeredDate": registeredDate.toIso8601String(),

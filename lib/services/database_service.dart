@@ -1,7 +1,6 @@
 import 'package:faya_clinic/api/api_paths.dart';
 import 'package:faya_clinic/api/api_service.dart';
 import 'package:faya_clinic/models/category.dart';
-import 'package:faya_clinic/models/date_registered.dart';
 import 'package:faya_clinic/models/home_slider.dart';
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/order.dart';
@@ -15,6 +14,7 @@ import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/service.dart';
 import 'package:faya_clinic/models/sub_section.dart';
 import 'package:faya_clinic/models/team.dart';
+import 'package:faya_clinic/models/user_date/user_date.dart';
 import 'package:flutter/material.dart';
 
 abstract class Database {
@@ -25,11 +25,11 @@ abstract class Database {
   Future fetchSubSectionsList(String sectionId);
   Future fetchServicesList(String subSectionId);
   Future fetchProductCategories();
-  Future fetchAllDatesOn(String formattedDateStr);
+  Future fetchAllDatesForService(String serviceId, String formattedDateStr);
   Future fetchOffersList();
   Future<List<Order>> fetchUserPreviousOrders(userId);
   Future fetchMyFavoriteProducts(userId);
-  Future<List<DateRegistered>> fetchUserDates(String userId);
+  Future<List<UserDate>> fetchUserDates(userId);
   Future getTeamsList();
   Future fetchProductReviews(String productId);
   Future<PostResponse> postProductReview(ProductReviewRequest request);
@@ -59,11 +59,12 @@ class DatabaseService implements Database {
   }
 
   @override
-  Future<List<DateRegistered>> fetchUserDates(userId) {
-    return apiService.getData<DateRegistered>(
-      builder: (data) => DateRegistered.fromJson(data),
+  Future<List<UserDate>> fetchUserDates(userId) async {
+    final result = await apiService.getData<UserDate>(
+      builder: (data) => UserDate.fromJson(data),
       path: APIPath.userDatesList(userId),
     );
+    return result;
   }
 
   @override
@@ -145,10 +146,10 @@ class DatabaseService implements Database {
   }
 
   @override
-  Future<List<String>> fetchAllDatesOn(String formattedDateStr) {
+  Future<List<String>> fetchAllDatesForService(String serviceId, String formattedDateStr) {
     return apiService.getData<String>(
       builder: (data) => data.toString(),
-      path: APIPath.allDatesOn(formattedDateStr),
+      path: APIPath.allDatesForService(serviceId, formattedDateStr),
     );
   }
 

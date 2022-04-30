@@ -1,11 +1,11 @@
 import 'package:faya_clinic/constants/clinic_dates.dart';
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/models/date_registered.dart';
+import 'package:faya_clinic/models/user_date/user_date.dart';
 import 'package:faya_clinic/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 
 class UserDateItem extends StatelessWidget {
-  final DateRegistered dateRegistered;
+  final UserDate dateRegistered;
   const UserDateItem({
     Key key,
     @required this.dateRegistered,
@@ -35,7 +35,7 @@ class UserDateItem extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _subtitle(dateRegistered?.id ?? "id"),
+          // _subtitle(dateRegistered?.id ?? "id"),
           Row(
             children: [
               Expanded(
@@ -51,15 +51,15 @@ class UserDateItem extends StatelessWidget {
               ),
             ),
           ),
-          // todo implement section name
+          // section name
           Text(
-            "Hair removal",
+            dateRegistered.sections?.name ?? "N/A",
             style: TextStyle(
               color: Colors.black87,
             ),
           ),
-          // todo implement sub section name
-          _subtitle("Candela lazer"),
+          // sub section name
+          _subtitle(dateRegistered.sections?.subSections?.first?.name ?? "N/A"),
           _subtitle(MyDateFormatter.toStringDate(dateRegistered?.registeredDate) ?? "date"),
           _subtitle("${clinicTime?.formattedStartEnd12H}"),
         ],

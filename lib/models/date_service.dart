@@ -22,11 +22,11 @@ class DateService {
   ClinicService service;
 
   factory DateService.fromJson(Map<String, dynamic> json) => DateService(
-        id: json["subCategories"] == null ? null : json["id"],
-        dateId: json["subCategories"] == null ? null : json["dateId"],
-        serviceId: json["subCategories"] == null ? null : json["serviceId"],
-        dateRegistered: json["subCategories"] == null ? null : json["dateRegistered"],
-        service: json["subCategories"] == null ? null : json["service"],
+        id: json["id"] == null ? null : json["id"],
+        dateId: json["dateId"] == null ? null : json["dateId"],
+        serviceId: json["serviceId"] == null ? null : json["serviceId"],
+        dateRegistered: json["dateRegistered"] == null ? null : json["dateRegistered"],
+        service: json["service"] == null ? null : json["service"],
       );
 
   Map<String, dynamic> toJson() => {

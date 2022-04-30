@@ -238,7 +238,7 @@ class DatesScreen extends StatelessWidget {
         children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
       else
         // children = [_messageContainer(TransUtil.trans("msg_select_section_and_subs"))];
-        children = [_messageContainer(TransUtil.trans("msg_select_date_first"))];
+        children = [_messageContainer(TransUtil.trans("msg_select_date_and_service_first"))];
     } else {
       // the pickedDateTime is already selected check if there any available date to show them
       // otherwise show a message that indicates that there is no availabe date on the pickedDateTime

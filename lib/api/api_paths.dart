@@ -20,7 +20,8 @@ class APIPath {
   static String updateUserProfile(String userId) => '${AppConfig.API_ENDPATH}UsersMobile/$userId';
 
   static String userDatesList(String userId) => '${AppConfig.API_ENDPATH}DatesRegistered/userDates/$userId';
-  static String allDatesOn(String dateTimeStr) => '${AppConfig.API_ENDPATH}DatesRegistered/date/$dateTimeStr';
+  static String allDatesForService(String serviceId, String dateTimeStr) =>
+      '${AppConfig.API_ENDPATH}DatesRegistered/date/$serviceId/$dateTimeStr';
   static String userOrdersList(String userId) => '${AppConfig.API_ENDPATH}Orders/userOrders/$userId';
 
   static String createUser() => '${AppConfig.API_ENDPATH}UsersMobile';

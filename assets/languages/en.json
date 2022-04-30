@@ -161,6 +161,7 @@
     "msg_order_created_successfully" : "Order created successfully",
     "msg_you_dont_have_orders" : "No previous orders found",
     "msg_no_notifications" : "No notifications yet !",
+    "msg_select_date_and_service_first" : "Please select the date and one service at least",
 
     "btn_expandable_call" : "Call",
     "btn_get_directions" : "Get directions",

@@ -88,4 +88,19 @@ class MyDateFormatter {
     final dateTime = DateTime(now.year, now.month, now.day, hh, mm);
     return TimeOfDay.fromDateTime(dateTime).period == DayPeriod.am ? true : false;
   }
+
+  static bool isValidClinicTime(String standardTime) {
+    var hh1;
+    var mm1;
+
+    if (standardTime.length == 5) {
+      hh1 = int.tryParse(standardTime.substring(0, 2));
+      mm1 = int.tryParse(standardTime.substring(3, 5));
+    }
+
+    final now = DateTime.now();
+    final clinicDateTime = DateTime(now.year, now.month, now.day, hh1, mm1);
+
+    return clinicDateTime.isAfter(now);
+  }
 }

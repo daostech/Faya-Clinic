@@ -79,23 +79,58 @@ class DateScreenController with ChangeNotifier {
     updateWith(services: result, loading: false);
   }
 
-  Future<void> fetchAvailableDates(DateTime dateTime) async {
+  Future<void> fetchAvailableDates() async {
+    // the request can not be made without both date and at least one service
+    // if one of them is null or empty ignore the request
+    final selectedServicesId = _selectedServices.map((e) => e.id).toList() ?? <String>[];
+    if (selectedServicesId.isEmpty || _pickedDateTime == null) {
+      return;
+    }
+    // emit loading state and re init the clinic date list to be filtered again
+    // according to the selected date and services
     updateWith(loading: true, availableDates: <ClinicDate>[]);
     print("$TAG fetchAvailableDates: called");
-    final formattedDate =
-        MyDateFormatter.toStringDate(dateTime); // todo add new format to match the server format if needed
-    final List<String> allDates = await database.fetchAllDatesOn(formattedDate).catchError((error) {
-      print("$TAG [Error] fetchAvailableDates : $error");
-    });
-    final avClinicDates = getAvailableDates(allDates);
+    // get the server date format to be sent and get the reserved dates according to the selected datetime
+    final formattedDate = MyDateFormatter.toStringDate(_pickedDateTime);
+
+    final allDates = <String>[];
+    for (String serviceId in selectedServicesId) {
+      final result = await database.fetchAllDatesForService(serviceId, formattedDate).catchError((error) {
+        print("$TAG [Error] fetchAvailableDates : $error");
+      });
+      allDates.addAll(result);
+    }
+    // remove any duplicated dates if exist
+    final datesSet = allDates.toSet().toList();
+    // last step send the datesSet to the getAvailableDates function
+    // to filter the standard clinic dates according to the available dates in the server
+    final avClinicDates = getAvailableDates(datesSet);
     updateWith(loading: false, availableDates: avClinicDates);
   }
 
-  List<ClinicDate> getAvailableDates(List<String> reserevedDate) {
+  List<ClinicDate> getAvailableDates(List<String> reservedDate) {
+    // the standard available clinic times list starts from 10:00 AM to 10:00 PM
     List<ClinicDate> standardClinicDates = [...ClinicDates.standardDates];
-    reserevedDate.forEach((reserved) {
-      standardClinicDates.removeWhere((standard) => standard.startTimeFormatted24H == reserved);
+
+    // all the reserved and past times will be added to this list to be removed later
+    final toBeRemoved = <ClinicDate>[];
+    for (ClinicDate clinicDate in standardClinicDates) {
+      // if the current clinicDate in the past add it to the list to be removed
+      if (!MyDateFormatter.isValidClinicTime(clinicDate.startTimeFormatted24H)) {
+        toBeRemoved.add(clinicDate);
+      }
+      // if the response from the server contains any reserved dates exclude them as well
+      if (reservedDate != null && reservedDate.contains(clinicDate.startTimeFormatted24H)) {
+        toBeRemoved.add(clinicDate);
+      }
+    }
+
+    toBeRemoved.forEach((_toBeRemoved) {
+      standardClinicDates.remove(_toBeRemoved);
     });
+    // reserevedDate.forEach((reserved) {
+    //   standardClinicDates.removeWhere((standard) => standard.startTimeFormatted24H == reserved);
+    // });
     return standardClinicDates;
   }
 
@@ -103,14 +138,23 @@ class DateScreenController with ChangeNotifier {
     if (section == null) return;
     _subSections?.clear();
     _selectedServices?.clear();
-    updateWith(pickedSection: section, subSections: _subSections, selectedServices: _selectedServices);
+    updateWith(
+      pickedSection: section,
+      subSections: <SubSection>[],
+      selectedServices: <ClinicService>[],
+      services: <ClinicService>[],
+    );
     // filterSubSections(section);
     fetchSubSections(section.id);
   }
 
   void onSubSectionSelected(SubSection subSection) {
     if (subSection == null) return;
-    updateWith(pickedSubSection: subSection);
+    updateWith(
+      pickedSubSection: subSection,
+      selectedServices: <ClinicService>[],
+      services: <ClinicService>[],
+    );
     fetchServices(subSection.id);
   }
 
@@ -127,11 +171,13 @@ class DateScreenController with ChangeNotifier {
       _selectedServices.add(service);
     }
     updateWith(selectedServices: _selectedServices);
+    fetchAvailableDates();
   }
 
   void onDateTimeChanged(DateRangePickerSelectionChangedArgs args) {
     _pickedDateTime = args.value;
-    fetchAvailableDates(_pickedDateTime);
+    // fetchAvailableDates(_pickedDateTime);
+    fetchAvailableDates();
     print("onDateTimeChanged: pickedDateTime: ${_pickedDateTime.toString()}");
   }
 

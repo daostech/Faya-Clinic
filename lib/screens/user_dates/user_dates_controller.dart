@@ -1,4 +1,4 @@
-import 'package:faya_clinic/models/date_registered.dart';
+import 'package:faya_clinic/models/user_date/user_date.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:faya_clinic/services/database_service.dart';
@@ -11,7 +11,7 @@ class UserDatesController with ChangeNotifier {
     init();
   }
 
-  final userDates = <DateRegistered>[];
+  final userDates = <UserDate>[];
   var isLoading = true;
 
   void init() {
@@ -25,9 +25,11 @@ class UserDatesController with ChangeNotifier {
       print("$TAG [Error] fetchDateRegistered : $error");
     });
     if (result != null) {
+      print("$TAG fetchDateRegistered: result ${result.length}");
       userDates.clear();
       userDates.addAll(result);
     }
+    print("$TAG fetchDateRegistered: userDates3 ${userDates.length}");
     updateWith(loading: false);
   }
 

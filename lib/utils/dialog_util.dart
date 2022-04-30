@@ -125,6 +125,8 @@ class DialogUtil {
   }
 
   static void showToastMessage(BuildContext context, String message) {
-    Toast.show(message, context, duration: Toast.LENGTH_SHORT, gravity: Toast.BOTTOM);
+    final toastContext = ToastContext();
+    toastContext.init(context);
+    Toast.show(message, duration: 1, gravity: 0);
   }
 }
