@@ -27,12 +27,12 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.328010563129-ttam2ii8c51e0d99n5kv3o51tlv3cq75</string>
+				<string>com.googleusercontent.apps.328010563129-042nhq5argoqhg0lqd1s7pbn6lmvr4i2</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIBackgroundModes</key>
