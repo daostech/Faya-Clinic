@@ -171,13 +171,14 @@ class CartController with ChangeNotifier {
     update(items: allItems);
   }
 
-  void onOrderCreated() {
+  void onOrderCreated() async {
     _isLoading = false;
     allItems = <OrderItem>[];
     _cartPrice = 0;
     productCount = 0;
     _error = "";
     appliedCoupon = null;
+    await cartRepository.deleteAll();
     notifyListeners();
   }
 

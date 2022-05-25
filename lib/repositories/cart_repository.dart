@@ -13,7 +13,7 @@ abstract class CartRepositoryBase {
   Future<bool> deleteItem(String id);
 
   Future<Coupon> fetchCoupun(String name);
-  deleteAll();
+  Future deleteAll();
 }
 
 class CartRepository implements CartRepositoryBase {
@@ -46,8 +46,8 @@ class CartRepository implements CartRepositoryBase {
   }
 
   @override
-  deleteAll() {
-    localStorage.clearAll();
+  Future deleteAll() {
+    return localStorage.clearAll();
   }
 
   @override
