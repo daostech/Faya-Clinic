@@ -10,7 +10,7 @@ class MyThemes {
     splashColor: colorSplash,
     highlightColor: colorSplash,
     focusColor: colorSplash,
-    fontFamily: "Amiri",
+    fontFamily: "Tajawal",
     primaryTextTheme: TextTheme(
       headline1: TextStyle(color: Colors.black, fontSize: fontSizeLarge),
       bodyText1: TextStyle(color: Colors.black, fontSize: fontSizeStandard),

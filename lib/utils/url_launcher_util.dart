@@ -1,16 +1,36 @@
 import 'dart:io';
 
+import 'package:faya_clinic/constants/config.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UrlLauncherUtil {
-  static const _CLINIC_PHONE_NUMBER = "+905366389928";
+  static const _CLINIC_PHONE_NUMBER = AppConfig.CONTACT_PHONE;
   static const _WHATSAPP_DEF_MESSAGE = "Hi how are you";
   static const _WHATSAPP = "https://wa.me/$_CLINIC_PHONE_NUMBER?text=$_WHATSAPP_DEF_MESSAGE";
+  static const _CALL = "tel://$_CLINIC_PHONE_NUMBER";
+  static const _CALL_2 = "tel://";
 
-  void openWhatsApp() {
+  Future openWhatsApp() {
     final encoded = Uri.encodeFull(_WHATSAPP);
-    _launchUniversalLink(encoded);
+    return _launchUniversalLink(encoded);
+  }
+
+  Future openDialNumber() async {
+    if (await canLaunch(_CALL)) {
+      await launch(_CALL);
+    } else {
+      throw 'error_cant_open_dial_numpad';
+    }
+  }
+
+  static Future openDialNumberFor(String number) async {
+    final numUri = _CALL_2 + number;
+    if (await canLaunch(numUri)) {
+      await launch(numUri);
+    } else {
+      throw 'error_cant_open_dial_numpad';
+    }
   }
 
   static void openURL(String url) {

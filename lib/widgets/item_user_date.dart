@@ -5,11 +5,26 @@ import 'package:faya_clinic/utils/date_formatter.dart';
 import 'package:flutter/material.dart';
 
 class UserDateItem extends StatelessWidget {
-  final UserDate dateRegistered;
+  final UserDate2 dateRegistered;
   const UserDateItem({
     Key key,
     @required this.dateRegistered,
   }) : super(key: key);
+
+  String get dateServices {
+    final services = dateRegistered.sections.subSections.first.services;
+    if (services == null || services.isEmpty) {
+      return "";
+    }
+    var result = "";
+    for (int i = 0; i < services.length; i++) {
+      result += services.elementAt(i).name;
+      if (i != services.length - 1) {
+        result += ", ";
+      }
+    }
+    return result;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +75,10 @@ class UserDateItem extends StatelessWidget {
           ),
           // sub section name
           _subtitle(dateRegistered.sections?.subSections?.first?.name ?? "N/A"),
+          _subtitle(dateServices ?? "N/A"),
           _subtitle(MyDateFormatter.toStringDate(dateRegistered?.registeredDate) ?? "date"),
           _subtitle("${clinicTime?.formattedStartEnd12H}"),
+          _subtitle("${dateRegistered?.status}"),
         ],
       ),
     );

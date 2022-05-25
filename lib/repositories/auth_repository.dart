@@ -2,6 +2,7 @@ import 'package:faya_clinic/models/response/post_response.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
 import 'package:faya_clinic/repositories/cart_repository.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:faya_clinic/api/api_paths.dart';
@@ -25,6 +26,7 @@ abstract class AuthRepositoryBase {
   bool isFirstOpen;
   String userId;
   String phoneNumber;
+  String fcmToken;
   AuthState authState;
   MyUser myUser;
 
@@ -33,6 +35,7 @@ abstract class AuthRepositoryBase {
   Future createUserProfile(CreateUserProfileRequest requestBody);
   Future<MyUser> fetchUserProfile();
   Future<PostResponse> updateUserProfile(CreateUserProfileRequest requestBody);
+  Future<void> updateDeviceToken();
   void logout();
 }
 
@@ -44,13 +47,16 @@ class AuthRepository implements AuthRepositoryBase {
   final CartRepositoryBase cartRepository;
   final LocalStorageService localStorageService;
 
-  AuthRepository(
-      {@required this.addressesRepository,
-      @required this.favoriteRepository,
-      @required this.cartRepository,
-      @required this.authService,
-      @required this.localStorageService,
-      @required this.apiService});
+  final fcm = FirebaseMessaging.instance;
+
+  AuthRepository({
+    @required this.addressesRepository,
+    @required this.favoriteRepository,
+    @required this.cartRepository,
+    @required this.authService,
+    @required this.localStorageService,
+    @required this.apiService,
+  });
 
   @override
   bool get isLoggedIn => localStorageService.getValue(HiveKeys.LOGGED_IN, false);
@@ -63,6 +69,9 @@ class AuthRepository implements AuthRepositoryBase {
 
   @override
   String get phoneNumber => localStorageService.getValue(HiveKeys.PHONE_NUMBER, null);
+
+  @override
+  String get fcmToken => localStorageService.getValue(HiveKeys.FCM_TOKEN, null);
 
   @override
   MyUser get myUser => localStorageService.getValue(HiveKeys.USER_PROFILE, null);
@@ -94,6 +103,11 @@ class AuthRepository implements AuthRepositoryBase {
   }
 
   @override
+  set fcmToken(String fcmToken) {
+    localStorageService.saveValue(HiveKeys.FCM_TOKEN, fcmToken);
+  }
+
+  @override
   set myUser(MyUser myUser) {
     localStorageService.saveValue(HiveKeys.USER_PROFILE, myUser);
   }
@@ -122,8 +136,11 @@ class AuthRepository implements AuthRepositoryBase {
   }
 
   @override
-  Future createUserProfile(CreateUserProfileRequest requestBody) {
-    return apiService.postData(path: APIPath.createUser(), body: requestBody.toJson());
+  Future createUserProfile(CreateUserProfileRequest requestBody) async {
+    fcmToken = await fcm.getToken();
+    final request = requestBody.copyWith(token: fcmToken);
+    print("createUserProfile request: ${request.toJson()}");
+    return apiService.postData(path: APIPath.createUser(), body: request.toJson());
   }
 
   @override
@@ -141,5 +158,23 @@ class AuthRepository implements AuthRepositoryBase {
       myUser = await fetchUserProfile();
     }
     return response;
+  }
+
+  @override
+  Future<void> updateDeviceToken() async {
+    final token = await fcm.getToken();
+    print("updateDeviceToken token $token");
+    // if (token != fcmToken) {
+    // if the exist token not equals to the saved one update it in both local and server
+    print("updateDeviceToken updating token $token");
+    fcmToken = token;
+    final requestBody = CreateUserProfileRequest(
+      token: token,
+      // birthDate: myUser.dateBirth,
+    );
+    final result = await updateUserProfile(requestBody);
+    print("updateDeviceToken result success ${result.success}");
+    print("updateDeviceToken result ${result.toString()}");
+    // }
   }
 }

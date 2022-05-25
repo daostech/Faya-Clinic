@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
@@ -69,6 +70,18 @@ class MyDateFormatter {
     return _monthDayFormat.format(dateTime);
   }
 
+  static String notificationDate2(Timestamp timestamp) {
+    if (timestamp == null) return "";
+    final dateTime = timestamp.toDate();
+    if (_isToday(dateTime)) {
+      return _timeFormat.format(dateTime);
+    }
+    if (_isYesterday(dateTime)) {
+      return TransUtil.trans("label_yesterday");
+    }
+    return _monthDayFormat.format(dateTime);
+  }
+
   static bool _isToday(DateTime dateTime) {
     final now = DateTime.now();
     return dateTime.year == now.year && dateTime.month == now.month && dateTime.day == now.day;
@@ -89,7 +102,8 @@ class MyDateFormatter {
     return TimeOfDay.fromDateTime(dateTime).period == DayPeriod.am ? true : false;
   }
 
-  static bool isValidClinicTime(String standardTime) {
+  static bool isValidClinicTime(DateTime dateTime, String standardTime) {
+    if (dateTime == null || standardTime == null) return false;
     var hh1;
     var mm1;
 
@@ -99,7 +113,7 @@ class MyDateFormatter {
     }
 
     final now = DateTime.now();
-    final clinicDateTime = DateTime(now.year, now.month, now.day, hh1, mm1);
+    final clinicDateTime = DateTime(dateTime.year, dateTime.month, dateTime.day, hh1, mm1);
 
     return clinicDateTime.isAfter(now);
   }

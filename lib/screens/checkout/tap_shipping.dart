@@ -1,3 +1,4 @@
+import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/screens/checkout/checkout_controller.dart';
@@ -32,10 +33,17 @@ class CheckoutShippingTap extends StatelessWidget {
             ),
           ),
           ListView.separated(
-            itemCount: controller.shippingMethods.length,
             shrinkWrap: true,
+            itemCount: controller.shippingMethods.length,
             physics: NeverScrollableScrollPhysics(),
             itemBuilder: (ctx, index) {
+              if (cartController.totalPrice <= AppConfig.FREE_SHIPPING_MIN_TOTAL && index == 0) {
+                print("index: $index");
+                print("total price: ${cartController.totalPrice}");
+                // if the total price is less than the allowed free shipping
+                // hide the free shipping option
+                return const SizedBox();
+              }
               return RadioListTile(
                 value: controller.shippingMethods[index],
                 groupValue: selectedMethod,
@@ -48,6 +56,13 @@ class CheckoutShippingTap extends StatelessWidget {
               );
             },
             separatorBuilder: (ctx, index) {
+              if (cartController.totalPrice <= AppConfig.FREE_SHIPPING_MIN_TOTAL && index == 0) {
+                print("index: $index");
+                print("total price: ${cartController.totalPrice}");
+                // if the total price is less than the allowed free shipping
+                // hide the free shipping option
+                return const SizedBox();
+              }
               return Padding(
                 padding: const EdgeInsets.symmetric(
                   vertical: marginSmall,

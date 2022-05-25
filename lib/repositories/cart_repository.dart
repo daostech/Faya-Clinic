@@ -10,7 +10,7 @@ abstract class CartRepositoryBase {
   bool addToCart(OrderItem item);
   bool addQuantity(String id);
   bool removeQuantity(String id);
-  bool deleteItem(String id);
+  Future<bool> deleteItem(String id);
 
   Future<Coupon> fetchCoupun(String name);
   deleteAll();
@@ -51,10 +51,11 @@ class CartRepository implements CartRepositoryBase {
   }
 
   @override
-  bool deleteItem(String id) {
+  Future<bool> deleteItem(String id) async {
     final item = allItems.firstWhere((element) => element.id == id, orElse: () => null);
     if (item == null) return false;
-    allItems = allItems..removeWhere((element) => element.id == id);
+    await item.delete();
+    // allItems.removeWhere((element) => element.id == id);
     return !existItem(item.id);
   }
 

@@ -1,5 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/providers/notifications_controller.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/chat/chat_screen.dart';
 import 'package:faya_clinic/screens/user_account/user_account_screen.dart';
 import 'package:faya_clinic/screens/cart/cart.dart';
@@ -8,6 +9,7 @@ import 'package:faya_clinic/screens/dates/dates_screen.dart';
 import 'package:faya_clinic/screens/home/home.dart';
 import 'package:faya_clinic/screens/notifications/notifications_screen.dart';
 import 'package:faya_clinic/screens/store/store.dart';
+import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/utils/url_launcher_util.dart';
 import 'package:faya_clinic/widgets/app_bar_search.dart';
@@ -86,6 +88,12 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    context.read<AuthRepositoryBase>().updateDeviceToken();
+  }
+
+  @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     controller = context.watch<NotificationsController>();
@@ -129,11 +137,20 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
         distance: 112.0,
         children: [
           ActionButton(
-            onPressed: () => ChatScreen.create(context),
+            onPressed: () async => _launcher.openDialNumber().catchError((error) {
+              if (error != null) {
+                DialogUtil.showToastMessage(context, TransUtil.trans(error));
+              }
+            }),
+            // onPressed: () => ChatScreen.create(context),
             icon: const Icon(Icons.call),
           ),
           ActionButton(
-            onPressed: () => _launcher.openWhatsApp(),
+            onPressed: () async => _launcher.openWhatsApp().catchError((error) {
+              if (error != null) {
+                DialogUtil.showToastMessage(context, TransUtil.trans(error));
+              }
+            }),
             icon: const Icon(Icons.chat),
           ),
         ],

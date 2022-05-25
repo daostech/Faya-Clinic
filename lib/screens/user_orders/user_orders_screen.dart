@@ -1,6 +1,6 @@
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
-import 'package:faya_clinic/screens/user_addresses/add_address_screen.dart';
+import 'package:faya_clinic/screens/user_orders/user_order_details_screen.dart';
 import 'package:faya_clinic/screens/user_orders/user_orders_controller.dart';
 import 'package:faya_clinic/services/database_service.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
@@ -32,13 +32,6 @@ class UserOrdersScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (builder) => AddAddressScreen())),
-        child: Icon(
-          Icons.add,
-          color: Colors.black87,
-        ),
-      ),
       body: Column(
         children: [
           Column(
@@ -54,13 +47,13 @@ class UserOrdersScreen extends StatelessWidget {
               ),
             ],
           ),
-          Expanded(child: _buildContent()),
+          Expanded(child: _buildContent(context)),
         ],
       ),
     );
   }
 
-  Widget _buildContent() {
+  Widget _buildContent(BuildContext context) {
     if (controller.userOrders.isEmpty) {
       if (controller.isLoading)
         return Center(
@@ -76,8 +69,15 @@ class UserOrdersScreen extends StatelessWidget {
       padding: const EdgeInsets.all(0),
       itemBuilder: (ctx, index) {
         return PreviousOrderItem(
-            // order: items[index],
-            );
+          order: items[index],
+          onTap: () => Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (builder) => UserOrderDetailsScreen(
+                order: items[index],
+              ),
+            ),
+          ),
+        );
       },
     );
   }

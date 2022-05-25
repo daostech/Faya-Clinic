@@ -20,6 +20,7 @@ import 'package:faya_clinic/repositories/notification_repository.dart';
 import 'package:faya_clinic/screens/auth_wrapper.dart';
 import 'package:faya_clinic/services/auth_service.dart';
 import 'package:faya_clinic/services/database_service.dart';
+import 'package:faya_clinic/services/notification_service.dart';
 import 'package:faya_clinic/storage/hive_service.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,7 +36,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await EasyLocalization.ensureInitialized();
-  await init();
+  await NotificationService.init();
+  await initLocalStorage();
 
   runApp(
     EasyLocalization(
@@ -53,7 +55,6 @@ void main() async {
         final db = DatabaseService(apiService: api);
         final favRepo = FavoriteRepository(HiveLocalStorageService(HiveKeys.BOX_FAVORITE));
         final addressRepo = AddressesRepository(HiveLocalStorageService(HiveKeys.BOX_ADDRESSES));
-        final notificationsRepo = NotificationsRepository(api);
         final cartRepo = CartRepository(
           apiService: api,
           localStorage: HiveLocalStorageService(HiveKeys.BOX_CART),
@@ -92,7 +93,9 @@ void main() async {
             ),
             ChangeNotifierProvider(
               create: (_) => CartController(
+                database: db,
                 cartRepository: cartRepo,
+                favoriteRepository: favRepo,
               ),
             ),
             ChangeNotifierProvider(
@@ -101,7 +104,7 @@ void main() async {
             ChangeNotifierProvider(
               create: (_) => NotificationsController(
                 authRepository: authRepo,
-                notificationsRepository: notificationsRepo,
+                notificationsRepository: NotificationsRepository(),
               ),
               lazy: true,
             ),
@@ -138,7 +141,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
-Future init() async {
+Future initLocalStorage() async {
   var appDocDir = await getApplicationDocumentsDirectory();
   Hive.init(appDocDir.path);
   // register adapters

@@ -65,10 +65,20 @@ class StoreController with ChangeNotifier {
     updateWith(loading: true);
     print("$TAG fetchNewArrivalsProducts: called");
     // todo change the request or filter to get only new arraivals
-    final result = await database.fetchProductsList().catchError((error) {
-      print("$TAG [Error] fetchNewArrivalsProducts : $error");
-    });
-    updateWith(newArrivals: result, loading: false);
+    // final result = await database.fetchProductsList().catchError((error) {
+    //   print("$TAG [Error] fetchNewArrivalsProducts : $error");
+    // });
+    // no endpoint for the new arrivals get the product and get the last 10 products
+    final sorted = <Product>[..._allProducts];
+    final newArrivals = <Product>[];
+    sorted.sort((b, a) => a.creationDate.compareTo(b.creationDate));
+    if (sorted.length > 10) {
+      newArrivals.addAll(sorted.sublist(0, 10));
+    } else {
+      newArrivals.addAll(sorted);
+    }
+
+    updateWith(newArrivals: newArrivals, loading: false);
   }
 
   Future<void> fetchAllCategories() async {

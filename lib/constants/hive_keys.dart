@@ -21,4 +21,5 @@ class HiveKeys {
   static const String FIRST_OPEN = "first_open";
   static const String LOGGED_IN = "logged_in";
   static const String AUTH_STATE = "auth_state";
+  static const String FCM_TOKEN = "fcm_token";
 }

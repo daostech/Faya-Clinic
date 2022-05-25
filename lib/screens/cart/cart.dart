@@ -1,10 +1,8 @@
 import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
-import 'package:faya_clinic/dummy.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/screens/checkout/checkout_screen.dart';
 import 'package:faya_clinic/screens/product_details/product_details_screen.dart';
-import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/button_standard.dart';
 import 'package:faya_clinic/widgets/input_standard.dart';
@@ -44,7 +42,7 @@ class CartScreen extends StatelessWidget {
             SizedBox(
               height: marginLarge,
             ),
-            _buildOtherProducts(context),
+            _buildSuggestedProducts(context, controller),
           ],
         ),
       ),
@@ -100,7 +98,8 @@ class CartScreen extends StatelessWidget {
               return CartProductItem(
                 orderItem: currentItem,
                 addQTY: () => controller.addQTY(currentItem.id),
-                remoceQTY: () => controller.removeQTY(currentItem.id),
+                removeQTY: () => controller.removeQTY(currentItem.id),
+                deleteFromCart: () => controller.deleteItem(currentItem.id),
                 onTap: () {},
               );
             },
@@ -257,42 +256,62 @@ class CartScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildOtherProducts(BuildContext context) {
+  Widget _buildSuggestedProducts(BuildContext context, CartController controller) {
     final isRTL = TransUtil.isArLocale(context);
-    return Column(
-      children: [
-        Align(
-          // last product header
-          alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
-          child: Container(
-            margin: const EdgeInsets.symmetric(horizontal: marginLarge),
-            child: Text(
-              TransUtil.trans("header_other_products"),
+    return Builder(builder: (context) {
+      if (controller.suggestedProducts.isEmpty) {
+        return SizedBox();
+      }
+      return Column(
+        children: [
+          Align(
+            // last product header
+            alignment: isRTL ? Alignment.centerRight : Alignment.centerLeft,
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: marginLarge),
+              child: Text(
+                TransUtil.trans("header_other_products"),
+              ),
             ),
           ),
-        ),
-        Container(
-          // last products horizontal list container
-          height: 220,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: DummyData.latestProducts.length,
-            scrollDirection: Axis.horizontal,
-            itemBuilder: (ctx, index) {
-              final products = DummyData.latestProducts;
-              return ProductItem(
-                product: products[index],
-                // isFavorite: _favController.isFavoriteProduct(products[index]),
-                // onFavoriteToggle: (product) => _favController.toggleFavorite(product),
-                onTap: () => _goTo(
-                  context,
-                  ProductDetailsScreen.create(context, products[index]),
-                ),
-              );
-            },
+          Container(
+            // last products horizontal list container
+            height: 220,
+            child: _buildProductsList(controller),
           ),
-        ),
-      ],
+        ],
+      );
+    });
+  }
+
+  Widget _buildProductsList(CartController controller) {
+    return Container(
+      height: 220,
+      child: Builder(builder: (context) {
+        if (controller.suggestedProducts.isEmpty) {
+          if (controller.isLoading) {
+            return Center(child: CircularProgressIndicator());
+          }
+          return Text(TransUtil.trans("text"));
+        }
+        return ListView.builder(
+          shrinkWrap: true,
+          itemCount: controller.suggestedProducts.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (ctx, index) {
+            final products = controller.suggestedProducts;
+            return ProductItem(
+              product: products[index],
+              isFavorite: controller.isFavoriteProduct(products[index]),
+              onFavoriteToggle: (product) => controller.toggleFavorite(product),
+              onTap: () => _goTo(
+                context,
+                ProductDetailsScreen.create(context, products[index]),
+              ),
+            );
+          },
+        );
+      }),
     );
   }
 }

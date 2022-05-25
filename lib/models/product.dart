@@ -51,7 +51,7 @@ class Product extends StorageModel implements ListAble {
   @HiveField(9)
   double price;
   @HiveField(10)
-  dynamic creationDate;
+  DateTime creationDate;
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
@@ -89,7 +89,7 @@ class Product extends StorageModel implements ListAble {
         categoryId: json["categoryId"],
         subCategoryId: json["subCategoryId"],
         price: json["price"],
-        creationDate: json["creationDate"],
+        creationDate: json["creationDate"] == null ? null : DateTime.tryParse(json["creationDate"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -103,7 +103,7 @@ class Product extends StorageModel implements ListAble {
         "categoryId": categoryId,
         "subCategoryId": subCategoryId,
         "price": price,
-        "creationDate": creationDate,
+        "creationDate": creationDate?.toIso8601String(),
       };
 
   @override

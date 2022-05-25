@@ -64,7 +64,7 @@ class ClinicScreen extends StatelessWidget {
                       ),
                     ],
                     onTap: controller.onTabChanged,
-                    labelColor: colorPrimaryLight,
+                    labelColor: Colors.white,
                     unselectedLabelColor: colorPrimary,
                     // indicatorColor: Colors.green,
                     overlayColor: MaterialStateProperty.resolveWith((states) => colorAccent),

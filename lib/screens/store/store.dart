@@ -155,9 +155,9 @@ class StoreScreen extends StatelessWidget {
           ),
         ),
         Container(
-            // all products grid view container
-            // height: 175,
-            child: _allProductsGrid(controller.filteredProductsList, context)),
+          // all products grid view container
+          child: _allProductsGrid(controller.filteredProductsList, context),
+        ),
       ],
     );
   }
@@ -186,14 +186,17 @@ class StoreScreen extends StatelessWidget {
         ),
       );
     }
+    final width = MediaQuery.of(context).size.width;
+    final crossAxisCt = width ~/ (150 + (marginSmall * 2));
     return Column(
       children: [
         GridView.builder(
+          // itemCount: 30,
           itemCount: filteredItems.length,
           padding: const EdgeInsets.all(0),
           shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
+            crossAxisCount: crossAxisCt,
             crossAxisSpacing: marginSmall,
             mainAxisSpacing: marginSmall,
           ),

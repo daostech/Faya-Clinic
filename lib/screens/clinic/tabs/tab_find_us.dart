@@ -75,7 +75,17 @@ class _ClinicFindUsTabState extends State<ClinicFindUsTab> {
           ),
           ListTile(
             leading: Icon(Icons.phone),
-            title: Text(AppConfig.CONTACT_PHONE),
+            title: Text(AppConfig.CONTACT_PHONE_FORMATTED),
+            onTap: () => UrlLauncherUtil.openDialNumberFor(AppConfig.CONTACT_PHONE_FORMATTED).catchError((error) {
+              DialogUtil.showToastMessage(context, TransUtil.trans(error));
+            }),
+          ),
+          ListTile(
+            leading: Icon(Icons.phone),
+            title: Text(AppConfig.CONTACT_PHONE_FORMATTED2),
+            onTap: () => UrlLauncherUtil.openDialNumberFor(AppConfig.CONTACT_PHONE_FORMATTED2).catchError((error) {
+              DialogUtil.showToastMessage(context, TransUtil.trans(error));
+            }),
           ),
         ],
       ),

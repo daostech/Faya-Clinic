@@ -3,13 +3,13 @@ import 'package:faya_clinic/api/api_service.dart';
 import 'package:faya_clinic/models/category.dart';
 import 'package:faya_clinic/models/home_slider.dart';
 import 'package:faya_clinic/models/offer.dart';
-import 'package:faya_clinic/models/order.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/product_review.dart';
 import 'package:faya_clinic/models/requests/create_order_request.dart';
 import 'package:faya_clinic/models/requests/date_registered_request.dart';
 import 'package:faya_clinic/models/requests/product_review_request.dart';
 import 'package:faya_clinic/models/response/post_response.dart';
+import 'package:faya_clinic/models/user_order.dart';
 import 'package:faya_clinic/models/section.dart';
 import 'package:faya_clinic/models/service.dart';
 import 'package:faya_clinic/models/sub_section.dart';
@@ -27,9 +27,9 @@ abstract class Database {
   Future fetchProductCategories();
   Future fetchAllDatesForService(String serviceId, String formattedDateStr);
   Future fetchOffersList();
-  Future<List<Order>> fetchUserPreviousOrders(userId);
+  Future<List<UserOrder>> fetchUserPreviousOrders(userId);
   Future fetchMyFavoriteProducts(userId);
-  Future<List<UserDate>> fetchUserDates(userId);
+  Future<List<UserDate2>> fetchUserDates(userId);
   Future getTeamsList();
   Future fetchProductReviews(String productId);
   Future<PostResponse> postProductReview(ProductReviewRequest request);
@@ -59,9 +59,9 @@ class DatabaseService implements Database {
   }
 
   @override
-  Future<List<UserDate>> fetchUserDates(userId) async {
-    final result = await apiService.getData<UserDate>(
-      builder: (data) => UserDate.fromJson(data),
+  Future<List<UserDate2>> fetchUserDates(userId) async {
+    final result = await apiService.getData<UserDate2>(
+      builder: (data) => UserDate2.fromJson(data),
       path: APIPath.userDatesList(userId),
     );
     return result;
@@ -74,12 +74,20 @@ class DatabaseService implements Database {
   }
 
   @override
-  Future<List<Order>> fetchUserPreviousOrders(userId) {
-    return apiService.getData<Order>(
+  Future<List<UserOrder>> fetchUserPreviousOrders(userId) {
+    return apiService.getData<UserOrder>(
       path: APIPath.userOrdersList(userId),
-      builder: (data) => Order.fromJson(data),
+      builder: (data) => UserOrder.fromJson(data),
     );
   }
+
+  // @override
+  // Future<UserOrder> fetchUserPreviousOrders(userId) {
+  //   return apiService.getObject<UserOrder>(
+  //     path: APIPath.userOrdersList(userId),
+  //     builder: (data) => UserOrder.fromJson(data),
+  //   );
+  // }
 
   @override
   Future<List<Product>> fetchProductsList() {

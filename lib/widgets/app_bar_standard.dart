@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 class AppBarStandard extends StatelessWidget {
   final Function onBackTap;
   final String title;
+  final List<Widget> actions;
   const AppBarStandard({
     Key key,
     this.onBackTap,
+    this.actions,
     @required this.title,
   }) : super(key: key);
 
@@ -35,10 +37,13 @@ class AppBarStandard extends StatelessWidget {
                   Radius.circular(radiusLarge),
                 ),
                 child: TextButton(
+                  style: ButtonStyle(alignment: Alignment.center),
                   onPressed: onBackTap ?? () => Navigator.of(context).pop(),
-                  child: Icon(
-                    Icons.arrow_back_ios,
-                    color: Colors.black87,
+                  child: Center(
+                    child: Icon(
+                      Icons.arrow_back_ios,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
               ),
@@ -57,6 +62,10 @@ class AppBarStandard extends StatelessWidget {
               ),
             ),
           ),
+          if (actions != null)
+            Row(
+              children: actions,
+            ),
         ],
       ),
     );

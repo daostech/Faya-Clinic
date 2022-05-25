@@ -116,7 +116,7 @@ class DateScreenController with ChangeNotifier {
     final toBeRemoved = <ClinicDate>[];
     for (ClinicDate clinicDate in standardClinicDates) {
       // if the current clinicDate in the past add it to the list to be removed
-      if (!MyDateFormatter.isValidClinicTime(clinicDate.startTimeFormatted24H)) {
+      if (!MyDateFormatter.isValidClinicTime(pickedDateTime, clinicDate.startTimeFormatted24H)) {
         toBeRemoved.add(clinicDate);
       }
       // if the response from the server contains any reserved dates exclude them as well

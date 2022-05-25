@@ -81,6 +81,8 @@
 
     "label_your_points" : "Your points",
     "label_filter" : "Filter",
+    "label_items" : "Items",
+    "label_total2" : "Total",
     "label_total" : "Total:",
     "label_sub_total" : "Sub total",
     "label_products" : "Products",
@@ -108,7 +110,7 @@
     "label_card_number_required" : "Card Number*",
     "label_yesterday" : "Yesterday",
     
-    "clinic_formatted_address" : "City, Street No, Building, Floor",
+    "clinic_formatted_address" : "Basra - Algeria - Al Tazaj Snack Street - in front of Birbene",
 
     "nav_label_home" : "Home",    
     "nav_label_clinic" : "Clinic",
@@ -136,6 +138,7 @@
     "error_failed_creating_order" : "Failed creating order",
     "error_updating_profile" : "Error updating profile",
     "error_invalid_email_format" : "Invalid email format",
+    "error_cant_open_dial_numpad" : "Could not make phone call",
     
     "msg_date_created" : "Date Created Successfully",
     "msg_select_section_first" : "please make sure to select the section first",
@@ -185,5 +188,6 @@
     "btn_confirm" : "Confirm",
     "btn_show_all_reviews" : "Show all reviews",
     "btn_publish" : "Publish",
+    "btn_view_details" : "View Details",
     "btn_cancel" : "Cancel"
 }

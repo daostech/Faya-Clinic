@@ -128,8 +128,17 @@ class AppBarSearch extends StatelessWidget {
                   itemBuilder: (context, suggestion) {
                     return ListTile(
                       leading: CircleAvatar(
-                        child: NetworkCachedImage(
-                          imageUrl: suggestion.imageUrl,
+                        backgroundColor: colorGreyDark,
+                        // radius: 500,
+                        child: SizedBox(
+                          width: 70,
+                          height: 70,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(500)),
+                            child: NetworkCachedImage(
+                              imageUrl: suggestion.imageUrl,
+                            ),
+                          ),
                         ),
                       ),
                       title: Text(suggestion.titleValue),

@@ -6,10 +6,12 @@ import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/shipping_method.dart';
 
 class DummyData {
+  static const CURRENCY = AppConfig.PREFFERED_QURRENCY_UNIT;
   static List<ShippingMethod> shippingMethods = [
-    ShippingMethod(id: "1", method: "Free Shipping", price: 0.0, unite: "${AppConfig.PREFFERED_QURRENCY_UNIT}"),
-    ShippingMethod(id: "2", method: "Flat Rate", price: 10.0, unite: "${AppConfig.PREFFERED_QURRENCY_UNIT}"),
-    ShippingMethod(id: "3", method: "Local pickup", price: 20.0, unite: "${AppConfig.PREFFERED_QURRENCY_UNIT}"),
+    ShippingMethod(id: "1", method: "Free Shipping", price: 0.0, unite: "$CURRENCY"),
+    ShippingMethod(id: "2", method: "Flat Rate (Basra)", price: 5000.0, unite: "$CURRENCY"),
+    ShippingMethod(id: "3", method: "Flat Rate (Others)", price: 10000.0, unite: "$CURRENCY"),
+    ShippingMethod(id: "4", method: "Local pickup", price: 20.0, unite: "$CURRENCY"),
   ];
 
   static List<PaymentMethod> paymentMethods = [

@@ -2,6 +2,8 @@ import 'package:faya_clinic/models/coupon.dart';
 import 'package:faya_clinic/models/order_item.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/repositories/cart_repository.dart';
+import 'package:faya_clinic/repositories/favorite_repository.dart';
+import 'package:faya_clinic/services/database_service.dart';
 import 'package:flutter/material.dart';
 
 class CartController with ChangeNotifier {
@@ -10,18 +12,29 @@ class CartController with ChangeNotifier {
 
   final coupunTxtController = TextEditingController();
   final CartRepositoryBase cartRepository;
+  final FavoriteRepositoryBase favoriteRepository;
+  final Database database;
   List<OrderItem> allItems = [];
+  List<Product> suggestedProducts = <Product>[];
+  List<Product> _favoriteProducts = [];
   Coupon appliedCoupon;
 
   var productCount = 0;
 
   var _cartPrice = 0.0;
   var _error = "";
-  var _isLoading = false;
+  var _isLoading = true;
 
-  CartController({@required this.cartRepository}) {
+  CartController({
+    @required this.database,
+    @required this.cartRepository,
+    @required this.favoriteRepository,
+  }) {
     allItems = cartRepository.allItems;
     _cartPrice = totalPrice;
+    _favoriteProducts?.clear();
+    _favoriteProducts.addAll(favoriteRepository.allProducts);
+    fetchSuggestedProduct();
   }
 
   int get count => allItems?.length ?? 0;
@@ -30,6 +43,32 @@ class CartController with ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get hasCoupun => appliedCoupon != null;
   String get error => _error;
+
+  Future<void> fetchSuggestedProduct() async {
+    update(isLoading: true);
+    print("$TAG fetchSuggestedProduct: called");
+    final result = await database.fetchProductsList().catchError((error) {
+      print("$TAG [Error] fetchSuggestedProduct : $error");
+      update(isLoading: false);
+    });
+    update(suggestedProducts: result, isLoading: false);
+  }
+
+  bool isFavoriteProduct(Product product) {
+    if (product == null) return false;
+    return _favoriteProducts.firstWhere((element) => element.id == product.id, orElse: () => null) != null;
+  }
+
+  void toggleFavorite(Product product) {
+    print("$TAG toggleFavorite called");
+    if (product == null) return;
+    if (isFavoriteProduct(product)) {
+      _favoriteProducts.removeWhere((element) => element.id == product.id);
+    } else
+      _favoriteProducts.add(product);
+    favoriteRepository.toggleProduct(product);
+    notifyListeners();
+  }
 
   double get totalPrice {
     if (allItems == null || allItems.isEmpty) return 0.0;
@@ -62,6 +101,14 @@ class CartController with ChangeNotifier {
     allItems = cartRepository.allItems;
     update(price: totalPrice, items: cartRepository.allItems);
     return count;
+  }
+
+  Future<bool> deleteItem(String id) async {
+    print("deleteItem called on $id");
+    allItems.removeWhere((element) => element.id == id);
+    final result = await cartRepository.deleteItem(id);
+    update(price: totalPrice, items: cartRepository.allItems);
+    return result;
   }
 
   int removeQTY(String id) {
@@ -136,12 +183,14 @@ class CartController with ChangeNotifier {
 
   void update({
     List<OrderItem> items,
+    List<Product> suggestedProducts,
     int count,
     double price,
     String error,
     bool isLoading,
     Coupon appliedCoupon,
   }) {
+    this.suggestedProducts = suggestedProducts ?? this.suggestedProducts;
     this.allItems = items ?? this.allItems;
     this.productCount = count ?? this.productCount;
     this._cartPrice = price ?? this._cartPrice;

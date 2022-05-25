@@ -27,7 +27,7 @@ class ProductAdapter extends TypeAdapter<Product> {
       categoryId: fields[7] as String,
       subCategoryId: fields[8] as String,
       price: fields[9] as double,
-      creationDate: fields[10] as dynamic,
+      creationDate: fields[10] as DateTime,
     );
   }
 
@@ -64,8 +64,5 @@ class ProductAdapter extends TypeAdapter<Product> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is ProductAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      identical(this, other) || other is ProductAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

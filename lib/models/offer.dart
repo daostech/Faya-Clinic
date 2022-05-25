@@ -43,6 +43,8 @@ class Offer implements ListAble {
     return imgs;
   }
 
+  bool get hasImages => images != null && images.length > 0;
+
   String get randomImage {
     final existImages = images;
     if (existImages == null || existImages.isEmpty) return "";

@@ -1,12 +1,14 @@
 import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/product.dart';
+import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/product_details/components/add_review_widget.dart';
 import 'package:faya_clinic/screens/product_details/components/product_reviews.dart';
 import 'package:faya_clinic/screens/product_details/components/users_reviews.dart';
 import 'package:faya_clinic/screens/product_details/product_details_controller.dart';
 import 'package:faya_clinic/services/database_service.dart';
+import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/app_bar_standard.dart';
 import 'package:faya_clinic/widgets/network_image.dart';
@@ -33,6 +35,14 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
+  void addToCart(BuildContext context) {
+    final result = Provider.of<CartController>(context, listen: false).addToCart(controller.product);
+    if (result)
+      DialogUtil.showToastMessage(context, TransUtil.trans("msg_added_to_cart"));
+    else
+      DialogUtil.showToastMessage(context, TransUtil.trans("msg_already_in_cart"));
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -45,6 +55,15 @@ class ProductDetailsScreen extends StatelessWidget {
             children: [
               AppBarStandard(
                 title: TransUtil.trans("header_product_details"),
+                actions: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.add_shopping_cart_outlined,
+                      color: Colors.white,
+                    ),
+                    onPressed: () => addToCart(context),
+                  ),
+                ],
               ),
               Container(
                 width: double.infinity,
@@ -62,8 +81,9 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                   buildProductImage(size),
                   buildProductInfo(context, controller.product),
-                  divider(),
-                  ProductReviewsWidget(),
+                  // todo re implement it when the product statistics from the backend is ready
+                  // divider(),
+                  // ProductReviewsWidget(),
                   divider(),
                   UsersReviewsSection(controller: controller),
                   divider(),

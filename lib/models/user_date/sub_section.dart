@@ -1,3 +1,4 @@
+import 'package:faya_clinic/models/user_date/section.dart';
 import 'package:faya_clinic/models/user_date/service.dart';
 
 class SubSection {
@@ -15,6 +16,7 @@ class SubSection {
     this.userRole,
     this.userName,
     this.token,
+    this.sections,
   });
 
   List<Service> services;
@@ -22,14 +24,15 @@ class SubSection {
   String name;
   String text;
   String fullText;
-  dynamic img1;
-  dynamic img2;
+  String img1;
+  String img2;
   String sectionId;
   DateTime creationDate;
   dynamic serviceIds;
   dynamic userRole;
   dynamic userName;
   dynamic token;
+  Sections sections;
 
   factory SubSection.fromJson(Map<String, dynamic> json) => SubSection(
         services: List<Service>.from(json["services"].map((x) => Service.fromJson(x))),
@@ -45,6 +48,7 @@ class SubSection {
         userRole: json["userRole"],
         userName: json["userName"],
         token: json["token"],
+        sections: json["sections"] == null ? null : Sections.fromJson(json["sections"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -61,5 +65,6 @@ class SubSection {
         "userRole": userRole,
         "userName": userName,
         "token": token,
+        "sections": sections == null ? null : sections.toJson(),
       };
 }

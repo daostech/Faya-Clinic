@@ -1,3 +1,4 @@
+import 'package:faya_clinic/models/user_date/date_registered.dart';
 import 'package:faya_clinic/models/user_date/sub_section.dart';
 
 class Sections {
@@ -15,27 +16,24 @@ class Sections {
   });
 
   List<SubSection> subSections;
-  List<dynamic> dateRegistered;
+  List<DateRegistered> dateRegistered;
   String id;
   String name;
   String text;
-  dynamic image;
+  String image;
   DateTime creationDate;
   dynamic userRole;
   dynamic userName;
   dynamic token;
 
   factory Sections.fromJson(Map<String, dynamic> json) => Sections(
-        subSections: json["subSections"] == null
-            ? null
-            : List<SubSection>.from(json["subSections"].map((x) => SubSection.fromJson(x))),
-        dateRegistered:
-            json["dateRegistered"] == null ? null : List<dynamic>.from(json["dateRegistered"].map((x) => x)),
+        subSections: List<SubSection>.from(json["subSections"].map((x) => SubSection.fromJson(x))),
+        dateRegistered: List<DateRegistered>.from(json["dateRegistered"].map((x) => DateRegistered.fromJson(x))),
         id: json["id"],
         name: json["name"],
         text: json["text"],
         image: json["image"],
-        creationDate: DateTime.tryParse(json["creationDate"]),
+        creationDate: DateTime.parse(json["creationDate"]),
         userRole: json["userRole"],
         userName: json["userName"],
         token: json["token"],
@@ -43,7 +41,7 @@ class Sections {
 
   Map<String, dynamic> toJson() => {
         "subSections": List<dynamic>.from(subSections.map((x) => x.toJson())),
-        "dateRegistered": List<dynamic>.from(dateRegistered.map((x) => x)),
+        "dateRegistered": List<dynamic>.from(dateRegistered.map((x) => x.toJson())),
         "id": id,
         "name": name,
         "text": text,

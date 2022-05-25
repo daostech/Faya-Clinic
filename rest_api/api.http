@@ -1,4 +1,4 @@
-@baseUrl = https://sys.fayaclinica.com/api
+@baseUrl = https://api.fayaclinica.com/api
 @authorization = ""
 @catId = 796be263-3c08-4055-8f2c-08f2c688b31f
 
@@ -26,25 +26,37 @@ Accept: application/json
 
 ###
 # GET DatesRegistered
-GET {{baseUrl}}/DatesRegistered/list
+GET {{baseUrl}}/DatesRegistered/date/2022-04-28T11:00:00
 Accept: application/json
 # Authorization: Bearer {{accessToken}}
 
 ###
 # GET DatesRegisteredOn
-GET {{baseUrl}}/DatesRegistered/date/2022-01-09
+GET {{baseUrl}}/DatesRegistered/date/2022-04-28T11:00:00
 Accept: application/json
 # Authorization: Bearer {{accessToken}}
 
 ###
 # GET User DatesRegistered
-GET {{baseUrl}}/DatesRegistered/userDates/bbbf3cfa-6d01-4382-91e1-0c20a2adffad
+GET {{baseUrl}}/DatesRegistered/userDates/6xINyJ9JIAYEo0wNnLBLzVoSdEm2
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# DELETE User DatesRegistered
+DELETE  {{baseUrl}}/DatesRegistered/2bf1bb12-d22d-4cb4-ba8d-543098ebac51
 Accept: application/json
 # Authorization: Bearer {{accessToken}}
 
 ###
 # GET Orders
 GET {{baseUrl}}/Orders/list
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+###
+# GET user Orders
+GET {{baseUrl}}/Orders/userOrders/JqTgnpEUmyeesoomxhliNqxTvss1
 Accept: application/json
 # Authorization: Bearer {{accessToken}}
 
@@ -68,7 +80,7 @@ Accept: application/json
 
 ###
 # GET SubSection
-GET {{baseUrl}}/SubSection/e81dd78c-3268-4a50-826c-82621180543b/list
+GET {{baseUrl}}/SubSection/b63182ec-fb29-473a-8aa0-12eb0ece8807/list
 Accept: application/json
 # Authorization: Bearer {{accessToken}}
 
@@ -86,7 +98,7 @@ Accept: application/json
 
 ###
 # GET UserById
-GET {{baseUrl}}/UsersMobile/byId/jdiadjklasjldjfhoas
+GET {{baseUrl}}/UsersMobile/byId/6xINyJ9JIAYEo0wNnLBLzVoSdEm2
 Accept: application/json
 # Authorization: Bearer {{accessToken}}
 
@@ -133,6 +145,14 @@ GET {{baseUrl}}/Coupons/061bebbb-2cbc-475f-b901-2a74a221518e
 Accept: application/json
 # Authorization: Bearer {{accessToken}}
 
+
+###
+# GET Notifications list
+GET {{baseUrl}}/Notifications/list
+# GET {{baseUrl}}/Coupons/061bebbb-2cbc-475f-b901-2a74a221518e
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
 ###
 # POST Products
 POST {{baseUrl}}/Products
@@ -174,7 +194,7 @@ Content-Type: application/json
   "text": "text here ",
   "fullText": "full text here ",
   "img1": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSELycZjlpOd3aPyR8Cfx5OLGSbn0zRrHAwyA&usqp=CAU",
-  "sectionId": "9b96f1d4-5630-426b-996a-fded136e42de",
+  "sectionId": "dffcc83b-3828-4f54-9b9f-5cf0273afd03",
 }
 
 
@@ -304,23 +324,26 @@ Content-Type: application/json
 
 ###
 # PUT User
-PUT {{baseUrl}}/UsersMobile/jdiadjklasjldjfhoas
+PUT {{baseUrl}}/UsersMobile/6xINyJ9JIAYEo0wNnLBLzVoSdEm2
 Content-Type: application/json
 # Authorization: Bearer {{accessToken}}
 
-{  
-  "id": "jdiadjklasjldjfhoas",
-  "fullName": "Test User222",
-  "email": "email@email22.com",
-  "isActive": true,
-  "gender": 0,
-  "phone": "1234567890",
+# {
+#   "Id": "jdiadjklasjldjfhoas",
+#   "FullName": "string",
+#   "Email": "string",
+#   "IsActive": true,
+#   "Gender": 0,
+#   "Phone": "string",
+# }
+{ 
+  "token": "cZitEJGXpkGivLbGFjpu14:APA91bG30zd9J0OkUCNSuwmdf2dQZNcZ4iRbXyaE3scjc8lZdS_QQjmw3RGyUQACRFUpkpeWdXqyHiMQHQUIsWv5D5VZuhnsKMgTnWsiiJbuBaLWzBL97IQuvRuNi0UCIdHeO9_zhCh_",
 }
 
 
 ###
 # POST Order
-PUT {{baseUrl}}/Orders
+POST {{baseUrl}}/Orders
 Content-Type: application/json
 # Authorization: Bearer {{accessToken}}
 

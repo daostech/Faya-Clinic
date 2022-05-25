@@ -80,6 +80,8 @@
 
     "label_your_points": "نقاطك",
     "label_filter": "قلتر",
+    "label_items" : "المنتجات",
+    "label_total2" : "المجموع",
     "label_total": "المجموع النهائي:",
     "label_sub_total": "الإجمالي",
     "label_products": "المنتجات",
@@ -103,7 +105,7 @@
     "label_applied_coupon" : "الكوبون المستخدم",
     "label_yesterday" : "البارحة",
 
-    "clinic_formatted_address" : "المدينة, رقم الشارع, البناء, الطابق",
+    "clinic_formatted_address" : "البصرة - الجزائر - شارع الطازج سناك - مقابل بربين",
 
     "nav_label_home": "الرئيسية",
     "nav_label_clinic": "العيادة",
@@ -131,6 +133,7 @@
     "error_failed_creating_order" : "تعذر انشاء الطلب",
     "error_updating_profile" : "فشل تحديث البروفايل",
     "error_invalid_email_format" : "Invalid email format",
+    "error_cant_open_dial_numpad" : "Could not make phone call",
 
     "msg_date_created": "تم إنشاء التاريخ بنجاح",
     "msg_select_section_first": "يرجى التأكد من تحديد القسم أولاً",
@@ -180,6 +183,7 @@
     "btn_confirm": "تأكيد",
     "btn_show_all_reviews" : "عرض جميع التقييمات",
     "btn_publish" : "نشر",
+    "btn_view_details" : "View Details",
     "btn_cancel": "إلغاء"
   }
   

@@ -33,9 +33,9 @@ class SectionItem extends StatelessWidget {
         child: Row(
           children: [
             ClipRRect(
-              borderRadius: BorderRadius.all(
-                Radius.circular(radiusStandard),
-              ),
+              // borderRadius: BorderRadius.all(
+              //   Radius.circular(radiusStandard),
+              // ),
               child: Container(
                 // image main container
                 width: _imgWidth,

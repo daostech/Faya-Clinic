@@ -47,7 +47,8 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           children: [
             _buildSliders(),
-            _buildUserPoints(),
+            SizedBox(height: marginLarge),
+            // _buildUserPoints(),
             _buildLastOffersSection(context),
             _buildLastProductsSection(context),
             _buildClinicSections(context),
@@ -156,7 +157,7 @@ class HomeScreen extends StatelessWidget {
       itemBuilder: (_, index) => SectionItem(
         title: controller.lastOffers[index].title,
         subTitle: controller.lastOffers[index].description,
-        image: controller.lastOffers[index].images[0],
+        image: controller.lastOffers[index].hasImages ? controller.lastOffers[index].images[0] : null,
         onTap: () => _goTo(context, ClinicOfferDetailsScreen(offer: controller.lastOffers[index])),
       ),
     );

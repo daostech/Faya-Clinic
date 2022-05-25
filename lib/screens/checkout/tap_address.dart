@@ -139,7 +139,7 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
                   onChanged: (_) {},
                 ),
                 StandardInput(
-                  isReadOnly: authRepo.myUser.email != null || authRepo.myUser.email.isNotEmpty,
+                  isReadOnly: authRepo.myUser.email != null,
                   initialValue: authRepo.myUser.email ?? "",
                   onChanged: (_) {},
                 ),

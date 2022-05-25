@@ -69,7 +69,7 @@ class OrderItem extends StorageModel {
       };
 
   Map<String, dynamic> toJsonForOrder() => {
-        "Id": id,
+        "ProductId": id,
         "Item": item,
         "Price": price,
         "Count": count,

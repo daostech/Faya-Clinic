@@ -1,4 +1,5 @@
 import 'package:faya_clinic/models/user_date/user_date.dart';
+import 'package:faya_clinic/models/user_date/user_date.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:faya_clinic/services/database_service.dart';
@@ -11,7 +12,7 @@ class UserDatesController with ChangeNotifier {
     init();
   }
 
-  final userDates = <UserDate>[];
+  final userDates = <UserDate2>[];
   var isLoading = true;
 
   void init() {

@@ -17,7 +17,7 @@ class CheckoutPaymentTap extends StatelessWidget {
     controller.placeOrder().then((value) {
       if (value) {
         context.read<CartController>().onOrderCreated();
-        DialogUtil.showToastMessage(context, "msg_order_created_successfully");
+        DialogUtil.showToastMessage(context, TransUtil.trans("msg_order_created_successfully"));
         Navigator.of(context).pop();
       }
     });
