@@ -50,7 +50,16 @@
     "tab_shipping": "شحن",
     "tab_review": "التقييم",
     "tab_payment": "دفع",
-  
+
+    "shipping_free" : "شحن مجاني",
+    "shipping_flat_rate_basra" : "التوصيل للبصرة",
+    "shipping_flat_rate_others" : "توصيل لبقية المحافظات",
+    "shipping_local_pick_up" : "سوف احضر للمركز واستلم الطلب",
+    
+    "payment_direct_bank_transfer" : "تحويل بنكي",
+    "payment_cash_on_delivery" : "الدفع عند الاستلام",
+    "payment_credit_bank_card" : "ماستر كارد/فيزا كارد",
+    
     "hint_enter_your_phone": "أدخل رقم هاتفك..",
     "hint_birthday_password": "أدخل تاريخ ميلادك..",
     "hint_enter_your_name": "أدخل أسمك..",

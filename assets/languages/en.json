@@ -51,6 +51,15 @@
     "tab_review" : "Review",
     "tab_payment" : "Payment",
     
+    "shipping_free" : "Free Shipping",
+    "shipping_flat_rate_basra" : "Flat Rate (Basra)",
+    "shipping_flat_rate_others" : "Flat Rate (Others)",
+    "shipping_local_pick_up" : "Local pickup",
+    
+    "payment_direct_bank_transfer" : "Direct bank transfer",
+    "payment_cash_on_delivery" : "Cash on delivery",
+    "payment_credit_bank_card" : "Credit/Bank card",
+    
     "hint_enter_your_phone" : "Enter your phone..",
     "hint_birthday_password" : "Enter your Birthday..",
     "hint_enter_your_name" : "Enter your Name..",

@@ -75,6 +75,7 @@ class APIService {
     String encodedBody = json.encode(body);
     final response = await http.put(uri, headers: {"Content-Type": "application/json"}, body: encodedBody);
     final postResponse = PostResponse.fromJson(jsonDecode(response.body));
+    print('putObject: response ${response.body}');
     if (response.statusCode == 200) {
       print('putObject: Request $uri success\nResponse: 200');
     } else

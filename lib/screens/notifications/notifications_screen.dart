@@ -22,8 +22,8 @@ class NotificationsScreen extends StatelessWidget {
               itemBuilder: (ctx, indx) {
                 return ListTile(
                   title: Text(controller.allNotifications[indx].title),
-                  subtitle: Text(controller.allNotifications[indx].text),
-                  trailing: Text(MyDateFormatter.notificationDate2(controller.allNotifications[indx].creationDate)),
+                  subtitle: Text(controller.allNotifications[indx].body),
+                  trailing: Text(MyDateFormatter.notificationDate(controller.allNotifications[indx].creationDate)),
                 );
               },
             ),

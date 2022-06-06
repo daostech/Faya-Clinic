@@ -24,21 +24,21 @@ class HiveLocalStorageService implements LocalStorageService {
   }
 
   @override
-  insertObject(StorageModel obj) {
-    box.put(obj.primaryKey, obj);
+  Future insertObject(StorageModel obj) {
+    return box.put(obj.primaryKey, obj);
   }
 
   @override
   deleteObject(StorageModel obj) {
     if (obj.isInBox) obj.delete();
-    box.delete(obj.primaryKey);
+    return box.delete(obj.primaryKey);
   }
 
   @override
-  insertList(List<StorageModel> list) {
-    list.forEach((element) {
-      insertObject(element);
-    });
+  Future insertList(List<StorageModel> list) async {
+    for (StorageModel storageModel in list) {
+      await insertObject(storageModel);
+    }
   }
 
   @override
@@ -58,6 +58,6 @@ class HiveLocalStorageService implements LocalStorageService {
 
   @override
   clearAll() {
-    box.clear();
+    return box.clear();
   }
 }

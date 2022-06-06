@@ -149,7 +149,13 @@ Accept: application/json
 ###
 # GET Notifications list
 GET {{baseUrl}}/Notifications/list
-# GET {{baseUrl}}/Coupons/061bebbb-2cbc-475f-b901-2a74a221518e
+Accept: application/json
+# Authorization: Bearer {{accessToken}}
+
+
+###
+# GET Notifications by user id
+GET {{baseUrl}}/Notifications/fb3hgleBU5QbeGlavitXr2Jsnbt1
 Accept: application/json
 # Authorization: Bearer {{accessToken}}
 

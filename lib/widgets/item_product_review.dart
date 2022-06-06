@@ -21,7 +21,7 @@ class ProductReviewItem extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  productReview.user?.fullName ?? TransUtil.trans("label_unknown_user"),
+                  productReview.user?.userName ?? TransUtil.trans("label_unknown_user"),
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                   ),

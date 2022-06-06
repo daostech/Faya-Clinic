@@ -9,7 +9,7 @@ import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:faya_clinic/widgets/input_standard.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/src/provider.dart';
+import 'package:provider/provider.dart';
 
 class CheckoutAddressTap extends StatefulWidget {
   final CheckoutController controller;
@@ -125,7 +125,7 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
               children: [
                 StandardInput(
                   isReadOnly: true,
-                  initialValue: authRepo.myUser.fullName ?? "",
+                  initialValue: authRepo.myUser.userName ?? "",
                   onChanged: (_) {},
                 ),
                 // StandardInput(
@@ -135,7 +135,7 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
                 // ),
                 StandardInput(
                   isReadOnly: true,
-                  initialValue: authRepo.myUser.phone ?? "",
+                  initialValue: authRepo.myUser.phoneNumber ?? "",
                   onChanged: (_) {},
                 ),
                 StandardInput(

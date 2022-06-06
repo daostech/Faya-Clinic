@@ -52,7 +52,7 @@ class CheckoutPaymentTap extends StatelessWidget {
               return RadioListTile<PaymentMethod>(
                 value: controller.paymentMethods[index],
                 groupValue: selectedMethod,
-                title: Text(controller.paymentMethods[index].method),
+                title: Text(TransUtil.trans(controller.paymentMethods[index].method)),
                 activeColor: colorPrimary,
                 contentPadding: const EdgeInsets.all(0),
                 selected: controller.isSelectedPayment(index),

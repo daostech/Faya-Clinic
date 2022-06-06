@@ -1,3 +1,5 @@
+import 'package:faya_clinic/models/user.dart';
+
 class CreateUserProfileRequest {
   CreateUserProfileRequest({
     this.userId,
@@ -8,6 +10,7 @@ class CreateUserProfileRequest {
     this.isActive = true,
     this.gender = 0,
     this.token,
+    this.imgUrl,
   });
 
   String userId;
@@ -18,6 +21,7 @@ class CreateUserProfileRequest {
   bool isActive;
   int gender;
   String token;
+  String imgUrl;
 
   CreateUserProfileRequest copyWith({
     userId,
@@ -28,6 +32,7 @@ class CreateUserProfileRequest {
     isActive,
     gender,
     token,
+    imgUrl,
   }) {
     return CreateUserProfileRequest(
       userId: userId ?? this.userId,
@@ -38,6 +43,49 @@ class CreateUserProfileRequest {
       isActive: isActive ?? this.isActive,
       gender: gender ?? this.gender,
       token: token ?? this.token,
+      imgUrl: imgUrl ?? this.imgUrl,
+    );
+  }
+
+  CreateUserProfileRequest copyFromUser({MyUser user}) {
+    return CreateUserProfileRequest(
+      userId: user.userId ?? this.userId,
+      userName: user.userName ?? this.userName,
+      phoneNumber: user.phoneNumber ?? this.phoneNumber,
+      birthDate: user.dateBirth ?? this.birthDate,
+      email: user.email ?? this.email,
+      isActive: user.isActive ?? this.isActive,
+      gender: user.gender ?? this.gender,
+      token: user.token ?? this.token,
+      imgUrl: user.imgUrl ?? this.imgUrl,
+    );
+  }
+
+  factory CreateUserProfileRequest.copyAllFromUser({MyUser user}) {
+    return CreateUserProfileRequest(
+      userId: user.userId,
+      userName: user.userName,
+      phoneNumber: user.phoneNumber,
+      birthDate: user.dateBirth,
+      email: user.email,
+      isActive: user.isActive,
+      gender: user.gender,
+      token: user.token,
+      imgUrl: user.imgUrl,
+    );
+  }
+
+  factory CreateUserProfileRequest.copyFromUser({MyUser user}) {
+    return CreateUserProfileRequest(
+      userId: user.userId,
+      userName: user.userName,
+      phoneNumber: user.phoneNumber,
+      birthDate: user.dateBirth,
+      email: user.email,
+      isActive: user.isActive,
+      gender: user.gender,
+      token: user.token,
+      imgUrl: user.imgUrl,
     );
   }
 
@@ -50,5 +98,6 @@ class CreateUserProfileRequest {
         "isActive": isActive,
         "gender": gender,
         "token": token,
+        "imgUrl": imgUrl,
       };
 }

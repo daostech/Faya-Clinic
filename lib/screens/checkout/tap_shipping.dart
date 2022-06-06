@@ -47,7 +47,7 @@ class CheckoutShippingTap extends StatelessWidget {
               return RadioListTile(
                 value: controller.shippingMethods[index],
                 groupValue: selectedMethod,
-                title: Text(controller.shippingMethods[index].method),
+                title: Text(TransUtil.trans(controller.shippingMethods[index].method)),
                 subtitle: Text(controller.shippingMethods[index].priceString),
                 activeColor: colorPrimary,
                 contentPadding: const EdgeInsets.all(0),

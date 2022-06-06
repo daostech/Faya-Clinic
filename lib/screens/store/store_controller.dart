@@ -57,7 +57,9 @@ class StoreController with ChangeNotifier {
     final result = await database.fetchProductsList().catchError((error) {
       print("$TAG [Error] fetchAllProducts : $error");
     });
-    _filteredProductsList = [...result];
+    if (result != null) {
+      _filteredProductsList = [...result];
+    }
     updateWith(allProducts: result, loading: false);
   }
 

@@ -17,25 +17,27 @@ class MyUserAdapter extends TypeAdapter<MyUser> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MyUser(
-      id: fields[0] as String,
-      fullName: fields[1] as String,
+      userId: fields[0] as String,
+      userName: fields[1] as String,
       email: fields[2] as String,
       isActive: fields[3] as bool,
       gender: fields[4] as int,
-      phone: fields[5] as String,
+      phoneNumber: fields[5] as String,
       dateBirth: fields[6] as String,
       dateCreated: fields[7] as String,
+      imgUrl: fields[8] as String,
+      token: fields[9] as String,
     );
   }
 
   @override
   void write(BinaryWriter writer, MyUser obj) {
     writer
-      ..writeByte(8)
+      ..writeByte(10)
       ..writeByte(0)
-      ..write(obj.id)
+      ..write(obj.userId)
       ..writeByte(1)
-      ..write(obj.fullName)
+      ..write(obj.userName)
       ..writeByte(2)
       ..write(obj.email)
       ..writeByte(3)
@@ -43,11 +45,15 @@ class MyUserAdapter extends TypeAdapter<MyUser> {
       ..writeByte(4)
       ..write(obj.gender)
       ..writeByte(5)
-      ..write(obj.phone)
+      ..write(obj.phoneNumber)
       ..writeByte(6)
       ..write(obj.dateBirth)
       ..writeByte(7)
-      ..write(obj.dateCreated);
+      ..write(obj.dateCreated)
+      ..writeByte(8)
+      ..write(obj.imgUrl)
+      ..writeByte(9)
+      ..write(obj.token);
   }
 
   @override
@@ -55,8 +61,5 @@ class MyUserAdapter extends TypeAdapter<MyUser> {
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is MyUserAdapter &&
-          runtimeType == other.runtimeType &&
-          typeId == other.typeId;
+      identical(this, other) || other is MyUserAdapter && runtimeType == other.runtimeType && typeId == other.typeId;
 }

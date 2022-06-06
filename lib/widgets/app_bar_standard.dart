@@ -27,23 +27,18 @@ class AppBarStandard extends StatelessWidget {
               shape: BoxShape.circle,
               color: Colors.white,
             ),
-            // the arrow icon seems like it is not in the center
-            // when it is exactly in the center so the padding
-            // make it looks like in the center for the human eye
-            padding: const EdgeInsets.only(left: marginSmall),
-            child: FittedBox(
-              child: ClipRRect(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(radiusLarge),
-                ),
+            margin: const EdgeInsets.only(left: marginStandard),
+            child: ClipRRect(
+              borderRadius: BorderRadius.all(
+                Radius.circular(radiusLarge),
+              ),
+              child: FittedBox(
                 child: TextButton(
                   style: ButtonStyle(alignment: Alignment.center),
                   onPressed: onBackTap ?? () => Navigator.of(context).pop(),
-                  child: Center(
-                    child: Icon(
-                      Icons.arrow_back_ios,
-                      color: Colors.black87,
-                    ),
+                  child: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black87,
                   ),
                 ),
               ),

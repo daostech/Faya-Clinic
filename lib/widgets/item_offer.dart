@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/widgets/network_image.dart';

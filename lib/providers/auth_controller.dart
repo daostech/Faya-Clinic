@@ -1,4 +1,3 @@
-import 'package:faya_clinic/models/requests/create_profile_request.dart';
 import 'package:faya_clinic/models/user.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -103,11 +102,11 @@ class AuthController with ChangeNotifier {
   Future createUserProfile(String name, String phoneNumber, String birthDate, String email) async {
     try {
       updateWith(isLoading: true);
-      final request = CreateUserProfileRequest(
+      final request = MyUser(
         userId: authRepository.userId,
         phoneNumber: phoneNumber,
         userName: name,
-        birthDate: birthDate,
+        dateBirth: birthDate,
         email: email,
       );
       final result = await authRepository.createUserProfile(request);
@@ -130,9 +129,12 @@ class AuthController with ChangeNotifier {
     updateWith(isLoading: false, error: e.toString());
   }
 
-  void logout() {
-    authRepository.logout();
-    updateWith(myUser: authRepository.myUser, authState: authRepository.authState);
+  void logout() async {
+    await authRepository.logout();
+    updateWith(
+      myUser: authRepository.myUser,
+      authState: authRepository.authState,
+    );
   }
 
   void onErrorHandled() {

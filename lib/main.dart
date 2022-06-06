@@ -104,7 +104,7 @@ void main() async {
             ChangeNotifierProvider(
               create: (_) => NotificationsController(
                 authRepository: authRepo,
-                notificationsRepository: NotificationsRepository(),
+                notificationsRepository: NotificationsRepository(api),
               ),
               lazy: true,
             ),

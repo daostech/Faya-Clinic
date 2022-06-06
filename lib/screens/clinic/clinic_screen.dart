@@ -53,8 +53,11 @@ class ClinicScreen extends StatelessWidget {
                           text: TransUtil.trans("tab_team"),
                         ),
                       ),
-                      Tab(
-                        text: TransUtil.trans("tab_sections"),
+                      Center(
+                        child: Tab(
+                          child: Text(TransUtil.trans("tab_sections")),
+                          // text: TransUtil.trans("tab_sections"),
+                        ),
                       ),
                       Tab(
                         text: TransUtil.trans("tab_offers"),

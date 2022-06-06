@@ -1,6 +1,7 @@
 import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/user_order.dart';
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:flutter/material.dart';
 
@@ -110,7 +111,7 @@ class PreviousOrderItem extends StatelessWidget {
                 borderRadius: BorderRadius.all(Radius.circular(radiusStandard)),
                 child: NetworkCachedImage(
                   // set the image of the first prodect in the list
-                  imageUrl: firstProduct?.img1,
+                  imageUrl: firstProduct?.images[0],
                 ),
               ),
             ),
@@ -122,7 +123,7 @@ class PreviousOrderItem extends StatelessWidget {
               ),
             ),
             Text(firstProduct?.orderItems?.length?.toString() ?? "items"),
-            Text(order?.paymentMethod ?? ""),
+            Text(TransUtil.trans(order?.paymentMethod)),
             Text(
               "${AppConfig.PREFFERED_QURRENCY_UNIT} ${order?.total?.toString() ?? "0.0"}",
               style: TextStyle(

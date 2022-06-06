@@ -1,6 +1,12 @@
+import 'dart:io';
+
 import 'package:faya_clinic/utils/date_formatter.dart';
 import 'package:faya_clinic/utils/dialog_util.dart';
+import 'package:faya_clinic/widgets/network_image.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/screens/user_account/user_account_controller.dart';
@@ -17,6 +23,9 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  final ImagePicker _picker = ImagePicker();
+  final storage = FirebaseStorage.instance;
+
   UserAccountController controller;
 
   @override
@@ -25,6 +34,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
     print("didChangeDependencies called");
     controller = context.read<UserAccountController>();
     controller.initForm();
+  }
+
+  Future imgFromGallery() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      print('pickedFile not null');
+
+      controller.uploadNewImage(pickedFile);
+    } else {
+      print('No image selected.');
+    }
   }
 
   void handleBackPressed(BuildContext context, UserAccountController controller) {
@@ -73,30 +93,47 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding: const EdgeInsets.fromLTRB(marginStandard, 50, marginStandard, 0),
                 child: Column(
                   children: [
-                    Container(
-                      // user avatar container
-                      // todo add network image
-                      width: size.width * 0.25,
-                      height: size.width * 0.25,
-                      decoration: BoxDecoration(
-                        color: colorGreyLight,
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(radiusStandard),
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            offset: Offset(1.0, 1.0),
-                            blurRadius: 1.0,
+                    if (controller.loading)
+                      Padding(
+                        padding: const EdgeInsets.all(marginLarge),
+                        child: Center(child: CircularProgressIndicator()),
+                      ),
+                    GestureDetector(
+                      onTap: () => imgFromGallery(),
+                      child: Container(
+                        // user avatar container
+                        width: size.width * 0.25,
+                        height: size.width * 0.25,
+                        decoration: BoxDecoration(
+                          color: colorGreyLight,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(radiusStandard),
                           ),
-                        ],
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black26,
+                              offset: Offset(1.0, 1.0),
+                              blurRadius: 1.0,
+                            ),
+                          ],
+                        ),
+                        child: controller.user.imgUrl == null
+                            ? SizedBox()
+                            : ClipRRect(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(radiusStandard),
+                                ),
+                                child: NetworkCachedImage(
+                                  imageUrl: controller.user.imgUrl,
+                                ),
+                              ),
                       ),
                     ),
                     SizedBox(
                       height: marginLarge,
                     ),
                     Text(
-                      controller.user?.fullName ?? TransUtil.trans("label_username"),
+                      controller.user?.userName ?? TransUtil.trans("label_username"),
                       style: TextStyle(
                         color: colorPrimary,
                         fontWeight: FontWeight.bold,
@@ -120,7 +157,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             controller: controller.userNameTxtController,
                             label: TransUtil.trans("label_name_required"),
                             hintText: TransUtil.trans("hint_your_name"),
-                            initialValue: controller.user?.fullName ?? "",
+                            initialValue: controller.user?.userName ?? "",
                             isRequiredInput: true,
                             onChanged: (_) {},
                           ),
@@ -136,7 +173,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             controller: controller.phoneTxtController,
                             label: TransUtil.trans("label_phone"),
                             hintText: TransUtil.trans("hint_your_phone"),
-                            initialValue: controller.user?.phone ?? "",
+                            initialValue: controller.user?.phoneNumber ?? "",
                             isReadOnly: true,
                             onChanged: (_) {},
                           ),

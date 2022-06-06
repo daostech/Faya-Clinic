@@ -80,7 +80,7 @@ class AddProductReviewWidget extends StatelessWidget {
                   : StandardButton(
                       radius: radiusStandard,
                       text: TransUtil.trans("btn_publish"),
-                      onTap: controller.reviewTxtController.text.length < 10
+                      onTap: controller.reviewTxtController.text.isEmpty
                           ? null
                           : () {
                               controller.postReview();

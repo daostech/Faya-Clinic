@@ -1,8 +1,12 @@
-import 'package:faya_clinic/models/requests/create_profile_request.dart';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:faya_clinic/models/user.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserAccountController with ChangeNotifier {
   final AuthRepositoryBase authRepository;
@@ -21,26 +25,27 @@ class UserAccountController with ChangeNotifier {
 
   String get error => _error;
   bool get hasError => _error.isNotEmpty;
+  bool get loading => _loading;
   MyUser get user => _user;
 
   MyUser _user;
 
   bool get hasUpdates {
-    return userNameTxtController.text != _user.fullName ||
+    return userNameTxtController.text != _user.userName ||
         emailTxtController.text != _user.email ||
-        phoneTxtController.text != _user.phone;
+        phoneTxtController.text != _user.phoneNumber;
   }
 
   MyUser get newUserData => MyUser(
-        fullName: userNameTxtController.text,
-        phone: phoneTxtController.text,
+        userName: userNameTxtController.text,
+        phoneNumber: phoneTxtController.text,
         email: emailTxtController.text,
       );
 
   void initForm() {
-    userNameTxtController.text = _user.fullName;
+    userNameTxtController.text = _user.userName;
     emailTxtController.text = _user.email;
-    phoneTxtController.text = _user.phone;
+    phoneTxtController.text = _user.phoneNumber;
   }
 
   Future<bool> submitForm() async {
@@ -51,12 +56,12 @@ class UserAccountController with ChangeNotifier {
         return false;
       } else {
         try {
-          final request = CreateUserProfileRequest(
-            userId: _user.id,
+          final request = MyUser(
+            userId: _user.userId,
             userName: userNameTxtController.text,
             email: emailTxtController.text,
-            phoneNumber: _user.phone,
-            birthDate: _user.dateBirth,
+            phoneNumber: _user.phoneNumber,
+            dateBirth: _user.dateBirth,
           );
           final result = await authRepository.updateUserProfile(request);
           if (result.success) {
@@ -73,6 +78,35 @@ class UserAccountController with ChangeNotifier {
       }
     }
     return false;
+  }
+
+  uploadNewImage(XFile file) async {
+    print("uploadNewImage called");
+    if (file == null) return;
+    try {
+      print("uploadNewImage try");
+      final destination = 'userImages/';
+      final _photo = File(file.path);
+
+      updateWith(isLoading: true);
+      final ref = FirebaseStorage.instance.ref(destination).child('${authRepository.userId}');
+
+      final uploadResult = await ref.putFile(_photo);
+
+      if (uploadResult != null) {
+        print("uploadNewImage uploadResult != null");
+        final imgUrl = await uploadResult.ref.getDownloadURL();
+        final request = MyUser(
+          imgUrl: imgUrl,
+        );
+        print("uploadNewImage requestBody encode ${json.encode(request)}");
+        await authRepository.updateUserProfile(request);
+      }
+      updateWith(isLoading: false, user: authRepository.myUser);
+    } catch (e) {
+      print('error occured $e');
+      updateWith(isLoading: false, error: e.toString());
+    }
   }
 
   void onErrorHandled() {

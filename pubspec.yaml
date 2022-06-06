@@ -1,7 +1,7 @@
 name: faya_clinic
 description: A new Flutter project.
 
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
@@ -22,6 +22,7 @@ dependencies:
   firebase_auth: ^3.1.1
   firebase_core: ^1.6.0
   firebase_messaging: ^11.2.14
+  firebase_storage: ^10.2.16
   flutter:
     sdk: flutter
   flutter_local_notifications: ^9.4.1
@@ -36,6 +37,7 @@ dependencies:
   intro_slider: ^3.0.2
   month_year_picker: ^0.1.0+1
   package_info: ^2.0.2
+  path: ^1.8.0
   path_provider: ^2.0.8
   percent_indicator: ^4.0.0
   provider: ^6.0.1
@@ -52,7 +54,6 @@ dev_dependencies:
   hive_generator: ^1.1.0
 
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

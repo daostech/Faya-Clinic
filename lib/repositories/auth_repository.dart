@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:faya_clinic/models/response/post_response.dart';
 import 'package:faya_clinic/repositories/addresses_repository.dart';
 import 'package:faya_clinic/repositories/cart_repository.dart';
@@ -8,7 +10,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:faya_clinic/api/api_paths.dart';
 import 'package:faya_clinic/api/api_service.dart';
 import 'package:faya_clinic/constants/hive_keys.dart';
-import 'package:faya_clinic/models/requests/create_profile_request.dart';
 import 'package:faya_clinic/models/user.dart';
 import 'package:faya_clinic/services/auth_service.dart';
 import 'package:faya_clinic/storage/local_storage.dart';
@@ -32,11 +33,11 @@ abstract class AuthRepositoryBase {
 
   Future verifyPhone(String phoneNumber, Future onCodeSent,
       Function(UserCredential credential, String phone) onPhoneVerified, Function(Exception e) onVerificationFailed);
-  Future createUserProfile(CreateUserProfileRequest requestBody);
+  Future createUserProfile(MyUser user);
   Future<MyUser> fetchUserProfile();
-  Future<PostResponse> updateUserProfile(CreateUserProfileRequest requestBody);
+  Future<PostResponse> updateUserProfile(MyUser user);
   Future<void> updateDeviceToken();
-  void logout();
+  Future logout();
 }
 
 class AuthRepository implements AuthRepositoryBase {
@@ -118,14 +119,14 @@ class AuthRepository implements AuthRepositoryBase {
   }
 
   @override
-  void logout() {
+  Future logout() async {
     userId = null;
     phoneNumber = null;
     myUser = null;
-    addressesRepository.deleteAll();
-    favoriteRepository.deleteAll();
-    cartRepository.deleteAll();
-    authService.logout();
+    await addressesRepository.deleteAll();
+    await favoriteRepository.deleteAll();
+    await cartRepository.deleteAll();
+    await authService.logout();
     authState = AuthState.LOGGED_OUT;
   }
 
@@ -136,9 +137,9 @@ class AuthRepository implements AuthRepositoryBase {
   }
 
   @override
-  Future createUserProfile(CreateUserProfileRequest requestBody) async {
+  Future createUserProfile(MyUser user) async {
     fcmToken = await fcm.getToken();
-    final request = requestBody.copyWith(token: fcmToken);
+    final request = user.copyWith(token: fcmToken);
     print("createUserProfile request: ${request.toJson()}");
     return apiService.postData(path: APIPath.createUser(), body: request.toJson());
   }
@@ -152,8 +153,10 @@ class AuthRepository implements AuthRepositoryBase {
   }
 
   @override
-  Future<PostResponse> updateUserProfile(CreateUserProfileRequest requestBody) async {
-    final response = await apiService.putObject(path: APIPath.updateUserProfile(userId), body: requestBody.toJson());
+  Future<PostResponse> updateUserProfile(MyUser user) async {
+    final newUser = myUser.copyFrom(user: user);
+    print("updateUserProfile requestBody ${newUser.toJson()}");
+    final response = await apiService.putObject(path: APIPath.updateUserProfile(userId), body: newUser.toJson());
     if (response.success) {
       myUser = await fetchUserProfile();
     }
@@ -168,12 +171,11 @@ class AuthRepository implements AuthRepositoryBase {
     // if the exist token not equals to the saved one update it in both local and server
     print("updateDeviceToken updating token $token");
     fcmToken = token;
-    final requestBody = CreateUserProfileRequest(
-      token: token,
-      // birthDate: myUser.dateBirth,
-    );
+    final requestBody = myUser.copyWith(token: fcmToken);
+    print("updateDeviceToken requestBody encode ${json.encode(requestBody)}");
     final result = await updateUserProfile(requestBody);
     print("updateDeviceToken result success ${result.success}");
+    print("updateDeviceToken result value ${result.value}");
     print("updateDeviceToken result ${result.toString()}");
     // }
   }

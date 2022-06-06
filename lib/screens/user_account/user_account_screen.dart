@@ -12,6 +12,7 @@ import 'package:faya_clinic/screens/user_dates/user_dates_screen.dart';
 import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:faya_clinic/utils/url_launcher_util.dart';
+import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:faya_clinic/widgets/section_corner_container.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -82,7 +83,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           children: [
             _buildUserSection(headerHeight),
             _buildOptionsGroup1(context),
-            _buildLangSection(context),
+            // _buildLangSection(context),
             _buildOptionsGroup2(),
             _buildOptionsGroup3(),
           ],
@@ -160,6 +161,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     );
   }
 
+  // ! disabled for now
   Widget _buildLangSection(BuildContext context) {
     final isRTL = TransUtil.isArLocale(context);
     return Column(
@@ -223,13 +225,13 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
       width: double.infinity,
       decoration: BoxDecoration(
         color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black26,
-            offset: Offset(0.0, 1.0),
-            blurRadius: 1.0,
-          ),
-        ],
+        // boxShadow: [
+        //   BoxShadow(
+        //     color: Colors.black26,
+        //     offset: Offset(0.0, 1.0),
+        //     blurRadius: 1.0,
+        //   ),
+        // ],// ! un comment when the lang section is back
       ),
       child: Column(
         children: [
@@ -255,6 +257,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 .push(MaterialPageRoute(builder: (builder) => FavoriteProductsScreen.create(context))),
           ),
           _buildListItem(
+            withDivider: true, // ! remove the divider when the lang section is back
             title: TransUtil.trans("list_item_previous_orders"),
             leading: Icons.shopping_bag_rounded,
             onTap: () =>
@@ -330,6 +333,16 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 ),
               ],
             ),
+            child: controller.user.imgUrl == null
+                ? SizedBox()
+                : ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(radiusStandard),
+                    ),
+                    child: NetworkCachedImage(
+                      imageUrl: controller.user.imgUrl,
+                    ),
+                  ),
           ),
           SizedBox(
             width: marginLarge,
@@ -344,7 +357,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    controller.user?.fullName ?? "",
+                    controller.user?.userName ?? "",
                     style: TextStyle(
                       color: colorPrimary,
                       fontWeight: FontWeight.bold,
@@ -352,7 +365,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                     ),
                   ),
                   Text(
-                    controller.user?.phone?.toString() ?? "",
+                    controller.user?.phoneNumber?.toString() ?? "",
                   ),
                 ],
               ),

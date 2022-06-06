@@ -55,7 +55,7 @@ class UserOrderDetailsScreen extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(radiusStandard)),
             child: NetworkCachedImage(
               // set the image of the first prodect in the list
-              imageUrl: order.orderItems?.first?.product?.img1,
+              imageUrl: order.orderItems?.first?.product?.images[0],
             ),
           ),
         ),

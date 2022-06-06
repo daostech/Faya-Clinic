@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:faya_clinic/constants/config.dart';
+
 List<UserOrder> userOrderResopnseFromJson(String str) =>
     List<UserOrder>.from(json.decode(str).map((x) => UserOrder.fromJson(x)));
 
@@ -173,6 +175,19 @@ class Products {
   dynamic userRole;
   dynamic userName;
   dynamic token;
+
+  // the image comes from the response hold the file name only
+  // so we add the base url prefix in order to load the image properly
+  String _imageUrl(String img) => "${AppConfig.RAW_BASE_URL}/$img";
+
+  List<String> get images {
+    List<String> tmps = [img1, img2, img3];
+    List<String> imgs = [];
+    for (int i = 0; i < 3; i++) {
+      if (tmps[i] != null) imgs.add(_imageUrl(tmps[i]));
+    }
+    return imgs;
+  }
 
   factory Products.fromJson(Map<String, dynamic> json) => Products(
         categories: json["categories"],

@@ -1,7 +1,5 @@
 import 'dart:convert';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-
 NotificationModel notificationFromJson(String str) => NotificationModel.fromJson(json.decode(str));
 
 String notificationToJson(NotificationModel data) => json.encode(data.toJson());
@@ -12,26 +10,27 @@ class NotificationModel {
     this.userId,
     this.typeId,
     this.title,
-    this.text,
+    this.body,
     this.isShowed,
     this.creationDate,
   });
 
   String id;
+  String title;
   String userId;
   String typeId;
-  String title;
-  String text;
+  String body;
   bool isShowed;
-  Timestamp creationDate;
+  DateTime creationDate;
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
-        userId: json["UserId"],
+        id: json["id"],
+        title: json["title"],
+        body: json["body"],
+        userId: json["userId"],
         typeId: json["Type"],
-        title: json["Title"],
-        text: json["Text"],
-        isShowed: json["IsOpen"],
-        creationDate: json["CreationDate"],
+        isShowed: json["isShowed"],
+        creationDate: DateTime.tryParse(json["creationDate"]),
       );
   // factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
   //       id: json["id"],
@@ -48,7 +47,7 @@ class NotificationModel {
         "userId": userId,
         "typeId": typeId,
         "title": title,
-        "text": text,
+        "text": body,
         "isShowed": isShowed,
         "creationDate": creationDate.toString(),
       };

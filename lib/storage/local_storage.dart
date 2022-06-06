@@ -11,11 +11,11 @@ abstract class LocalStorageService {
 
   updateObject(StorageModel obj);
 
-  insertList(List<StorageModel> list);
+  Future insertList(List<StorageModel> list);
 
-  deleteObject(StorageModel obj);
+  Future deleteObject(StorageModel obj);
 
   newObject(StorageModel obj);
 
-  clearAll();
+  Future clearAll();
 }

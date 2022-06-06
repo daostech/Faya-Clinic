@@ -1,7 +1,6 @@
 import 'package:faya_clinic/models/notification.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/repositories/notification_repository.dart';
-import 'package:faya_clinic/services/notification_service.dart';
 import 'package:flutter/material.dart';
 
 class NotificationsController with ChangeNotifier {
@@ -10,7 +9,7 @@ class NotificationsController with ChangeNotifier {
 
   final AuthRepositoryBase authRepository;
   NotificationsController({this.notificationsRepository, this.authRepository}) {
-    listenForNewNotifications();
+    // listenForNewNotifications();
   }
 
   bool _isLoading = true;
@@ -23,37 +22,71 @@ class NotificationsController with ChangeNotifier {
 
   int get unReadNotificationsCount => _unReadCount;
 
-  listenForNewNotifications() {
-    print("$TAG test called");
-    notificationsRepository.getNotificationsList(authRepository.userId).listen((event) {
-      final newData = event.docs.map((e) => NotificationModel.fromJson(e.data())).toList();
-      // newData.sort((b, a) => a.creationDate.compareTo(b.creationDate));
-      handleNewNotifications(newData);
-      updateWith(allNotifications: newData, unReadCount: getUnReadCount(newData));
+  // listenForNewNotifications() {
+  //   print("$TAG test called");
+  //   notificationsRepository.getNotificationsList(authRepository.userId).listen((event) {
+  //     final newData = event.docs.map((e) => NotificationModel.fromJson(e.data())).toList();
+  //     // newData.sort((b, a) => a.creationDate.compareTo(b.creationDate));
+  //     handleNewNotifications(newData);
+  //     updateWith(allNotifications: newData, unReadCount: getUnReadCount(newData));
+  //   });
+  // }
+
+  // handleNewNotifications(List<NotificationModel> notifications) async {
+  //   print("$TAG handleNewNotifications called");
+
+  //   for (NotificationModel notification in notifications) {
+  //     if (!notification.isShowed) {
+  //       print("$TAG handleNewNotifications !notification.isShowed ");
+  //       NotificationService.showNotification(
+  //         title: notification.title,
+  //         body: notification.body,
+  //         payload: notification.typeId,
+  //       );
+  //     }
+  //   }
+  // }
+  fetchNotifications() async {
+    print("$TAG fetchNotifications called");
+    updateWith(loading: true);
+    final notifications =
+        await notificationsRepository.fetchUserNotifications(authRepository.userId).catchError((error) {
+      updateWith(loading: false, error: error.toString());
     });
+    // sort the notifications from the older to the newer
+    notifications.sort((b, a) => a.creationDate.compareTo(b.creationDate));
+    _allNotifications.addAll(notifications);
+
+    updateWith(loading: false, allNotifications: _allNotifications, unReadCount: _calculateUnread);
   }
 
-  handleNewNotifications(List<NotificationModel> notifications) async {
-    print("$TAG handleNewNotifications called");
+  // onNotificationsScreenOpened() {
+  //   print("$TAG onNotificationsScreenOpened called");
+  //   // wait for 3 seconds then update the status of the notifications
+  //   Future.delayed(Duration(seconds: 3)).then((value) {
+  //     notificationsRepository.markNotificationsAsRead(authRepository.userId);
+  //   });
+  // }
 
-    for (NotificationModel notification in notifications) {
-      if (!notification.isShowed) {
-        print("$TAG handleNewNotifications !notification.isShowed ");
-        NotificationService.showNotification(
-          title: notification.title,
-          body: notification.text,
-          payload: notification.typeId,
-        );
-      }
-    }
-  }
-
-  onNotificationsScreenOpened() {
+  onNotificationsScreenOpened() async {
+    // todo mark all notifications as read
     print("$TAG onNotificationsScreenOpened called");
-    // wait for 3 seconds then update the status of the notifications
-    Future.delayed(Duration(seconds: 3)).then((value) {
-      notificationsRepository.markNotificationsAsRead2(authRepository.userId);
+    notificationsRepository.markNotificationsAsRead(_allNotifications);
+    _allNotifications.forEach((element) {
+      element.isShowed = true;
     });
+    updateWith(loading: false, unReadCount: _calculateUnread);
+  }
+
+  int get _calculateUnread {
+    if (_allNotifications == null || _allNotifications.isEmpty) return 0;
+    var count = 0;
+    _allNotifications.forEach((element) {
+      if (!element.isShowed) {
+        count++;
+      }
+    });
+    return count;
   }
 
   int getUnReadCount(List<NotificationModel> notifications) {

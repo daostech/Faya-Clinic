@@ -1,4 +1,4 @@
-import 'package:faya_clinic/dummy.dart';
+import 'package:faya_clinic/constants/app_data.dart';
 import 'package:faya_clinic/models/address.dart';
 import 'package:faya_clinic/models/bank_card.dart';
 import 'package:faya_clinic/models/coupon.dart';
@@ -32,8 +32,8 @@ class CheckoutController with ChangeNotifier {
     _savedAddresses = addressesRepository.allAddresses;
   }
 
-  final List paymentMethods = DummyData.paymentMethods;
-  final List shippingMethods = DummyData.shippingMethods;
+  final List paymentMethods = AppData.paymentMethods;
+  final List shippingMethods = AppData.shippingMethods;
   final bankCard = BankCardInfo();
   List<Address> _savedAddresses;
 
