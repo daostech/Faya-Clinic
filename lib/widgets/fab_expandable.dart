@@ -1,3 +1,4 @@
+import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
@@ -164,6 +165,7 @@ class _ExpandingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isRTL = TransUtil.isArLocale(context);
     return AnimatedBuilder(
       animation: progress,
       builder: (BuildContext context, Widget child) {
@@ -172,7 +174,7 @@ class _ExpandingActionButton extends StatelessWidget {
           progress.value * maxDistance,
         );
         return Positioned(
-          right: 4.0 + offset.dx,
+          right: isRTL ? 24.0 + offset.dx : 2.0 + offset.dx,
           bottom: 4.0 + offset.dy,
           child: Transform.rotate(
             angle: (1.0 - progress.value) * math.pi / 2,
