@@ -155,7 +155,7 @@ Accept: application/json
 
 ###
 # GET Notifications by user id
-GET {{baseUrl}}/Notifications/fb3hgleBU5QbeGlavitXr2Jsnbt1
+GET {{baseUrl}}/notifications/fb3hgleBU5QbeGlavitXr2Jsnbt1
 Accept: application/json
 # Authorization: Bearer {{accessToken}}
 
@@ -342,8 +342,11 @@ Content-Type: application/json
 #   "Gender": 0,
 #   "Phone": "string",
 # }
+# { 
+#   "token": "cZitEJGXpkGivLbGFjpu14:APA91bG30zd9J0OkUCNSuwmdf2dQZNcZ4iRbXyaE3scjc8lZdS_QQjmw3RGyUQACRFUpkpeWdXqyHiMQHQUIsWv5D5VZuhnsKMgTnWsiiJbuBaLWzBL97IQuvRuNi0UCIdHeO9_zhCh_",
+# }
 { 
-  "token": "cZitEJGXpkGivLbGFjpu14:APA91bG30zd9J0OkUCNSuwmdf2dQZNcZ4iRbXyaE3scjc8lZdS_QQjmw3RGyUQACRFUpkpeWdXqyHiMQHQUIsWv5D5VZuhnsKMgTnWsiiJbuBaLWzBL97IQuvRuNi0UCIdHeO9_zhCh_",
+  "fullName": "Ali23",
 }
 
 

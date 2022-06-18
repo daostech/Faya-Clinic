@@ -127,6 +127,7 @@ class AuthRepository implements AuthRepositoryBase {
     await favoriteRepository.deleteAll();
     await cartRepository.deleteAll();
     await authService.logout();
+    await fcm.deleteToken();
     authState = AuthState.LOGGED_OUT;
   }
 
@@ -167,16 +168,17 @@ class AuthRepository implements AuthRepositoryBase {
   Future<void> updateDeviceToken() async {
     final token = await fcm.getToken();
     print("updateDeviceToken token $token");
-    // if (token != fcmToken) {
-    // if the exist token not equals to the saved one update it in both local and server
-    print("updateDeviceToken updating token $token");
-    fcmToken = token;
-    final requestBody = myUser.copyWith(token: fcmToken);
-    print("updateDeviceToken requestBody encode ${json.encode(requestBody)}");
-    final result = await updateUserProfile(requestBody);
-    print("updateDeviceToken result success ${result.success}");
-    print("updateDeviceToken result value ${result.value}");
-    print("updateDeviceToken result ${result.toString()}");
-    // }
+    if (token != fcmToken) {
+      // if the exist token not equals to the saved one update it in both local and server
+      print("updateDeviceToken updating token $token");
+      fcmToken = token;
+      final requestBody = myUser.copyWith(token: fcmToken);
+      // final requestBody = MyUser(token: fcmToken);
+      print("updateDeviceToken requestBody encode ${json.encode(requestBody)}");
+      final result = await updateUserProfile(requestBody);
+      print("updateDeviceToken result success ${result.success}");
+      print("updateDeviceToken result value ${result.value}");
+      print("updateDeviceToken result ${result.toString()}");
+    }
   }
 }

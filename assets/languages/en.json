@@ -41,7 +41,14 @@
     "header_write_your_review" : "Write your review",
     "header_reviews_and_comments" : "Review & Comments",
     "header_all_reviews" : "All reviews",
-    
+
+    "slider_body1" : "مرحباً بك في تطبيق مجموعة فايا للتجميل والليزرا",
+    "slider_body2" : "حجز المواعيد بخطوات سهلة وبسيطة مع امكانية تتبع الموعد",
+    "slider_body3" : "امكانية الشراء من متجر فايا كوزمتك بطريقة سهلة وبسيطة",
+    "slider_body4" : "التعرف على الاقسام الموجودة والخدمات واحدث العروض التي نقدمها",
+    "slider_body5" : "تواصل مباشر من التطبيق",
+
+
     "tab_team" : "Team",
     "tab_sections" : "Sections",
     "tab_offers" : "Offers",
@@ -175,6 +182,10 @@
     "msg_no_notifications" : "No notifications yet !",
     "msg_select_date_and_service_first" : "Please select the date and one service at least",
 
+    "btn_done" : "Done",
+    "btn_previous" : "Previous",
+    "btn_next" : "Next",
+    "btn_skip" : "Skip",
     "btn_expandable_call" : "Call",
     "btn_get_directions" : "Get directions",
     "btn_expandable_whatsapp" : "Contact via WhatsApp",

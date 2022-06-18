@@ -42,12 +42,13 @@ void main() async {
   runApp(
     EasyLocalization(
       supportedLocales: [
-        Locale(langEnCode, ""),
         Locale(langArCode, ""),
+        Locale(langEnCode, ""),
       ],
       path: "assets/languages",
-      fallbackLocale: Locale(langEnCode),
-      saveLocale: true,
+      // fallbackLocale: Locale(langArCode),
+      startLocale: Locale(langArCode),
+      // saveLocale: true,
       useOnlyLangCode: true,
       // child: dependenciesWrappr(),
       child: Builder(builder: (context) {
