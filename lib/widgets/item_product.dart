@@ -2,7 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/product.dart';
+import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
+import 'package:faya_clinic/repositories/auth_repository.dart';
+import 'package:faya_clinic/screens/auth_required.dart';
 import 'package:faya_clinic/utils/dialog_util.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
@@ -21,7 +24,11 @@ class ProductItem extends StatelessWidget {
     @required this.onTap,
   }) : super(key: key);
 
-  void addToCart(BuildContext context) {
+  void addToCart(BuildContext context, bool isLoggedIn) {
+    if (!isLoggedIn) {
+      AuthRequiredScreen.show(context, TransUtil.trans("msg_login_to_use_cart"));
+      return;
+    }
     final result = Provider.of<CartController>(context, listen: false).addToCart(product);
     if (result)
       DialogUtil.showToastMessage(context, TransUtil.trans("msg_added_to_cart"));
@@ -33,6 +40,8 @@ class ProductItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final _imgWidth = 80.0;
     final isRTL = TransUtil.isArLocale(context);
+    final authController = context.read<AuthController>();
+    final isLoggedIn = authController.authState == AuthState.LOGGED_IN;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.all(
@@ -83,7 +92,13 @@ class ProductItem extends StatelessWidget {
                     width: marginSmall,
                   ),
                   InkWell(
-                    onTap: () => onFavoriteToggle(product),
+                    onTap: () {
+                      if (!isLoggedIn) {
+                        AuthRequiredScreen.show(context, TransUtil.trans("msg_login_to_use_favorote"));
+                        return;
+                      }
+                      onFavoriteToggle(product);
+                    },
                     child: Icon(
                       isFavorite ? Icons.favorite : Icons.favorite_border,
                       color: colorPrimary,
@@ -128,7 +143,7 @@ class ProductItem extends StatelessWidget {
               children: [
                 InkWell(
                   // add to cart button container
-                  onTap: () => addToCart(context),
+                  onTap: () => addToCart(context, isLoggedIn),
                   child: Container(
                     width: 30,
                     height: 30,

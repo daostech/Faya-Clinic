@@ -7,13 +7,14 @@ class AuthController with ChangeNotifier {
   static const TAG = "AuthController: ";
   final AuthRepositoryBase authRepository;
   AuthController({@required this.authRepository}) {
-    // _firstOpen = authRepository.isFirstOpen;
+    _firstOpen = authRepository.isFirstOpen;
     _myUser = authRepository.myUser;
     _authState = authRepository.authState;
   }
 
   var _loading = false;
   var _firstOpen = false;
+  // var _firstOpen = true;
   var _error = "";
   var inputCountryDialCode = "+964"; // default dial code that initialized in the input
   var inputPhoneNumber = "";
@@ -86,6 +87,7 @@ class AuthController with ChangeNotifier {
           authRepository.authState = AuthState.PHONE_VERIFIED;
         } else {
           // the user already has an account update the auth state to redirect to home screen
+          await authRepository.updateDeviceToken();
           authRepository.authState = AuthState.LOGGED_IN;
           authRepository.myUser = profile;
         }
@@ -108,8 +110,11 @@ class AuthController with ChangeNotifier {
         userName: name,
         dateBirth: birthDate,
         email: email,
+        isActive: true,
+        gender: 0,
       );
       final result = await authRepository.createUserProfile(request);
+      print("createUserProfile result ${result.toString()}");
       if (result != null) {
         // todo check the needed return type
         final user = await authRepository.fetchUserProfile();

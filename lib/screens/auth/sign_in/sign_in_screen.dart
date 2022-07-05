@@ -16,7 +16,7 @@ class SignInScreen extends StatelessWidget {
   Future<String> onCodeSent(context) async {
     //open the verify sms code screen and get the result back to be sent to AuthService
     print("SignInScreen: called");
-    final result = await Navigator.push(
+    final result = await Navigator.pushReplacement(
       context,
       MaterialPageRoute(
         builder: (context) => VerifySMSCode(),

@@ -2,7 +2,6 @@ import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:intro_slider/intro_slider.dart';
 import 'package:intro_slider/slide_object.dart';
 
@@ -104,10 +103,10 @@ class IntroScreenState extends State<IntroScreen> {
       skipButtonKey: skipBtnKey,
       showPrevBtn: false,
       showNextBtn: false,
-      // showSkipBtn: false,
+      showSkipBtn: false,
       renderDoneBtn: TextButton(
         key: doneBtnKey,
-        onPressed: () {},
+        onPressed: controller.onFirstOpenDone,
         child: Text(
           TransUtil.trans("btn_done"),
           style: TextStyle(color: Colors.white),

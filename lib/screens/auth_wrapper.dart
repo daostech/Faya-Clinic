@@ -19,19 +19,22 @@ class AuthWrapper extends StatelessWidget {
 
     return Builder(
       builder: (ctx) {
+        print("first open ${controller.firstOpen}");
         if (controller.isLoading) {
           return LoadingScreen();
         }
         if (controller.firstOpen) {
           return IntroScreen(controller: controller);
         }
-        if (controller.authState.value == AuthState.LOGGED_IN.value) {
-          return HomeMainWrapper();
-        }
+        // if (controller.authState.value == AuthState.LOGGED_IN.value) {
+        //   return HomeMainWrapper();
+        // }
         if (controller.authState.value == AuthState.PHONE_VERIFIED.value) {
           return SignUpScreen(controller: controller);
-        } else
-          return SignInScreen();
+        }
+        //  else
+        // return SignInScreen();
+        return HomeMainWrapper();
       },
     );
   }

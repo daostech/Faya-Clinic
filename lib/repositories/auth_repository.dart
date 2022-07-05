@@ -33,7 +33,7 @@ abstract class AuthRepositoryBase {
 
   Future verifyPhone(String phoneNumber, Future onCodeSent,
       Function(UserCredential credential, String phone) onPhoneVerified, Function(Exception e) onVerificationFailed);
-  Future createUserProfile(MyUser user);
+  Future<PostResponse> createUserProfile(MyUser user);
   Future<MyUser> fetchUserProfile();
   Future<PostResponse> updateUserProfile(MyUser user);
   Future<void> updateDeviceToken();
@@ -120,15 +120,19 @@ class AuthRepository implements AuthRepositoryBase {
 
   @override
   Future logout() async {
-    userId = null;
-    phoneNumber = null;
-    myUser = null;
-    await addressesRepository.deleteAll();
-    await favoriteRepository.deleteAll();
-    await cartRepository.deleteAll();
-    await authService.logout();
-    await fcm.deleteToken();
-    authState = AuthState.LOGGED_OUT;
+    try {
+      userId = null;
+      phoneNumber = null;
+      myUser = null;
+      await addressesRepository.deleteAll();
+      await favoriteRepository.deleteAll();
+      await cartRepository.deleteAll();
+      await authService.logout();
+      await fcm.deleteToken();
+      authState = AuthState.LOGGED_OUT;
+    } catch (error) {
+      print("AuthRepository logout $error");
+    }
   }
 
   @override
@@ -138,7 +142,7 @@ class AuthRepository implements AuthRepositoryBase {
   }
 
   @override
-  Future createUserProfile(MyUser user) async {
+  Future<PostResponse> createUserProfile(MyUser user) async {
     fcmToken = await fcm.getToken();
     final request = user.copyWith(token: fcmToken);
     print("createUserProfile request: ${request.toJson()}");
@@ -166,7 +170,9 @@ class AuthRepository implements AuthRepositoryBase {
 
   @override
   Future<void> updateDeviceToken() async {
-    final token = await fcm.getToken();
+    final token = await fcm.getToken().catchError((error) {
+      print("updateDeviceToken: ${error.toString()}");
+    });
     print("updateDeviceToken token $token");
     if (token != fcmToken) {
       // if the exist token not equals to the saved one update it in both local and server

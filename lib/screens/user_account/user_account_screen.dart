@@ -18,16 +18,20 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MyAccountScreen extends StatefulWidget {
-  const MyAccountScreen._({Key key, @required this.controller}) : super(key: key);
+  final Function onLogout;
+  const MyAccountScreen._({Key key, @required this.controller, this.onLogout}) : super(key: key);
   final UserAccountController controller;
 
-  static Widget create(BuildContext context) {
+  static Widget create(BuildContext context, Function onLogout) {
     final authRepo = Provider.of<AuthRepositoryBase>(context, listen: false);
     return ChangeNotifierProvider<UserAccountController>(
       create: (_) => UserAccountController(authRepository: authRepo),
       builder: (ctx, child) {
         return Consumer<UserAccountController>(
-          builder: (context, controller, _) => MyAccountScreen._(controller: controller),
+          builder: (context, controller, _) => MyAccountScreen._(
+            controller: controller,
+            onLogout: onLogout,
+          ),
         );
       },
     );
@@ -38,6 +42,7 @@ class MyAccountScreen extends StatefulWidget {
 }
 
 class _MyAccountScreenState extends State<MyAccountScreen> {
+  Function get onLogout => widget.onLogout;
   UserAccountController get controller => widget.controller;
   var currentLangCode = "";
 
@@ -111,10 +116,11 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
           _buildListItem(
             title: TransUtil.trans("list_item_logout"),
             leading: Icons.logout,
-            onTap: () {
-              Provider.of<AuthController>(context, listen: false).logout();
-              Provider.of<CartController>(context, listen: false).clearCart();
-            },
+            onTap: onLogout,
+            // onTap: () {
+            //   Provider.of<AuthController>(context, listen: false).logout();
+            //   Provider.of<CartController>(context, listen: false).clearCart();
+            // },
           ),
         ],
       ),
@@ -333,7 +339,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 ),
               ],
             ),
-            child: controller.user.imgUrl == null
+            child: controller.user?.imgUrl == null
                 ? SizedBox()
                 : ClipRRect(
                     borderRadius: BorderRadius.all(

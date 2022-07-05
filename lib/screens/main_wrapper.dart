@@ -1,7 +1,9 @@
 import 'package:faya_clinic/constants/constants.dart';
+import 'package:faya_clinic/providers/auth_controller.dart';
+import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/providers/notifications_controller.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
-import 'package:faya_clinic/screens/chat/chat_screen.dart';
+import 'package:faya_clinic/screens/auth_required.dart';
 import 'package:faya_clinic/screens/user_account/user_account_screen.dart';
 import 'package:faya_clinic/screens/cart/cart.dart';
 import 'package:faya_clinic/screens/clinic/clinic_screen.dart';
@@ -33,7 +35,8 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
   ];
 
   final _launcher = UrlLauncherUtil();
-  NotificationsController controller;
+  NotificationsController notificationsController;
+  AuthController authController;
 
   var _bottomNavSelectedIndex = 0;
   var _currentScreenIndex = 0;
@@ -49,7 +52,11 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
       case 3:
         return DatesScreen.create(context);
       case 4:
-        return MyAccountScreen.create(context);
+        return MyAccountScreen.create(context, () {
+          Provider.of<AuthController>(context, listen: false).logout();
+          Provider.of<CartController>(context, listen: false).clearCart();
+          _onItemTapped(0);
+        });
       case 5:
         return CartScreen();
       case 6:
@@ -60,13 +67,28 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
   }
 
   void _onItemTapped(int index) {
+    // if the user is not logged in redirect them to the logging screen
+    // for the screens that need authentication
+    final isLoggedIn = authController.authState.value == AuthState.LOGGED_IN.value;
+
+    if (!isLoggedIn) {
+      switch (index) {
+        case 3:
+        case 4:
+        case 5:
+        case 6:
+          AuthRequiredScreen.show(context);
+          return;
+      }
+    }
+
     setState(() {
       // the bottom navigation bar only have 5 sections
       // the other sections belong to the app bar
       // the main index that control the screens is _currentScreenIndex
       if (index < 5) _bottomNavSelectedIndex = index;
       _currentScreenIndex = index;
-      if (index == 6) controller.onNotificationsScreenOpened();
+      if (index == 6) notificationsController.onNotificationsScreenOpened();
     });
   }
 
@@ -90,13 +112,14 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
   @override
   void initState() {
     super.initState();
-    context.read<AuthRepositoryBase>().updateDeviceToken();
+    // context.read<AuthRepositoryBase>().updateDeviceToken();
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    controller = context.watch<NotificationsController>();
+    notificationsController = context.watch<NotificationsController>();
+    authController = context.watch<AuthController>();
   }
 
   @override
@@ -124,11 +147,7 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
             left: 0,
             right: 0,
             bottom: 0,
-            // child: _screens[_currentScreenIndex],
             child: _buildTab(context),
-            // child: Center(
-            //   child: Text("Center"),
-            // ),
           ),
         ],
       ),

@@ -1,8 +1,10 @@
 import 'package:faya_clinic/constants/config.dart';
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/product.dart';
+import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
+import 'package:faya_clinic/screens/auth_required.dart';
 import 'package:faya_clinic/screens/product_details/components/add_review_widget.dart';
 import 'package:faya_clinic/screens/product_details/components/product_reviews.dart';
 import 'package:faya_clinic/screens/product_details/components/users_reviews.dart';
@@ -35,7 +37,11 @@ class ProductDetailsScreen extends StatelessWidget {
     );
   }
 
-  void addToCart(BuildContext context) {
+  void addToCart(BuildContext context, bool isLoggedIn) {
+    if (!isLoggedIn) {
+      AuthRequiredScreen.show(context, TransUtil.trans("msg_login_to_use_cart"));
+      return;
+    }
     final result = Provider.of<CartController>(context, listen: false).addToCart(controller.product);
     if (result)
       DialogUtil.showToastMessage(context, TransUtil.trans("msg_added_to_cart"));
@@ -46,6 +52,8 @@ class ProductDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final authController = context.read<AuthController>();
+    final isLoggedIn = authController.authState == AuthState.LOGGED_IN;
     return Scaffold(
       body: Column(
         children: [
@@ -61,7 +69,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       Icons.add_shopping_cart_outlined,
                       color: Colors.white,
                     ),
-                    onPressed: () => addToCart(context),
+                    onPressed: () => addToCart(context, isLoggedIn),
                   ),
                 ],
               ),
@@ -87,7 +95,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   divider(),
                   UsersReviewsSection(controller: controller),
                   divider(),
-                  AddProductReviewWidget(controller: controller),
+                  if (isLoggedIn) AddProductReviewWidget(controller: controller),
                 ],
               ),
             ),

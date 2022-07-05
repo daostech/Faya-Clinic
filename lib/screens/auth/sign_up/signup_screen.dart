@@ -54,7 +54,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       controller.createUserProfile(_name, _phone, _birthdayString, _email);
     } catch (e) {
-      DialogUtil.showAlertDialog(context, TransUtil.trans("error_try_again_later"), null);
+      DialogUtil.showAlertDialog(context, e.toString() ?? TransUtil.trans("error_try_again_later"), null);
     }
 
     print("$TAG form is valid: name: $_name, _phone: $_phone, birthday: $_birthdayString");
