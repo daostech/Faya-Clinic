@@ -23,6 +23,22 @@
           }
         },
         {
+          "client_id": "328010563129-7od3f2jvcaahd4v125e94goicn2oqjbk.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dvamd.faya_clinic",
+            "certificate_hash": "3533b03dd92e1c762166832260b1612208a4171a"
+          }
+        },
+        {
+          "client_id": "328010563129-8joag0s8iri1ir3vhlavje8g5kqm1io6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dvamd.faya_clinic",
+            "certificate_hash": "4675f74e52d8d6f9fe0a6343fc07b47e6a29aa0c"
+          }
+        },
+        {
           "client_id": "328010563129-ici8uaau3u3l41ma9ii33bgfgomv9tg5.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -40,10 +56,11 @@
               "client_type": 3
             },
             {
-              "client_id": "328010563129-ttam2ii8c51e0d99n5kv3o51tlv3cq75.apps.googleusercontent.com",
+              "client_id": "328010563129-042nhq5argoqhg0lqd1s7pbn6lmvr4i2.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.dvamd.fayaclinic"
+                "bundle_id": "com.dvamd.fayaclinic-app",
+                "app_store_id": "1625470005"
               }
             }
           ]
