@@ -35,6 +35,9 @@ import 'package:toast/toast.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  // await FirebaseAppCheck.instance.activate(
+  //   webRecaptchaSiteKey: 'recaptcha-v3-site-key',
+  // );
   await EasyLocalization.ensureInitialized();
   await NotificationService.init();
   await initLocalStorage();

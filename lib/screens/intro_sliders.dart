@@ -3,7 +3,6 @@ import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:intro_slider/intro_slider.dart';
-import 'package:intro_slider/slide_object.dart';
 
 class IntroScreen extends StatefulWidget {
   final AuthController controller;
