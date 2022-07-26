@@ -53,7 +53,7 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final authController = context.read<AuthController>();
-    final isLoggedIn = authController.authState == AuthState.LOGGED_IN;
+    final isLoggedIn = authController.authState.value == AuthState.LOGGED_IN.value;
     return Scaffold(
       body: Column(
         children: [

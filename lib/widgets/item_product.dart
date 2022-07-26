@@ -41,7 +41,7 @@ class ProductItem extends StatelessWidget {
     final _imgWidth = 80.0;
     final isRTL = TransUtil.isArLocale(context);
     final authController = context.read<AuthController>();
-    final isLoggedIn = authController.authState == AuthState.LOGGED_IN;
+    final isLoggedIn = authController.authState.value == AuthState.LOGGED_IN.value;
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.all(
