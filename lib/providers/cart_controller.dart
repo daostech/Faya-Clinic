@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:faya_clinic/models/coupon.dart';
 import 'package:faya_clinic/models/order_item.dart';
 import 'package:faya_clinic/models/product.dart';
@@ -14,10 +15,10 @@ class CartController with ChangeNotifier {
   final CartRepositoryBase cartRepository;
   final FavoriteRepositoryBase favoriteRepository;
   final Database database;
-  List<OrderItem> allItems = [];
+  List<OrderItem>? allItems = [];
   List<Product> suggestedProducts = <Product>[];
   List<Product> _favoriteProducts = [];
-  Coupon appliedCoupon;
+  Coupon? appliedCoupon;
 
   var productCount = 0;
 
@@ -26,19 +27,19 @@ class CartController with ChangeNotifier {
   var _isLoading = true;
 
   CartController({
-    @required this.database,
-    @required this.cartRepository,
-    @required this.favoriteRepository,
+    required this.database,
+    required this.cartRepository,
+    required this.favoriteRepository,
   }) {
     allItems = cartRepository.allItems;
     _cartPrice = totalPrice;
-    _favoriteProducts?.clear();
+    _favoriteProducts.clear();
     _favoriteProducts.addAll(favoriteRepository.allProducts);
     fetchSuggestedProduct();
   }
 
   int get count => allItems?.length ?? 0;
-  bool get isCartEmpty => allItems.length == 0;
+  bool get isCartEmpty => allItems!.length == 0;
   bool get hasError => _error.isNotEmpty;
   bool get isLoading => _isLoading;
   bool get hasCoupun => appliedCoupon != null;
@@ -56,7 +57,7 @@ class CartController with ChangeNotifier {
 
   bool isFavoriteProduct(Product product) {
     if (product == null) return false;
-    return _favoriteProducts.firstWhere((element) => element.id == product.id, orElse: () => null) != null;
+    return _favoriteProducts.firstWhereOrNull((element) => element.id == product.id) != null;
   }
 
   void toggleFavorite(Product product) {
@@ -71,13 +72,13 @@ class CartController with ChangeNotifier {
   }
 
   double get totalPrice {
-    if (allItems == null || allItems.isEmpty) return 0.0;
+    if (allItems == null || allItems!.isEmpty) return 0.0;
     var price = 0.0;
-    for (OrderItem item in allItems) {
-      price += item.price * item.count;
+    for (OrderItem item in allItems!) {
+      price += item.price! * item.count!;
     }
     // if the applied coupon is not null subtract the coupon discount value from the total
-    if (appliedCoupon != null) price -= appliedCoupon.discountValue ?? 0;
+    if (appliedCoupon != null) price -= appliedCoupon!.discountValue ?? 0;
     return price;
   }
 
@@ -90,48 +91,53 @@ class CartController with ChangeNotifier {
       image: product.img1,
       price: product.price,
     );
-    allItems.add(item);
+    allItems!.add(item);
     cartRepository.addToCart(item);
-    update(count: allItems.length, price: totalPrice, items: cartRepository.allItems);
+    update(count: allItems!.length, price: totalPrice, items: cartRepository.allItems);
     return true;
   }
 
-  int addQTY(String id) {
+  int addQTY(String? id) {
     cartRepository.addQuantity(id);
     allItems = cartRepository.allItems;
     update(price: totalPrice, items: cartRepository.allItems);
     return count;
   }
 
-  Future<bool> deleteItem(String id) async {
+  Future<bool> deleteItem(String? id) async {
     print("deleteItem called on $id");
-    allItems.removeWhere((element) => element.id == id);
+    allItems!.removeWhere((element) => element.id == id);
     final result = await cartRepository.deleteItem(id);
     update(price: totalPrice, items: cartRepository.allItems);
     return result;
   }
 
-  int removeQTY(String id) {
+  int removeQTY(String? id) {
     var qty = itemQTY(id);
-    if (qty > 1)
-      qty = allItems.firstWhere((order) => order.id == id, orElse: () => null)?.count--;
-    else
+    if (qty > 1) {
+      final order = allItems!.firstWhereOrNull((order) => order.id == id);
+      var newCount = order?.count;
+      if (newCount != null) {
+        qty = newCount--;
+      }
+    } else {
       qty = -1;
+    }
     cartRepository.removeQuantity(id);
     update(price: totalPrice, items: cartRepository.allItems);
     return qty;
   }
 
-  int itemQTY(String id) {
-    return allItems.firstWhere((order) => order.id == id, orElse: () => null)?.count ?? 0;
+  int itemQTY(String? id) {
+    return allItems!.firstWhereOrNull((order) => order.id == id)?.count ?? 0;
   }
 
-  double itemTotalPrice(String id) {
-    return allItems.firstWhere((order) => order.id == id, orElse: () => null)?.totalPrice ?? 0;
+  double itemTotalPrice(String? id) {
+    return allItems!.firstWhereOrNull((order) => order.id == id)?.totalPrice ?? 0;
   }
 
-  bool existProduct(String id) {
-    return allItems.firstWhere((order) => order.id == id, orElse: () => null) != null;
+  bool existProduct(String? id) {
+    return allItems!.firstWhereOrNull((order) => order.id == id) != null;
   }
 
   void checkCuopon() async {
@@ -161,12 +167,12 @@ class CartController with ChangeNotifier {
   }
 
   void deleteProduct(String id) {
-    allItems.removeWhere((order) => order.id == id);
+    allItems!.removeWhere((order) => order.id == id);
     cartRepository.deleteItem(id);
   }
 
   void clearCart() {
-    allItems.clear();
+    allItems!.clear();
     cartRepository.deleteAll();
     update(items: allItems);
   }
@@ -183,13 +189,13 @@ class CartController with ChangeNotifier {
   }
 
   void update({
-    List<OrderItem> items,
-    List<Product> suggestedProducts,
-    int count,
-    double price,
-    String error,
-    bool isLoading,
-    Coupon appliedCoupon,
+    List<OrderItem>? items,
+    List<Product>? suggestedProducts,
+    int? count,
+    double? price,
+    String? error,
+    bool? isLoading,
+    Coupon? appliedCoupon,
   }) {
     this.suggestedProducts = suggestedProducts ?? this.suggestedProducts;
     this.allItems = items ?? this.allItems;

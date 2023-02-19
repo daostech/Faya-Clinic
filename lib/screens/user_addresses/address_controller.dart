@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class UserAddressesController with ChangeNotifier {
   final AddressesRepositoryBase addressesRepository;
-  UserAddressesController({this.addressesRepository}) {
+  UserAddressesController({required this.addressesRepository}) {
     _userAddresses.clear();
     _userAddresses.addAll(addressesRepository.allAddresses);
   }
@@ -41,7 +41,7 @@ class UserAddressesController with ChangeNotifier {
       );
 
   void submitForm(BuildContext context) {
-    if (formKey.currentState.validate()) {
+    if (formKey.currentState!.validate()) {
       addressesRepository.addAddress(address);
       _userAddresses.clear();
       _userAddresses.addAll(addressesRepository.allAddresses);

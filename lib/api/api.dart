@@ -3,7 +3,7 @@ import 'package:faya_clinic/constants/config.dart';
 
 class API {
   API({this.apiKey});
-  final String apiKey;
+  final String? apiKey;
 
   factory API.sandbox() => API(apiKey: APIKeys.key);
 

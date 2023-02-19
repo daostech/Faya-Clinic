@@ -7,7 +7,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class ProductReviewItem extends StatelessWidget {
   final ProductReview productReview;
-  const ProductReviewItem({Key key, @required this.productReview}) : super(key: key);
+  const ProductReviewItem({Key? key, required this.productReview}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class ProductReviewItem extends StatelessWidget {
               print(rating);
             },
           ),
-          Text(productReview.text),
+          Text(productReview.text!),
         ],
       ),
     );

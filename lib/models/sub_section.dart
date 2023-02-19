@@ -20,13 +20,13 @@ class SubSection {
     this.img2,
   });
 
-  String id;
-  String sectionId;
-  String name;
-  String text;
-  String description;
-  String img1;
-  String img2;
+  String? id;
+  String? sectionId;
+  String? name;
+  String? text;
+  String? description;
+  String? img1;
+  String? img2;
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly

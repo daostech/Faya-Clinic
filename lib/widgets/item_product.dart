@@ -14,14 +14,14 @@ import 'package:provider/provider.dart';
 class ProductItem extends StatelessWidget {
   final Product product;
   final bool isFavorite;
-  final ValueSetter<Product> onFavoriteToggle;
+  final ValueSetter<Product>? onFavoriteToggle;
   final Function onTap;
   const ProductItem({
-    Key key,
-    @required this.product,
+    Key? key,
+    required this.product,
     this.isFavorite = false,
     this.onFavoriteToggle,
-    @required this.onTap,
+    required this.onTap,
   }) : super(key: key);
 
   void addToCart(BuildContext context, bool isLoggedIn) {
@@ -41,9 +41,9 @@ class ProductItem extends StatelessWidget {
     final _imgWidth = 80.0;
     final isRTL = TransUtil.isArLocale(context);
     final authController = context.read<AuthController>();
-    final isLoggedIn = authController.authState.value == AuthState.LOGGED_IN.value;
+    final isLoggedIn = authController.authState!.value == AuthState.LOGGED_IN.value;
     return InkWell(
-      onTap: onTap,
+      onTap: onTap as void Function()?,
       borderRadius: BorderRadius.all(
         Radius.circular(radiusStandard),
       ),
@@ -79,7 +79,7 @@ class ProductItem extends StatelessWidget {
                   Expanded(
                     child: Container(
                       child: Text(
-                        product?.name,
+                        product.name ?? "",
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -97,7 +97,7 @@ class ProductItem extends StatelessWidget {
                         AuthRequiredScreen.show(context, TransUtil.trans("msg_login_to_use_favorote"));
                         return;
                       }
-                      onFavoriteToggle(product);
+                      onFavoriteToggle!(product);
                     },
                     child: Icon(
                       isFavorite ? Icons.favorite : Icons.favorite_border,
@@ -114,7 +114,7 @@ class ProductItem extends StatelessWidget {
                   width: _imgWidth,
                   height: _imgWidth,
                   child: CachedNetworkImage(
-                    imageUrl: product.images.length > 0 ? product.images[0] : null,
+                    imageUrl: product.images.length > 0 ? product.images[0] : "",
                     progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                       child: Center(
                         child: CircularProgressIndicator(),

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class AppBarChat extends StatelessWidget {
   const AppBarChat({
-    Key key,
+    Key? key,
   }) : super(key: key);
 
   @override

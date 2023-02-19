@@ -5,13 +5,13 @@ import 'package:flutter/material.dart';
 class InlineButtons extends StatelessWidget {
   final String positiveText;
   final String negativeText;
-  final Function onPositiveTap;
-  final Function onNegativeTap;
-  final Color sameColor;
+  final Function? onPositiveTap;
+  final Function? onNegativeTap;
+  final Color? sameColor;
   const InlineButtons({
-    Key key,
-    @required this.positiveText,
-    @required this.negativeText,
+    Key? key,
+    required this.positiveText,
+    required this.negativeText,
     this.onPositiveTap,
     this.onNegativeTap,
     this.sameColor,
@@ -35,7 +35,7 @@ class InlineButtons extends StatelessWidget {
               ),
             ),
             child: InkWell(
-              onTap: onNegativeTap,
+              onTap: onNegativeTap as void Function()?,
               borderRadius: BorderRadius.only(
                 topLeft: isRTL ? Radius.zero : Radius.circular(radiusStandard),
                 topRight: !isRTL ? Radius.zero : Radius.circular(radiusStandard),
@@ -70,7 +70,7 @@ class InlineButtons extends StatelessWidget {
               ),
             ),
             child: InkWell(
-              onTap: onPositiveTap,
+              onTap: onPositiveTap as void Function()?,
               borderRadius: BorderRadius.only(
                 topLeft: !isRTL ? Radius.zero : Radius.circular(radiusStandard),
                 topRight: isRTL ? Radius.zero : Radius.circular(radiusStandard),

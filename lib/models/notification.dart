@@ -15,13 +15,13 @@ class NotificationModel {
     this.creationDate,
   });
 
-  String id;
-  String title;
-  String userId;
-  String typeId;
-  String body;
-  bool isShowed;
-  DateTime creationDate;
+  String? id;
+  String? title;
+  String? userId;
+  String? typeId;
+  String? body;
+  bool? isShowed;
+  DateTime? creationDate;
 
   factory NotificationModel.fromJson(Map<String, dynamic> json) => NotificationModel(
         id: json["id"],

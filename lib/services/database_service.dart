@@ -1,6 +1,7 @@
 import 'package:faya_clinic/api/api_paths.dart';
 import 'package:faya_clinic/api/api_service.dart';
 import 'package:faya_clinic/models/category.dart';
+import 'package:faya_clinic/models/clinic_work.dart';
 import 'package:faya_clinic/models/home_slider.dart';
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/product.dart';
@@ -15,23 +16,25 @@ import 'package:faya_clinic/models/service.dart';
 import 'package:faya_clinic/models/sub_section.dart';
 import 'package:faya_clinic/models/team.dart';
 import 'package:faya_clinic/models/user_date/user_date.dart';
-import 'package:flutter/material.dart';
 
 abstract class Database {
   Future getHomeSliders();
   Future getLastOffers();
   Future fetchProductsList();
   Future fetchSectionsList();
-  Future fetchSubSectionsList(String sectionId);
-  Future fetchServicesList(String subSectionId);
+  Future fetchSubSectionsList();
+  Future fetchSubSectionsListBySectionId(String? sectionId);
+  Future fetchServicesList(String? subSectionId);
   Future fetchProductCategories();
-  Future fetchAllDatesForService(String serviceId, String formattedDateStr);
+  Future fetchAllDatesForService(String? serviceId, String formattedDateStr);
   Future fetchOffersList();
   Future<List<UserOrder>> fetchUserPreviousOrders(userId);
   Future fetchMyFavoriteProducts(userId);
   Future<List<UserDate2>> fetchUserDates(userId);
   Future getTeamsList();
-  Future fetchProductReviews(String productId);
+  Future fetchProductReviews(String? productId);
+  Future fetchClinicWorksList();
+  Future fetchClinicWorksBySectionId(String sectionId);
   Future<PostResponse> postProductReview(ProductReviewRequest request);
   Future<PostResponse> updateUserProfile(ProductReviewRequest request, String userId);
   Future<PostResponse> createNewOrder(CreateOrderRequest request);
@@ -42,7 +45,7 @@ abstract class Database {
 class DatabaseService implements Database {
   final APIService apiService;
 
-  DatabaseService({@required this.apiService});
+  DatabaseService({required this.apiService});
 
   @override
   getHomeSliders() {
@@ -114,15 +117,23 @@ class DatabaseService implements Database {
   }
 
   @override
-  Future fetchSubSectionsList(String sectionId) {
+  Future fetchSubSectionsList() {
     return apiService.getData<SubSection>(
       builder: (data) => SubSection.fromJson(data),
-      path: APIPath.subSectionsList(sectionId),
+      path: APIPath.subSectionsList(),
     );
   }
 
   @override
-  Future fetchServicesList(String subSectionId) {
+  Future fetchSubSectionsListBySectionId(String? sectionId) {
+    return apiService.getData<SubSection>(
+      builder: (data) => SubSection.fromJson(data),
+      path: APIPath.subSectionsListBySectionId(sectionId),
+    );
+  }
+
+  @override
+  Future fetchServicesList(String? subSectionId) {
     return apiService.getData<ClinicService>(
       builder: (data) => ClinicService.fromJson(data),
       path: APIPath.servicesList(subSectionId),
@@ -154,7 +165,7 @@ class DatabaseService implements Database {
   }
 
   @override
-  Future<List<String>> fetchAllDatesForService(String serviceId, String formattedDateStr) {
+  Future<List<String>> fetchAllDatesForService(String? serviceId, String formattedDateStr) {
     return apiService.getData<String>(
       builder: (data) => data.toString(),
       path: APIPath.allDatesForService(serviceId, formattedDateStr),
@@ -162,10 +173,26 @@ class DatabaseService implements Database {
   }
 
   @override
-  Future fetchProductReviews(String productId) {
+  Future fetchProductReviews(String? productId) {
     return apiService.getData<ProductReview>(
       builder: (data) => ProductReview.fromJson(data),
       path: APIPath.productReviews(productId),
+    );
+  }
+
+  @override
+  Future fetchClinicWorksList() {
+    return apiService.getData<ClinicWork>(
+      builder: (data) => ClinicWork.fromJson(data),
+      path: APIPath.clinicWorksList(),
+    );
+  }
+
+  @override
+  Future fetchClinicWorksBySectionId(String sectionId) {
+    return apiService.getData<ClinicWork>(
+      builder: (data) => ClinicWork.fromJson(data),
+      path: APIPath.clinicWorksListById(sectionId),
     );
   }
 

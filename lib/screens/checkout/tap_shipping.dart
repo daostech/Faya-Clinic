@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CheckoutShippingTap extends StatelessWidget {
-  const CheckoutShippingTap({Key key}) : super(key: key);
+  const CheckoutShippingTap({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +52,7 @@ class CheckoutShippingTap extends StatelessWidget {
                 activeColor: colorPrimary,
                 contentPadding: const EdgeInsets.all(0),
                 selected: controller.isSelectedShippingMethod(index),
-                onChanged: (method) => controller.onShippingSelect(method, cartController.totalPrice),
+                onChanged: (dynamic method) => controller.onShippingSelect(method, cartController.totalPrice),
               );
             },
             separatorBuilder: (ctx, index) {

@@ -15,11 +15,11 @@ class DateService {
     this.service,
   });
 
-  String id;
-  String dateId;
-  String serviceId;
+  String? id;
+  String? dateId;
+  String? serviceId;
   dynamic dateRegistered;
-  ClinicService service;
+  ClinicService? service;
 
   factory DateService.fromJson(Map<String, dynamic> json) => DateService(
         id: json["id"] == null ? null : json["id"],

@@ -9,12 +9,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({Key key}) : super(key: key);
+  const AuthWrapper({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final controller = context.watch<AuthController>();
-    print("AuthWrapper: _authState:${controller.authState.value}");
+    print("AuthWrapper: _authState:${controller.authState!.value}");
     print("AuthWrapper: _myUser:${controller.myUser?.toJson()}");
 
     return Builder(
@@ -23,13 +23,13 @@ class AuthWrapper extends StatelessWidget {
         if (controller.isLoading) {
           return LoadingScreen();
         }
-        if (controller.firstOpen) {
+        if (controller.firstOpen!) {
           return IntroScreen(controller: controller);
         }
         // if (controller.authState.value == AuthState.LOGGED_IN.value) {
         //   return HomeMainWrapper();
         // }
-        if (controller.authState.value == AuthState.PHONE_VERIFIED.value) {
+        if (controller.authState!.value == AuthState.PHONE_VERIFIED.value) {
           return SignUpScreen(controller: controller);
         }
         //  else

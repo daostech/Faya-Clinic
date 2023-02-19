@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:faya_clinic/constants/clinic_dates.dart';
 import 'package:faya_clinic/models/clinic_date.dart';
 import 'package:faya_clinic/models/requests/date_registered_request.dart';
@@ -14,7 +15,7 @@ class DateScreenController with ChangeNotifier {
   static const TAG = "DateScreenController: ";
   final Database database;
   final AuthRepositoryBase authRepository;
-  DateScreenController({@required this.authRepository, @required this.database}) {
+  DateScreenController({required this.authRepository, required this.database}) {
     init();
     // fetchAvailableDates(DateTime(2022, 01, 09));
   }
@@ -25,27 +26,27 @@ class DateScreenController with ChangeNotifier {
     _mounted = false;
   }
 
-  static List<Section> _sections;
-  static List<SubSection> _subSections;
-  static List<ClinicService> _services;
+  static List<Section>? _sections;
+  static List<SubSection>? _subSections;
+  static List<ClinicService>? _services;
 
   List<ClinicDate> _availableDates = [];
   List<ClinicService> _selectedServices = [];
 
-  Section selectedSection;
-  SubSection selectedSubSection;
-  DateTime _pickedDateTime;
-  ClinicDate pickedClinicDate;
+  Section? selectedSection;
+  SubSection? selectedSubSection;
+  DateTime? _pickedDateTime;
+  ClinicDate? pickedClinicDate;
 
   var isLoading = true;
   bool _mounted = true;
 
-  List<Section> get sectionsList => _sections;
-  List<SubSection> get subSectionsList => _subSections;
-  List<ClinicService> get servicesList => _services;
+  List<Section>? get sectionsList => _sections;
+  List<SubSection>? get subSectionsList => _subSections;
+  List<ClinicService>? get servicesList => _services;
   List<ClinicService> get selectedServices => _selectedServices;
   List<ClinicDate> get availableDates => _availableDates;
-  DateTime get pickedDateTime => _pickedDateTime;
+  DateTime? get pickedDateTime => _pickedDateTime;
   bool get mounted => _mounted;
 
   init() async {
@@ -61,16 +62,16 @@ class DateScreenController with ChangeNotifier {
     updateWith(sections: result, loading: false);
   }
 
-  Future<void> fetchSubSections(String sectionId) async {
+  Future<void> fetchSubSections(String? sectionId) async {
     updateWith(loading: true);
     print("$TAG fetchSubSections: called");
-    final result = await database.fetchSubSectionsList(sectionId).catchError((error) {
+    final result = await database.fetchSubSectionsListBySectionId(sectionId).catchError((error) {
       print("$TAG [Error] fetchSubSections : $error");
     });
     updateWith(subSections: result, loading: false);
   }
 
-  Future<void> fetchServices(String subSectionId) async {
+  Future<void> fetchServices(String? subSectionId) async {
     updateWith(loading: true);
     print("$TAG fetchServices: called");
     final result = await database.fetchServicesList(subSectionId).catchError((error) {
@@ -82,7 +83,7 @@ class DateScreenController with ChangeNotifier {
   Future<void> fetchAvailableDates() async {
     // the request can not be made without both date and at least one service
     // if one of them is null or empty ignore the request
-    final selectedServicesId = _selectedServices.map((e) => e.id).toList() ?? <String>[];
+    final selectedServicesId = _selectedServices.map((e) => e.id).toList();
     if (selectedServicesId.isEmpty || _pickedDateTime == null) {
       return;
     }
@@ -94,7 +95,7 @@ class DateScreenController with ChangeNotifier {
     final formattedDate = MyDateFormatter.toStringDate(_pickedDateTime);
 
     final allDates = <String>[];
-    for (String serviceId in selectedServicesId) {
+    for (String? serviceId in selectedServicesId) {
       final result = await database.fetchAllDatesForService(serviceId, formattedDate).catchError((error) {
         print("$TAG [Error] fetchAvailableDates : $error");
       });
@@ -134,10 +135,10 @@ class DateScreenController with ChangeNotifier {
     return standardClinicDates;
   }
 
-  void onSectionSelected(Section section) {
+  void onSectionSelected(Section? section) {
     if (section == null) return;
     _subSections?.clear();
-    _selectedServices?.clear();
+    _selectedServices.clear();
     updateWith(
       pickedSection: section,
       subSections: <SubSection>[],
@@ -148,7 +149,7 @@ class DateScreenController with ChangeNotifier {
     fetchSubSections(section.id);
   }
 
-  void onSubSectionSelected(SubSection subSection) {
+  void onSubSectionSelected(SubSection? subSection) {
     if (subSection == null) return;
     updateWith(
       pickedSubSection: subSection,
@@ -159,12 +160,10 @@ class DateScreenController with ChangeNotifier {
   }
 
   bool isSelectedService(ClinicService service) {
-    if (service == null) return false;
-    return selectedServices.firstWhere((element) => element.id == service.id, orElse: () => null) != null;
+    return selectedServices.firstWhereOrNull((element) => element.id == service.id) != null;
   }
 
   void toggleService(ClinicService service) {
-    if (service == null) return;
     if (isSelectedService(service)) {
       _selectedServices.removeWhere((element) => element.id == service.id);
     } else {
@@ -181,7 +180,7 @@ class DateScreenController with ChangeNotifier {
     print("onDateTimeChanged: pickedDateTime: ${_pickedDateTime.toString()}");
   }
 
-  void onClinicDateSelected(ClinicDate date) {
+  void onClinicDateSelected(ClinicDate? date) {
     updateWith(pickedDate: date);
   }
 
@@ -195,7 +194,7 @@ class DateScreenController with ChangeNotifier {
       resetForm();
     }
     updateWith(loading: false);
-    return result?.success ?? false;
+    return result.success;
   }
 
   bool get isFormReady {
@@ -210,19 +209,19 @@ class DateScreenController with ChangeNotifier {
     final _serviciesIds = _selectedServices.map((service) => service.id).toList();
 
     final registeredDate = DateTime(
-      pickedDateTime.year,
-      pickedDateTime.month,
-      pickedDateTime.day,
-      pickedClinicDate.startHour,
-      pickedClinicDate.startMinutes,
+      pickedDateTime!.year,
+      pickedDateTime!.month,
+      pickedDateTime!.day,
+      pickedClinicDate!.startHour,
+      pickedClinicDate!.startMinutes,
     );
 
     return DateRegisteredRequest(
       userId: authRepository.userId,
-      dateSectionId: selectedSection.id,
-      subSectionId: selectedSubSection.id,
+      dateSectionId: selectedSection!.id,
+      subSectionId: selectedSubSection!.id,
       registeredDate: registeredDate,
-      time: pickedClinicDate.startTimeFormatted24H,
+      time: pickedClinicDate!.startTimeFormatted24H,
       serviceIds: _serviciesIds,
     );
   }
@@ -241,16 +240,16 @@ class DateScreenController with ChangeNotifier {
   }
 
   updateWith({
-    bool loading,
-    List<Section> sections,
-    List<SubSection> subSections,
-    List<ClinicService> services,
-    List<ClinicService> selectedServices,
-    List<ClinicDate> availableDates,
-    Section pickedSection,
-    SubSection pickedSubSection,
-    DateTime pickedDateTime,
-    ClinicDate pickedDate,
+    bool? loading,
+    List<Section>? sections,
+    List<SubSection>? subSections,
+    List<ClinicService>? services,
+    List<ClinicService>? selectedServices,
+    List<ClinicDate>? availableDates,
+    Section? pickedSection,
+    SubSection? pickedSubSection,
+    DateTime? pickedDateTime,
+    ClinicDate? pickedDate,
   }) {
     isLoading = loading ?? isLoading;
     _sections = sections ?? _sections;

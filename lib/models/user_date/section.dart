@@ -15,13 +15,13 @@ class Sections {
     this.token,
   });
 
-  List<SubSection> subSections;
-  List<DateRegistered> dateRegistered;
-  String id;
-  String name;
-  String text;
-  String image;
-  DateTime creationDate;
+  List<SubSection>? subSections;
+  List<DateRegistered>? dateRegistered;
+  String? id;
+  String? name;
+  String? text;
+  String? image;
+  DateTime? creationDate;
   dynamic userRole;
   dynamic userName;
   dynamic token;
@@ -40,13 +40,13 @@ class Sections {
       );
 
   Map<String, dynamic> toJson() => {
-        "subSections": List<dynamic>.from(subSections.map((x) => x.toJson())),
-        "dateRegistered": List<dynamic>.from(dateRegistered.map((x) => x.toJson())),
+        "subSections": List<dynamic>.from(subSections!.map((x) => x.toJson())),
+        "dateRegistered": List<dynamic>.from(dateRegistered!.map((x) => x.toJson())),
         "id": id,
         "name": name,
         "text": text,
         "image": image,
-        "creationDate": creationDate.toIso8601String(),
+        "creationDate": creationDate!.toIso8601String(),
         "userRole": userRole,
         "userName": userName,
         "token": token,

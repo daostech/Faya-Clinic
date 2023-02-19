@@ -3,17 +3,19 @@ import 'package:faya_clinic/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class NetworkCachedImage extends StatelessWidget {
-  const NetworkCachedImage({Key key, this.width = 70, this.height = 70, this.imageUrl, this.circularShapeError = false})
+  const NetworkCachedImage(
+      {Key? key, this.width = 70, this.height = 70, this.imageUrl, this.circularShapeError = false, this.fit})
       : super(key: key);
   final double width;
   final double height;
-  final String imageUrl;
+  final String? imageUrl;
   final bool circularShapeError;
+  final BoxFit? fit;
 
   @override
   Widget build(BuildContext context) {
     return CachedNetworkImage(
-      imageUrl: imageUrl,
+      imageUrl: imageUrl!,
       progressIndicatorBuilder: (context, url, downloadProgress) => Container(
         height: width,
         width: height,
@@ -25,6 +27,7 @@ class NetworkCachedImage extends StatelessWidget {
           child: CircularProgressIndicator(),
         ),
       ),
+      fit: fit,
       errorWidget: (context, url, error) => Container(
         // padding: EdgeInsets.all(marginStandard),
         height: width,

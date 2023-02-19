@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserDatesScreen extends StatelessWidget {
-  const UserDatesScreen._({Key key, @required this.controller}) : super(key: key);
+  const UserDatesScreen._({Key? key, required this.controller}) : super(key: key);
   final UserDatesController controller;
 
   static Widget create(BuildContext context) {

@@ -26,23 +26,23 @@ class OrderItem extends StorageModel {
   });
 
   @HiveField(0)
-  String id;
+  String? id;
   @HiveField(1)
-  String name;
+  String? name;
   @HiveField(2)
-  String orderId;
+  String? orderId;
   @HiveField(3)
-  String item;
+  String? item;
   @HiveField(4)
-  String image;
+  String? image;
   @HiveField(5)
-  double price;
+  double? price;
   @HiveField(6)
-  int count;
+  int? count;
   @HiveField(7)
-  int total;
+  int? total;
 
-  double get totalPrice => price * count;
+  double get totalPrice => price! * count!;
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly

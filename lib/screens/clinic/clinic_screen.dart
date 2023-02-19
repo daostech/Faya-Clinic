@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:tab_indicator_styler/tab_indicator_styler.dart';
 
 class ClinicScreen extends StatelessWidget {
-  const ClinicScreen._({Key key, @required this.controller}) : super(key: key);
+  const ClinicScreen._({Key? key, required this.controller}) : super(key: key);
   final ClinicController controller;
 
   static Widget create(BuildContext context) {
@@ -32,7 +32,7 @@ class ClinicScreen extends StatelessWidget {
         mainAxisSize: MainAxisSize.max,
         children: [
           DefaultTabController(
-            length: 4,
+            length: 5,
             initialIndex: controller.currentTabIndex,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -45,13 +45,11 @@ class ClinicScreen extends StatelessWidget {
                   color: Colors.transparent,
                   child: TabBar(
                     tabs: [
-                      Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: marginSmall,
-                        ),
-                        child: Tab(
-                          text: TransUtil.trans("tab_team"),
-                        ),
+                      Tab(
+                        text: TransUtil.trans("tab_offers"),
+                      ),
+                      Tab(
+                        text: TransUtil.trans("tab_works"),
                       ),
                       Center(
                         child: Tab(
@@ -60,10 +58,15 @@ class ClinicScreen extends StatelessWidget {
                         ),
                       ),
                       Tab(
-                        text: TransUtil.trans("tab_offers"),
-                      ),
-                      Tab(
                         text: TransUtil.trans("tab_find_us"),
+                      ),
+                      Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: marginSmall,
+                        ),
+                        child: Tab(
+                          text: TransUtil.trans("tab_team"),
+                        ),
                       ),
                     ],
                     onTap: controller.onTabChanged,

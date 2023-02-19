@@ -5,8 +5,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class UrlLauncherUtil {
-  static const _CLINIC_PHONE_NUMBER = AppConfig.CONTACT_PHONE;
-  static const _WHATSAPP_DEF_MESSAGE = "Hi how are you";
+  // static c onst _CLINIC_PHONE_NUMBER = AppConfig.CONTACT_PHONE;
+  static const _CLINIC_PHONE_NUMBER = AppConfig.CONTACT_PHONE_FORMATTED2;
+  static const _WHATSAPP_DEF_MESSAGE = "Hi, I have a question\n\n";
   static const _WHATSAPP = "https://wa.me/$_CLINIC_PHONE_NUMBER?text=$_WHATSAPP_DEF_MESSAGE";
   static const _CALL = "tel://$_CLINIC_PHONE_NUMBER";
   static const _CALL_2 = "tel://";

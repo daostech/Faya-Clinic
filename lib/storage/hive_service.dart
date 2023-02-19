@@ -4,8 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:uuid/uuid.dart';
 
 class HiveLocalStorageService implements LocalStorageService {
-  Box box;
-  String boxName;
+  late Box box;
+  late String boxName;
 
   HiveLocalStorageService(String _boxName) {
     this.boxName = _boxName;
@@ -35,8 +35,8 @@ class HiveLocalStorageService implements LocalStorageService {
   }
 
   @override
-  Future insertList(List<StorageModel> list) async {
-    for (StorageModel storageModel in list) {
+  Future insertList(List<StorageModel>? list) async {
+    for (StorageModel storageModel in list!) {
       await insertObject(storageModel);
     }
   }

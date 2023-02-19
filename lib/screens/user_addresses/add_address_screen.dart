@@ -9,7 +9,7 @@ import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:faya_clinic/widgets/input_standard.dart';
 
 class AddAddressScreen extends StatelessWidget {
-  AddAddressScreen({Key key}) : super(key: key);
+  AddAddressScreen({Key? key}) : super(key: key);
 
   void handleBackPressed(BuildContext context, UserAddressesController controller) {
     if (controller.hasUpdates) {

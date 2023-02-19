@@ -5,7 +5,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 class ProductReviewsWidget extends StatelessWidget {
-  const ProductReviewsWidget({Key key}) : super(key: key);
+  const ProductReviewsWidget({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

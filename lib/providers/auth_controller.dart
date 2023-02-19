@@ -6,27 +6,27 @@ import 'package:flutter/material.dart';
 class AuthController with ChangeNotifier {
   static const TAG = "AuthController: ";
   final AuthRepositoryBase authRepository;
-  AuthController({@required this.authRepository}) {
+  AuthController({required this.authRepository}) {
     _firstOpen = authRepository.isFirstOpen;
     _myUser = authRepository.myUser;
     _authState = authRepository.authState;
   }
 
   var _loading = false;
-  var _firstOpen = false;
+  bool? _firstOpen = false;
   // var _firstOpen = true;
   var _error = "";
   var inputCountryDialCode = "+964"; // default dial code that initialized in the input
   var inputPhoneNumber = "";
-  MyUser _myUser;
-  AuthState _authState;
+  MyUser? _myUser;
+  AuthState? _authState;
 
   bool get isLoading => _loading;
-  bool get firstOpen => _firstOpen;
+  bool? get firstOpen => _firstOpen;
   bool get hasError => _error.isNotEmpty;
   String get error => _error;
-  MyUser get myUser => _myUser;
-  AuthState get authState => _authState;
+  MyUser? get myUser => _myUser;
+  AuthState? get authState => _authState;
 
   String get inputPhoneWithCountryCode {
     if (inputPhoneNumber.startsWith(inputCountryDialCode)) {
@@ -61,7 +61,7 @@ class AuthController with ChangeNotifier {
     }
   }
 
-  Future onVerificationSuccess(UserCredential credential, String phoneNumber) async {
+  Future onVerificationSuccess(UserCredential? credential, String phoneNumber) async {
     print("$TAG signIn: signIn with: phoneNumber:$phoneNumber");
     try {
       updateWith(isLoading: true);
@@ -72,7 +72,7 @@ class AuthController with ChangeNotifier {
         // store both userId and phone number so we can use them
         // -even if the user closed the app-
         // for the creating new profile if not exist
-        authRepository.userId = credential.user.uid;
+        authRepository.userId = credential.user!.uid;
         authRepository.phoneNumber = phoneNumber;
         print("$TAG signIn: authRepository.userId:${authRepository.userId}");
         print("$TAG signIn: authRepository.phoneNumber:${authRepository.phoneNumber}");
@@ -147,11 +147,11 @@ class AuthController with ChangeNotifier {
   }
 
   void updateWith({
-    bool isLoading,
-    String error,
-    bool firstOpen,
-    MyUser myUser,
-    AuthState authState,
+    bool? isLoading,
+    String? error,
+    bool? firstOpen,
+    MyUser? myUser,
+    AuthState? authState,
   }) {
     this._loading = isLoading ?? this._loading;
     this._error = error ?? this._error;

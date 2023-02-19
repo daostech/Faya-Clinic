@@ -12,10 +12,10 @@ class ShippingMethod {
     this.unite,
   });
 
-  String id;
-  String method;
-  double price;
-  String unite;
+  String? id;
+  String? method;
+  double? price;
+  String? unite;
 
   String get priceString => "$unite$price";
 

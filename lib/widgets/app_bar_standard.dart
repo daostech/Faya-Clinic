@@ -2,14 +2,14 @@ import 'package:faya_clinic/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class AppBarStandard extends StatelessWidget {
-  final Function onBackTap;
+  final Function? onBackTap;
   final String title;
-  final List<Widget> actions;
+  final List<Widget>? actions;
   const AppBarStandard({
-    Key key,
+    Key? key,
     this.onBackTap,
     this.actions,
-    @required this.title,
+    required this.title,
   }) : super(key: key);
 
   @override
@@ -35,7 +35,7 @@ class AppBarStandard extends StatelessWidget {
               child: FittedBox(
                 child: TextButton(
                   style: ButtonStyle(alignment: Alignment.center),
-                  onPressed: onBackTap ?? () => Navigator.of(context).pop(),
+                  onPressed: onBackTap as void Function()? ?? () => Navigator.of(context).pop(),
                   child: Icon(
                     Icons.arrow_back_ios,
                     color: Colors.black87,
@@ -59,7 +59,7 @@ class AppBarStandard extends StatelessWidget {
           ),
           if (actions != null)
             Row(
-              children: actions,
+              children: actions!,
             ),
         ],
       ),

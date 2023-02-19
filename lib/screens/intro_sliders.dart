@@ -6,7 +6,7 @@ import 'package:intro_slider/intro_slider.dart';
 
 class IntroScreen extends StatefulWidget {
   final AuthController controller;
-  IntroScreen({Key key, @required this.controller}) : super(key: key);
+  IntroScreen({Key? key, required this.controller}) : super(key: key);
 
   @override
   IntroScreenState createState() => new IntroScreenState();

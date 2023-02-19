@@ -19,20 +19,20 @@ class SubSection {
     this.sections,
   });
 
-  List<Service> services;
-  String id;
-  String name;
-  String text;
-  String fullText;
-  String img1;
-  String img2;
-  String sectionId;
-  DateTime creationDate;
+  List<Service>? services;
+  String? id;
+  String? name;
+  String? text;
+  String? fullText;
+  String? img1;
+  String? img2;
+  String? sectionId;
+  DateTime? creationDate;
   dynamic serviceIds;
   dynamic userRole;
   dynamic userName;
   dynamic token;
-  Sections sections;
+  Sections? sections;
 
   factory SubSection.fromJson(Map<String, dynamic> json) => SubSection(
         services: List<Service>.from(json["services"].map((x) => Service.fromJson(x))),
@@ -52,7 +52,7 @@ class SubSection {
       );
 
   Map<String, dynamic> toJson() => {
-        "services": List<dynamic>.from(services.map((x) => x.toJson())),
+        "services": List<dynamic>.from(services!.map((x) => x.toJson())),
         "id": id,
         "name": name,
         "text": text,
@@ -60,11 +60,11 @@ class SubSection {
         "img1": img1,
         "img2": img2,
         "sectionId": sectionId,
-        "creationDate": creationDate.toIso8601String(),
+        "creationDate": creationDate!.toIso8601String(),
         "serviceIds": serviceIds,
         "userRole": userRole,
         "userName": userName,
         "token": token,
-        "sections": sections == null ? null : sections.toJson(),
+        "sections": sections == null ? null : sections!.toJson(),
       };
 }

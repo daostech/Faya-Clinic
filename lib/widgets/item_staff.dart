@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class StaffItem extends StatelessWidget {
   final double width;
-  final double height;
+  final double? height;
   final Team team;
-  const StaffItem({Key key, this.width = 200, this.height = 225, @required this.team}) : super(key: key);
+  const StaffItem({Key? key, this.width = 200, this.height = 225, required this.team}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class StaffItem extends StatelessWidget {
             ),
             Positioned(
               // profile picture container
-              top: height * 0.1,
+              top: height! * 0.1,
               right: 0,
               left: 0,
               child: Row(
@@ -66,7 +66,7 @@ class StaffItem extends StatelessWidget {
                         // width: double.infinity,
                         // height: double.infinity,
                         circularShapeError: true,
-                        imageUrl: team?.imageUrl,
+                        imageUrl: team.imageUrl,
                       ),
                     ),
                   ),
@@ -82,12 +82,12 @@ class StaffItem extends StatelessWidget {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(team?.name ?? ""),
+                    Text(team.name ?? ""),
                     SizedBox(
                       height: marginStandard,
                     ),
                     Text(
-                      team?.description ?? "",
+                      team.description ?? "",
                       overflow: TextOverflow.ellipsis,
                     ),
                   ],

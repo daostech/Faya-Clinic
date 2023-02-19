@@ -8,7 +8,7 @@ import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:flutter/material.dart';
 
 class UserOrderDetailsScreen extends StatelessWidget {
-  const UserOrderDetailsScreen({Key key, @required this.order}) : super(key: key);
+  const UserOrderDetailsScreen({Key? key, required this.order}) : super(key: key);
   final UserOrder order;
 
   @override
@@ -55,25 +55,25 @@ class UserOrderDetailsScreen extends StatelessWidget {
             borderRadius: BorderRadius.all(Radius.circular(radiusStandard)),
             child: NetworkCachedImage(
               // set the image of the first prodect in the list
-              imageUrl: order.orderItems?.first?.product?.images[0],
+              imageUrl: order.orderItems?.first.product?.images[0],
             ),
           ),
         ),
         Text(
-          order?.status ?? "",
+          order.status ?? "",
           style: TextStyle(
             fontSize: fontSizexLarge,
             fontWeight: FontWeight.bold,
           ),
         ),
         Text(
-          MyDateFormatter.toStringDate(order?.date),
+          MyDateFormatter.toStringDate(order.date),
           style: TextStyle(
             fontSize: fontSizeLarge,
           ),
         ),
         Text(
-          order?.note ?? "",
+          order.note ?? "",
           style: TextStyle(
             fontSize: fontSizeLarge,
           ),
@@ -117,9 +117,9 @@ class UserOrderDetailsScreen extends StatelessWidget {
             ),
             child: ListView.separated(
               shrinkWrap: true,
-              itemCount: order.orderItems.length,
+              itemCount: order.orderItems!.length,
               itemBuilder: (context, index) {
-                return buildInnerOrderItem(order.orderItems[index]);
+                return buildInnerOrderItem(order.orderItems![index]);
               },
               separatorBuilder: (ctx, indx) {
                 return Divider();
@@ -180,12 +180,12 @@ class UserOrderDetailsScreen extends StatelessWidget {
     return Row(
       children: [
         // quantity label
-        Text("${orderItem?.count?.toInt()?.toString()} X "),
+        Text("${orderItem.count?.toInt().toString()} X "),
         // product name
-        Text("${orderItem?.product?.productName}"),
+        Text("${orderItem.product?.productName}"),
         // product price
         Spacer(),
-        Text("${AppConfig.PREFFERED_QURRENCY_UNIT}${orderItem?.product?.price}"),
+        Text("${AppConfig.PREFFERED_QURRENCY_UNIT}${orderItem.product?.price}"),
       ],
     );
   }

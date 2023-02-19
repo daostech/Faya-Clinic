@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CartScreen extends StatelessWidget {
-  CartScreen({Key key}) : super(key: key);
+  CartScreen({Key? key}) : super(key: key);
 
   void _goTo(BuildContext context, Widget widget) {
     Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => widget));
@@ -94,7 +94,7 @@ class CartScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: marginLarge),
             itemCount: controller.count,
             itemBuilder: (ctx, index) {
-              final currentItem = controller.allItems[index];
+              final currentItem = controller.allItems![index];
               return CartProductItem(
                 orderItem: currentItem,
                 addQTY: () => controller.addQTY(currentItem.id),
@@ -231,8 +231,7 @@ class CartScreen extends StatelessWidget {
                     ),
                   ),
                   // todo check whether the coupon is an amount or percentage
-                  Text(
-                      "${AppConfig.PREFFERED_QURRENCY_UNIT}${controller.appliedCoupon.discountValue.toString() ?? "${0.0.toString()}"}"),
+                  Text("${AppConfig.PREFFERED_QURRENCY_UNIT}${controller.appliedCoupon!.discountValue.toString()}"),
                 ],
               ),
             ),

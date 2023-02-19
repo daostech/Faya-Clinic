@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
 import 'package:flutter/material.dart';
@@ -7,8 +8,8 @@ class FavoriteProductsController with ChangeNotifier {
   static const ERR = "[Error] ";
 
   final FavoriteRepositoryBase favoriteRepository;
-  FavoriteProductsController({this.favoriteRepository}) {
-    _favoriteProducts?.clear();
+  FavoriteProductsController({required this.favoriteRepository}) {
+    _favoriteProducts.clear();
     _favoriteProducts.addAll(favoriteRepository.allProducts);
   }
 
@@ -28,6 +29,6 @@ class FavoriteProductsController with ChangeNotifier {
 
   bool isFavoriteProduct(Product product) {
     if (product == null) return false;
-    return _favoriteProducts.firstWhere((element) => element.id == product.id, orElse: () => null) != null;
+    return _favoriteProducts.firstWhereOrNull((element) => element.id == product.id) != null;
   }
 }

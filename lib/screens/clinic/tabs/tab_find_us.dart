@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ClinicFindUsTab extends StatefulWidget {
-  const ClinicFindUsTab({Key key}) : super(key: key);
+  const ClinicFindUsTab({Key? key}) : super(key: key);
 
   @override
   State<ClinicFindUsTab> createState() => _ClinicFindUsTabState();

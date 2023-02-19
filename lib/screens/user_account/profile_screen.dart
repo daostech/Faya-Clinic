@@ -16,7 +16,7 @@ import 'package:faya_clinic/widgets/buttons_inline.dart';
 import 'package:faya_clinic/widgets/input_label_top.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key key}) : super(key: key);
+  const ProfileScreen({Key? key}) : super(key: key);
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -26,7 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final ImagePicker _picker = ImagePicker();
   final storage = FirebaseStorage.instance;
 
-  UserAccountController controller;
+  late UserAccountController controller;
 
   @override
   void didChangeDependencies() {
@@ -117,14 +117,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ],
                         ),
-                        child: controller.user.imgUrl == null
+                        child: controller.user!.imgUrl == null
                             ? SizedBox()
                             : ClipRRect(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(radiusStandard),
                                 ),
                                 child: NetworkCachedImage(
-                                  imageUrl: controller.user.imgUrl,
+                                  imageUrl: controller.user!.imgUrl,
                                 ),
                               ),
                       ),
@@ -179,7 +179,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           LabeledInput(
                             label: TransUtil.trans("label_birthday"),
-                            initialValue: MyDateFormatter.toStringFormatted(controller.user?.dateBirth) ?? "",
+                            initialValue: MyDateFormatter.toStringFormatted(controller.user?.dateBirth),
                             isReadOnly: true,
                             onChanged: (_) {},
                           ),

@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class FavoriteProductsScreen extends StatelessWidget {
-  const FavoriteProductsScreen._({Key key, @required this.controller}) : super(key: key);
+  const FavoriteProductsScreen._({Key? key, required this.controller}) : super(key: key);
   final FavoriteProductsController controller;
 
   static Widget create(BuildContext context) {

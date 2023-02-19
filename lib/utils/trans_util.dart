@@ -8,11 +8,11 @@ class TransUtil {
   }
 
   static String getCurrentLangCode(BuildContext context) {
-    return EasyLocalization.of(context).locale.toString();
+    return EasyLocalization.of(context)!.locale.toString();
   }
 
   static Locale getCurrentLocale(BuildContext context) {
-    return EasyLocalization.of(context).locale;
+    return EasyLocalization.of(context)!.locale;
   }
 
   static void changeLocale(BuildContext context, String localeCode) {
@@ -20,10 +20,10 @@ class TransUtil {
   }
 
   static bool isArLocale(BuildContext context) {
-    return EasyLocalization.of(context).locale == Locale(langArCode);
+    return EasyLocalization.of(context)!.locale == Locale(langArCode);
   }
 
   static bool isEnLocale(BuildContext context) {
-    return EasyLocalization.of(context).locale == Locale(langEnCode);
+    return EasyLocalization.of(context)!.locale == Locale(langEnCode);
   }
 }

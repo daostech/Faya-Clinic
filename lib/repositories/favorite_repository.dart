@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/storage/local_storage.dart';
 
@@ -17,7 +18,7 @@ class FavoriteRepository implements FavoriteRepositoryBase {
   FavoriteRepository(this.localStorage);
 
   @override
-  List<Product> get allProducts => List<Product>.from(localStorage.getAll()) ?? [];
+  List<Product> get allProducts => List<Product>.from(localStorage.getAll());
 
   @override
   addProduct(Product product) {
@@ -44,7 +45,7 @@ class FavoriteRepository implements FavoriteRepositoryBase {
   @override
   bool isFavorite(Product product) {
     print("FavoriteRepository: isFavorite ${product.toJson()}");
-    return allProducts.firstWhere((element) => element.id == product.id, orElse: () => null) != null;
+    return allProducts.firstWhereOrNull((element) => element.id == product.id) != null;
   }
 
   @override

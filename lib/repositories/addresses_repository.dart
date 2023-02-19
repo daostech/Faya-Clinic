@@ -14,7 +14,7 @@ class AddressesRepository implements AddressesRepositoryBase {
   AddressesRepository(this.localStorage);
 
   @override
-  List<Address> get allAddresses => List<Address>.from(localStorage.getAll()) ?? [];
+  List<Address> get allAddresses => List<Address>.from(localStorage.getAll());
 
   @override
   addAddress(Address address) {

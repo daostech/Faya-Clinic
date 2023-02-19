@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 
 class NotificationsController with ChangeNotifier {
   static const TAG = "NotificationsController: ";
-  final NotificationsRepositoryBase notificationsRepository;
+  final NotificationsRepositoryBase? notificationsRepository;
 
-  final AuthRepositoryBase authRepository;
+  final AuthRepositoryBase? authRepository;
   NotificationsController({this.notificationsRepository, this.authRepository}) {
     // listenForNewNotifications();
   }
@@ -50,11 +50,11 @@ class NotificationsController with ChangeNotifier {
     print("$TAG fetchNotifications called");
     updateWith(loading: true);
     final notifications =
-        await notificationsRepository.fetchUserNotifications(authRepository.userId).catchError((error) {
+        await notificationsRepository!.fetchUserNotifications(authRepository!.userId).catchError((error) {
       updateWith(loading: false, error: error.toString());
     });
     // sort the notifications from the older to the newer
-    notifications.sort((b, a) => a.creationDate.compareTo(b.creationDate));
+    notifications.sort((b, a) => a.creationDate!.compareTo(b.creationDate!));
     _allNotifications.addAll(notifications);
 
     updateWith(loading: false, allNotifications: _allNotifications, unReadCount: _calculateUnread);
@@ -71,7 +71,7 @@ class NotificationsController with ChangeNotifier {
   onNotificationsScreenOpened() async {
     // todo mark all notifications as read
     print("$TAG onNotificationsScreenOpened called");
-    notificationsRepository.markNotificationsAsRead(_allNotifications);
+    notificationsRepository!.markNotificationsAsRead(_allNotifications);
     _allNotifications.forEach((element) {
       element.isShowed = true;
     });
@@ -82,7 +82,7 @@ class NotificationsController with ChangeNotifier {
     if (_allNotifications == null || _allNotifications.isEmpty) return 0;
     var count = 0;
     _allNotifications.forEach((element) {
-      if (!element.isShowed) {
+      if (!element.isShowed!) {
         count++;
       }
     });
@@ -93,7 +93,7 @@ class NotificationsController with ChangeNotifier {
     if (notifications == null || notifications.isEmpty) return 0;
     var count = 0;
     notifications.forEach((element) {
-      if (!element.isShowed) {
+      if (!element.isShowed!) {
         count++;
       }
     });
@@ -101,10 +101,10 @@ class NotificationsController with ChangeNotifier {
   }
 
   updateWith({
-    bool loading,
-    String error,
-    int unReadCount,
-    List<NotificationModel> allNotifications,
+    bool? loading,
+    String? error,
+    int? unReadCount,
+    List<NotificationModel>? allNotifications,
   }) {
     _isLoading = loading ?? this._isLoading;
     _allNotifications = allNotifications ?? this._allNotifications;

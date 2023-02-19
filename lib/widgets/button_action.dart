@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 @immutable
 class ActionButton extends StatelessWidget {
   const ActionButton({
-    Key key,
+    Key? key,
     this.onPressed,
-    @required this.icon,
+    required this.icon,
   }) : super(key: key);
 
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final Widget icon;
 
   @override

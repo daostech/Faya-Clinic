@@ -13,15 +13,15 @@ class CreateUserProfileRequest {
     this.imgUrl,
   });
 
-  String userId;
-  String userName;
-  String phoneNumber;
-  String birthDate;
-  String email;
-  bool isActive;
-  int gender;
-  String token;
-  String imgUrl;
+  String? userId;
+  String? userName;
+  String? phoneNumber;
+  String? birthDate;
+  String? email;
+  bool? isActive;
+  int? gender;
+  String? token;
+  String? imgUrl;
 
   CreateUserProfileRequest copyWith({
     userId,
@@ -47,7 +47,7 @@ class CreateUserProfileRequest {
     );
   }
 
-  CreateUserProfileRequest copyFromUser({MyUser user}) {
+  CreateUserProfileRequest copyFromUser({required MyUser user}) {
     return CreateUserProfileRequest(
       userId: user.userId ?? this.userId,
       userName: user.userName ?? this.userName,
@@ -61,7 +61,7 @@ class CreateUserProfileRequest {
     );
   }
 
-  factory CreateUserProfileRequest.copyAllFromUser({MyUser user}) {
+  factory CreateUserProfileRequest.copyAllFromUser({required MyUser user}) {
     return CreateUserProfileRequest(
       userId: user.userId,
       userName: user.userName,
@@ -75,7 +75,7 @@ class CreateUserProfileRequest {
     );
   }
 
-  factory CreateUserProfileRequest.copyFromUser({MyUser user}) {
+  factory CreateUserProfileRequest.copyFromUser({required MyUser user}) {
     return CreateUserProfileRequest(
       userId: user.userId,
       userName: user.userName,

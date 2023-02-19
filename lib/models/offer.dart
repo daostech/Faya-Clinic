@@ -21,21 +21,21 @@ class Offer implements ListAble {
     this.isActive,
   });
 
-  String id;
-  String title;
-  String description;
-  String img1;
-  String img2;
-  String img3;
+  String? id;
+  String? title;
+  String? description;
+  String? img1;
+  String? img2;
+  String? img3;
   dynamic creationDate;
-  bool isActive;
+  bool? isActive;
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String _imageUrl(String img) => "${AppConfig.RAW_BASE_URL}/$img";
+  String _imageUrl(String? img) => "${AppConfig.RAW_BASE_URL}/$img";
 
   List<String> get images {
-    List<String> tmps = [img1, img2, img3];
+    List<String?> tmps = [img1, img2, img3];
     List<String> imgs = [];
     for (int i = 0; i < 3; i++) {
       if (tmps[i] != null) imgs.add(_imageUrl(tmps[i]));
@@ -81,11 +81,11 @@ class Offer implements ListAble {
 
   @override
   bool containsKeyword(String keyword) {
-    return title.toLowerCase().contains(keyword.toLowerCase());
+    return title!.toLowerCase().contains(keyword.toLowerCase());
   }
 
   @override
-  String get titleValue => title;
+  String? get titleValue => title;
 
   @override
   String get imageUrl => images != null && images.isNotEmpty ? images[0] : "";

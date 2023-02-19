@@ -10,7 +10,7 @@ import 'package:image_picker/image_picker.dart';
 
 class UserAccountController with ChangeNotifier {
   final AuthRepositoryBase authRepository;
-  UserAccountController({@required this.authRepository}) {
+  UserAccountController({required this.authRepository}) {
     print("UserAccountController called");
     _user = authRepository.myUser;
   }
@@ -26,14 +26,14 @@ class UserAccountController with ChangeNotifier {
   String get error => _error;
   bool get hasError => _error.isNotEmpty;
   bool get loading => _loading;
-  MyUser get user => _user;
+  MyUser? get user => _user;
 
-  MyUser _user;
+  MyUser? _user;
 
   bool get hasUpdates {
-    return userNameTxtController.text != _user.userName ||
-        emailTxtController.text != _user.email ||
-        phoneTxtController.text != _user.phoneNumber;
+    return userNameTxtController.text != _user!.userName ||
+        emailTxtController.text != _user!.email ||
+        phoneTxtController.text != _user!.phoneNumber;
   }
 
   MyUser get newUserData => MyUser(
@@ -43,25 +43,25 @@ class UserAccountController with ChangeNotifier {
       );
 
   void initForm() {
-    userNameTxtController.text = _user.userName;
-    emailTxtController.text = _user.email;
-    phoneTxtController.text = _user.phoneNumber;
+    userNameTxtController.text = _user!.userName!;
+    emailTxtController.text = _user!.email!;
+    phoneTxtController.text = _user!.phoneNumber!;
   }
 
   Future<bool> submitForm() async {
     print("submitForm called");
-    if (formKey.currentState.validate()) {
+    if (formKey.currentState!.validate()) {
       if (!hasUpdates) {
         // Navigator.of(context).pop();
         return false;
       } else {
         try {
           final request = MyUser(
-            userId: _user.userId,
+            userId: _user!.userId,
             userName: userNameTxtController.text,
             email: emailTxtController.text,
-            phoneNumber: _user.phoneNumber,
-            dateBirth: _user.dateBirth,
+            phoneNumber: _user!.phoneNumber,
+            dateBirth: _user!.dateBirth,
           );
           final result = await authRepository.updateUserProfile(request);
           if (result.success) {
@@ -114,9 +114,9 @@ class UserAccountController with ChangeNotifier {
   }
 
   void updateWith({
-    bool isLoading,
-    String error,
-    MyUser user,
+    bool? isLoading,
+    String? error,
+    MyUser? user,
   }) {
     this._loading = isLoading ?? this._loading;
     this._error = error ?? this._error;

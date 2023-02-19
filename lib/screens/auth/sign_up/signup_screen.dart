@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/providers/auth_controller.dart';
 import 'package:faya_clinic/utils/date_formatter.dart';
@@ -11,7 +13,7 @@ import 'package:provider/provider.dart';
 
 class SignUpScreen extends StatefulWidget {
   final AuthController controller;
-  const SignUpScreen({Key key, @required this.controller}) : super(key: key);
+  const SignUpScreen({Key? key, required this.controller}) : super(key: key);
 
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -25,7 +27,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   AuthController get controller => widget.controller;
 
-  DateTime selectedDate;
+  DateTime? selectedDate;
   var _name = "";
   var _phone = "";
   var _birthdayString = "";
@@ -43,7 +45,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   void submitForm() {
     print("submitForm: called");
-    if (!_key.currentState.validate()) {
+    if (!_key.currentState!.validate()) {
       return;
     }
     if (_birthdayString.isEmpty) {
@@ -54,19 +56,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
     try {
       controller.createUserProfile(_name, _phone, _birthdayString, _email);
     } catch (e) {
-      DialogUtil.showAlertDialog(context, e.toString() ?? TransUtil.trans("error_try_again_later"), null);
+      DialogUtil.showAlertDialog(context, e.toString(), null);
     }
 
     print("$TAG form is valid: name: $_name, _phone: $_phone, birthday: $_birthdayString");
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await showDatePicker(
+    final DateTime picked = await (showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1900, 1),
       lastDate: DateTime.now(),
-    );
+    ) as FutureOr<DateTime>);
     if (picked != null)
       setState(() {
         selectedDate = picked;

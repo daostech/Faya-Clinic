@@ -18,14 +18,14 @@ class Order {
     this.orderItems,
   });
 
-  String id;
-  String userId;
-  String orderCode;
-  int date;
-  int status;
-  int client;
-  int total;
-  List<OrderItem> orderItems;
+  String? id;
+  String? userId;
+  String? orderCode;
+  int? date;
+  int? status;
+  int? client;
+  int? total;
+  List<OrderItem>? orderItems;
 
   factory Order.fromJson(Map<String, dynamic> json) => Order(
         id: json["id"] == null ? null : json["id"],
@@ -35,7 +35,7 @@ class Order {
         status: json["status"] == null ? null : json["status"],
         client: json["client"] == null ? null : json["client"],
         total: json["total"] == null ? null : json["total"],
-        orderItems: json["orderItems"] == null ? null : List<dynamic>.from(json["orderItems"].map((x) => x)),
+        orderItems: json["orderItems"] == null ? null : List<dynamic>.from(json["orderItems"].map((x) => x)) as List<OrderItem>?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -46,6 +46,6 @@ class Order {
         "status": status,
         "client": client,
         "total": total,
-        "orderItems": orderItems == null ? null : List<dynamic>.from(orderItems.map((x) => x)),
+        "orderItems": orderItems == null ? null : List<dynamic>.from(orderItems!.map((x) => x)),
       };
 }

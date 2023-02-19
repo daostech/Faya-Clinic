@@ -18,8 +18,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class MyAccountScreen extends StatefulWidget {
-  final Function onLogout;
-  const MyAccountScreen._({Key key, @required this.controller, this.onLogout}) : super(key: key);
+  final Function? onLogout;
+  const MyAccountScreen._({Key? key, required this.controller, this.onLogout}) : super(key: key);
   final UserAccountController controller;
 
   static Widget create(BuildContext context, Function onLogout) {
@@ -42,7 +42,7 @@ class MyAccountScreen extends StatefulWidget {
 }
 
 class _MyAccountScreenState extends State<MyAccountScreen> {
-  Function get onLogout => widget.onLogout;
+  Function? get onLogout => widget.onLogout;
   UserAccountController get controller => widget.controller;
   var currentLangCode = "";
 
@@ -52,9 +52,9 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     super.didChangeDependencies();
   }
 
-  void changeLanguage(String langCode) {
+  void changeLanguage(String? langCode) {
     if (currentLangCode == langCode) return;
-    TransUtil.changeLocale(context, langCode);
+    TransUtil.changeLocale(context, langCode!);
     setState(() {});
   }
 
@@ -203,7 +203,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 toggleable: true,
                 selectedTileColor: colorPrimary,
                 tileColor: colorPrimary,
-                onChanged: (langCode) => changeLanguage(langCode),
+                onChanged: (dynamic langCode) => changeLanguage(langCode),
                 title: Text("English"),
                 activeColor: colorPrimary,
               ),
@@ -214,7 +214,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                 toggleable: true,
                 selectedTileColor: colorPrimary,
                 tileColor: colorPrimary,
-                onChanged: (langCode) => changeLanguage(langCode),
+                onChanged: (dynamic langCode) => changeLanguage(langCode),
                 title: Text("العربية"),
                 activeColor: colorPrimary,
               ),
@@ -275,7 +275,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
     );
   }
 
-  Widget _buildListItem({String title, IconData leading, Function onTap, bool withDivider = false}) {
+  Widget _buildListItem({required String title, IconData? leading, Function? onTap, bool withDivider = false}) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -291,7 +291,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
             Icons.arrow_forward_ios_rounded,
             color: colorPrimary,
           ),
-          onTap: onTap,
+          onTap: onTap as void Function()?,
         ),
         Visibility(
           visible: withDivider,
@@ -346,7 +346,7 @@ class _MyAccountScreenState extends State<MyAccountScreen> {
                       Radius.circular(radiusStandard),
                     ),
                     child: NetworkCachedImage(
-                      imageUrl: controller.user.imgUrl,
+                      imageUrl: controller.user!.imgUrl,
                     ),
                   ),
           ),

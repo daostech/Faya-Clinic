@@ -9,7 +9,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 class VerifySMSCode extends StatelessWidget {
-  VerifySMSCode({Key key}) : super(key: key);
+  VerifySMSCode({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
   handleError(context, controller) {
@@ -107,7 +107,7 @@ class VerifySMSCode extends StatelessWidget {
                           textInputType: TextInputType.number,
                           onChanged: (value) => smsCode = value,
                           validator: (value) {
-                            if (value.isEmpty) {
+                            if (value == null || value.isEmpty) {
                               return TransUtil.trans("error_empty_field");
                             }
                             if (value.length != 6) {
@@ -134,7 +134,7 @@ class VerifySMSCode extends StatelessWidget {
   }
 
   submitCode(context, controller, smsCode) {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       if (!controller.hasError) {
         Navigator.of(context).pop(smsCode);
       }

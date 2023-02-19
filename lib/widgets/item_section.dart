@@ -4,11 +4,11 @@ import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:flutter/material.dart';
 
 class SectionItem extends StatelessWidget {
-  final String title;
-  final String subTitle;
-  final String image;
+  final String? title;
+  final String? subTitle;
+  final String? image;
   final Function onTap;
-  const SectionItem({Key key, @required this.onTap, @required this.title, @required this.subTitle, this.image})
+  const SectionItem({Key? key, required this.onTap, required this.title, required this.subTitle, this.image})
       : super(key: key);
 
   @override
@@ -28,7 +28,7 @@ class SectionItem extends StatelessWidget {
         ),
       ),
       child: InkWell(
-        onTap: onTap,
+        onTap: onTap as void Function()?,
         splashColor: Colors.transparent,
         child: Row(
           children: [
@@ -49,7 +49,7 @@ class SectionItem extends StatelessWidget {
                 child: Column(
               children: [
                 Text(
-                  title,
+                  title!,
                   style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black87),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -59,7 +59,7 @@ class SectionItem extends StatelessWidget {
                 ),
                 Expanded(
                   child: Text(
-                    subTitle,
+                    subTitle!,
                     style: TextStyle(color: Colors.black54),
                     // overflow: TextOverflow.ellipsis,
                   ),

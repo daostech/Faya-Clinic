@@ -4,8 +4,8 @@ import 'package:faya_clinic/models/order_item.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutReviewProductItem extends StatelessWidget {
-  final OrderItem orderItem;
-  const CheckoutReviewProductItem({Key key, this.orderItem}) : super(key: key);
+  final OrderItem? orderItem;
+  const CheckoutReviewProductItem({Key? key, this.orderItem}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +36,7 @@ class CheckoutReviewProductItem extends StatelessWidget {
               width: _imgWidth,
               height: _imgHeight,
               child: CachedNetworkImage(
-                imageUrl: orderItem?.imageUrl,
+                imageUrl: orderItem?.imageUrl ?? "",
                 progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                   child: Center(
                     child: CircularProgressIndicator(),
@@ -81,7 +81,7 @@ class CheckoutReviewProductItem extends StatelessWidget {
                   height: marginSmall,
                 ),
                 Text(
-                  orderItem.totalPrice?.toStringAsFixed(2),
+                  orderItem!.totalPrice.toStringAsFixed(2),
                   style: TextStyle(color: Colors.black54),
                   // overflow: TextOverflow.ellipsis,
                 ),
@@ -99,7 +99,7 @@ class CheckoutReviewProductItem extends StatelessWidget {
                     padding: const EdgeInsets.all(2),
                     color: colorGreyDark,
                     child: Text(
-                      orderItem.count?.toString(),
+                      orderItem!.count?.toString() ?? "",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.black87,

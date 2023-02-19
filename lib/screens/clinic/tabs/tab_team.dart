@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ClinicTeamTab extends StatelessWidget {
-  const ClinicTeamTab({Key key}) : super(key: key);
+  const ClinicTeamTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,18 +28,18 @@ class ClinicTeamTab extends StatelessWidget {
           child: MyErrorWidget(
         onTap: controller.fetchTeamsList,
       ));
-    } else if (controller.teamsList.isEmpty) {
+    } else if (controller.teamsList!.isEmpty) {
       return Center(
         child: Text(TransUtil.trans("msg_no_data_for_this_section")),
       );
     }
     return ListView.builder(
-      itemCount: controller.teamsList.length,
+      itemCount: controller.teamsList!.length,
       itemBuilder: (ctx, index) {
         return StaffItem(
           width: width,
           height: width * 0.7,
-          team: controller.teamsList[index],
+          team: controller.teamsList![index],
         );
       },
     );

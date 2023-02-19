@@ -25,21 +25,21 @@ class Address extends StorageModel {
   });
 
   @HiveField(0)
-  String id;
+  String? id;
   @HiveField(1)
-  String label;
+  String? label;
   @HiveField(2)
-  String country;
+  String? country;
   @HiveField(3)
-  String city;
+  String? city;
   @HiveField(4)
-  String apartment;
+  String? apartment;
   @HiveField(5)
-  String street;
+  String? street;
   @HiveField(6)
-  String block;
+  String? block;
   @HiveField(7)
-  int zipCode;
+  int? zipCode;
 
   String get formatted => "$country $city $street $apartment $block";
 

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserAddressesScreen extends StatelessWidget {
-  const UserAddressesScreen._({Key key, @required this.controller}) : super(key: key);
+  const UserAddressesScreen._({Key? key, required this.controller}) : super(key: key);
   final UserAddressesController controller;
 
   static Widget create(BuildContext context) {

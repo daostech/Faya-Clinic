@@ -17,14 +17,14 @@ class AddressAdapter extends TypeAdapter<Address> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return Address(
-      id: fields[0] as String,
-      label: fields[1] as String,
-      country: fields[2] as String,
-      city: fields[3] as String,
-      apartment: fields[4] as String,
-      street: fields[5] as String,
-      block: fields[6] as String,
-      zipCode: fields[7] as int,
+      id: fields[0] as String?,
+      label: fields[1] as String?,
+      country: fields[2] as String?,
+      city: fields[3] as String?,
+      apartment: fields[4] as String?,
+      street: fields[5] as String?,
+      block: fields[6] as String?,
+      zipCode: fields[7] as int?,
     );
   }
 

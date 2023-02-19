@@ -6,8 +6,8 @@ import 'package:faya_clinic/services/database_service.dart';
 
 class UserDatesController with ChangeNotifier {
   static const TAG = "UserDatesController: ";
-  final Database database;
-  final AuthRepositoryBase authRepository;
+  final Database? database;
+  final AuthRepositoryBase? authRepository;
   UserDatesController({this.authRepository, this.database}) {
     init();
   }
@@ -16,13 +16,13 @@ class UserDatesController with ChangeNotifier {
   var isLoading = true;
 
   void init() {
-    fetchDateRegistered(authRepository.userId);
+    fetchDateRegistered(authRepository!.userId);
   }
 
-  Future<void> fetchDateRegistered(String userId) async {
+  Future<void> fetchDateRegistered(String? userId) async {
     updateWith(loading: true);
     print("$TAG fetchDateRegistered: called");
-    final result = await database.fetchUserDates(userId).catchError((error) {
+    final result = await database!.fetchUserDates(userId).catchError((error) {
       print("$TAG [Error] fetchDateRegistered : $error");
     });
     if (result != null) {
@@ -35,7 +35,7 @@ class UserDatesController with ChangeNotifier {
   }
 
   updateWith({
-    bool loading,
+    bool? loading,
   }) {
     isLoading = loading ?? isLoading;
     notifyListeners();

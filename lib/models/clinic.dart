@@ -13,11 +13,11 @@ class Clinic {
     this.subCategories,
   });
 
-  String id;
-  String title;
-  String sectionId;
-  String subSectionId;
-  List<SubCategory> subCategories;
+  String? id;
+  String? title;
+  String? sectionId;
+  String? subSectionId;
+  List<SubCategory>? subCategories;
 
   factory Clinic.fromJson(Map<String, dynamic> json) => Clinic(
         id: json["id"] == null ? null : json["id"],
@@ -28,6 +28,6 @@ class Clinic {
   Map<String, dynamic> toJson() => {
         "id": id,
         "title": title,
-        "subCategories": subCategories == null ? null : List<dynamic>.from(subCategories.map((x) => x)),
+        "subCategories": subCategories == null ? null : List<dynamic>.from(subCategories!.map((x) => x)),
       };
 }

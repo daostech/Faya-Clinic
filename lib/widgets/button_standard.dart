@@ -3,7 +3,7 @@ import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:flutter/material.dart';
 
 class StandardButton extends StatelessWidget {
-  final Function onTap;
+  final Function? onTap;
   final String text;
   final double radius;
   final double topLeftRadius;
@@ -11,12 +11,12 @@ class StandardButton extends StatelessWidget {
   final double bottomLeftRadius;
   final double bottomRightRadius;
   final double height;
-  final TextStyle textStyle;
-  final EdgeInsetsGeometry padding;
+  final TextStyle? textStyle;
+  final EdgeInsetsGeometry? padding;
   const StandardButton({
-    Key key,
-    @required this.text,
-    @required this.onTap,
+    Key? key,
+    required this.text,
+    required this.onTap,
     this.topLeftRadius = 0,
     this.topRightRadius = 0,
     this.bottomLeftRadius = 0,
@@ -60,7 +60,7 @@ class StandardButton extends StatelessWidget {
             ),
           ),
           child: InkWell(
-            onTap: onTap,
+            onTap: onTap as void Function()?,
             child: Padding(
               padding: const EdgeInsets.all(marginSmall),
               child: Align(

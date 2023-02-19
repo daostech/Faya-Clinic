@@ -15,10 +15,10 @@ class DateSection {
     this.section,
   });
 
-  String id;
-  String dateId;
-  String sectionId;
-  DateRegistered dateRegistered;
+  String? id;
+  String? dateId;
+  String? sectionId;
+  DateRegistered? dateRegistered;
   dynamic section;
 
   factory DateSection.fromJson(Map<String, dynamic> json) => DateSection(

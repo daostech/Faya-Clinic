@@ -7,8 +7,8 @@ import 'package:faya_clinic/widgets/item_product_review.dart';
 import 'package:flutter/material.dart';
 
 class UsersReviewsSection extends StatelessWidget {
-  const UsersReviewsSection({Key key, @required this.controller, this.global = false}) : super(key: key);
-  final ProductDetailsController controller;
+  const UsersReviewsSection({Key? key, required this.controller, this.global = false}) : super(key: key);
+  final ProductDetailsController? controller;
   final bool global;
   @override
   Widget build(BuildContext context) {
@@ -18,13 +18,13 @@ class UsersReviewsSection extends StatelessWidget {
   }
 
   Widget body(BuildContext context) {
-    if (controller.allReviews == null) {
-      if (controller.isLoading) {
+    if (controller!.allReviews == null) {
+      if (controller!.isLoading) {
         return Container(height: 220, child: Center(child: CircularProgressIndicator()));
       }
-      return MyErrorWidget(onTap: () => controller.fetchProductReviews());
+      return MyErrorWidget(onTap: () => controller!.fetchProductReviews());
     }
-    if (controller.allReviews.isEmpty) {
+    if (controller!.allReviews!.isEmpty) {
       return Container(
         height: 220,
         child: Center(
@@ -48,10 +48,10 @@ class UsersReviewsSection extends StatelessWidget {
 
   Widget allReviewsList() {
     return ListView.separated(
-      itemCount: controller.allReviews.length,
+      itemCount: controller!.allReviews!.length,
       itemBuilder: (ctx, index) {
         return ProductReviewItem(
-          productReview: controller.allReviews[index],
+          productReview: controller!.allReviews![index],
         );
       },
       separatorBuilder: (ctx, index) {
@@ -67,12 +67,12 @@ class UsersReviewsSection extends StatelessWidget {
     return Column(
       children: [
         ListView.separated(
-          itemCount: controller.topReviews.length,
+          itemCount: controller!.topReviews!.length,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (ctx, index) {
             return ProductReviewItem(
-              productReview: controller.allReviews[index],
+              productReview: controller!.allReviews![index],
             );
           },
           separatorBuilder: (ctx, index) {
@@ -85,7 +85,7 @@ class UsersReviewsSection extends StatelessWidget {
         SizedBox(
           height: marginLarge,
         ),
-        if (controller.showAllReviewsEnabled)
+        if (controller!.showAllReviewsEnabled)
           Container(
             margin: const EdgeInsets.all(marginLarge),
             child: TextButton(

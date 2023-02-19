@@ -33,18 +33,18 @@ class CreateOrderRequest {
     this.orderItems,
   });
 
-  String userId;
-  String couponId;
-  String couponCode;
-  String orderCode;
-  DateTime date;
-  String status;
-  String note;
-  double total;
-  String paymentMethod;
-  String paymentPrice;
-  Address orderAddress;
-  List<OrderItem> orderItems;
+  String? userId;
+  String? couponId;
+  String? couponCode;
+  String? orderCode;
+  DateTime? date;
+  String? status;
+  String? note;
+  double? total;
+  String? paymentMethod;
+  String? paymentPrice;
+  Address? orderAddress;
+  List<OrderItem>? orderItems;
 
   factory CreateOrderRequest.fromJson(Map<String, dynamic> json) => CreateOrderRequest(
         userId: json["UserId"],
@@ -75,6 +75,6 @@ class CreateOrderRequest {
         "PaymentMethod": paymentMethod,
         "PaymentPrice": paymentPrice,
         "OrderAddress": orderAddress?.toJsonForOrder(),
-        "OrderItems": orderItems == null ? null : orderItems.map((x) => x.toJsonForOrder()).toList(),
+        "OrderItems": orderItems == null ? null : orderItems!.map((x) => x.toJsonForOrder()).toList(),
       };
 }

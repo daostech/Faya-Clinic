@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:faya_clinic/models/clinic_date.dart';
 
 class ClinicDates {
@@ -28,7 +29,7 @@ class ClinicDates {
     ClinicDate(21, 30, 22, 0),
   ];
 
-  static ClinicDate getClinicDateByStartTime(String startTime) {
+  static ClinicDate? getClinicDateByStartTime(String? startTime) {
     print("ClinicDate: getClinicDateByStartTime called on $startTime");
     // the standard time format is as follow HH:MM
     // check if the format correct try to parse the start time
@@ -39,9 +40,8 @@ class ClinicDates {
 
     print("ClinicDate: getClinicDateByStartTime startHH $startHH");
     print("ClinicDate: getClinicDateByStartTime startMM $startMM");
-    return standardDates.firstWhere(
+    return standardDates.firstWhereOrNull(
       (element) => element.startHour == startHH && element.startMinutes == startMM,
-      orElse: () => null,
     );
   }
 }

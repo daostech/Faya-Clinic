@@ -5,14 +5,14 @@ import 'dart:math' as math;
 @immutable
 class ExpandableFab extends StatefulWidget {
   const ExpandableFab({
-    Key key,
+    Key? key,
     this.initialOpen,
-    @required this.distance,
-    @required this.children,
+    required this.distance,
+    required this.children,
     this.isRTL = false,
   }) : super(key: key);
 
-  final bool initialOpen;
+  final bool? initialOpen;
   final bool isRTL;
   final double distance;
   final List<Widget> children;
@@ -22,8 +22,8 @@ class ExpandableFab extends StatefulWidget {
 }
 
 class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-  Animation<double> _expandAnimation;
+  late AnimationController _controller;
+  Animation<double>? _expandAnimation;
   bool _open = false;
 
   @override
@@ -151,39 +151,39 @@ class _ExpandableFabState extends State<ExpandableFab> with SingleTickerProvider
 @immutable
 class _ExpandingActionButton extends StatelessWidget {
   _ExpandingActionButton({
-    Key key,
-    @required this.directionInDegrees,
-    @required this.maxDistance,
-    @required this.progress,
-    @required this.child,
+    Key? key,
+    required this.directionInDegrees,
+    required this.maxDistance,
+    required this.progress,
+    required this.child,
   }) : super(key: key);
 
   final double directionInDegrees;
   final double maxDistance;
-  final Animation<double> progress;
+  final Animation<double>? progress;
   final Widget child;
 
   @override
   Widget build(BuildContext context) {
     final isRTL = TransUtil.isArLocale(context);
     return AnimatedBuilder(
-      animation: progress,
-      builder: (BuildContext context, Widget child) {
+      animation: progress!,
+      builder: (BuildContext context, Widget? child) {
         final offset = Offset.fromDirection(
           directionInDegrees * (math.pi / 180.0),
-          progress.value * maxDistance,
+          progress!.value * maxDistance,
         );
         return Positioned(
           right: isRTL ? 24.0 + offset.dx : 2.0 + offset.dx,
           bottom: 4.0 + offset.dy,
           child: Transform.rotate(
-            angle: (1.0 - progress.value) * math.pi / 2,
+            angle: (1.0 - progress!.value) * math.pi / 2,
             child: child,
           ),
         );
       },
       child: FadeTransition(
-        opacity: progress,
+        opacity: progress!,
         child: child,
       ),
     );

@@ -13,9 +13,9 @@ class Category {
     this.subCategories,
   });
 
-  String id;
-  String name;
-  List<SubCategory> subCategories;
+  String? id;
+  String? name;
+  List<SubCategory>? subCategories;
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"] == null ? null : json["id"],
@@ -28,6 +28,6 @@ class Category {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "subCategories": subCategories == null ? null : List<SubCategory>.from(subCategories.map((x) => x)),
+        "subCategories": subCategories == null ? null : List<SubCategory>.from(subCategories!.map((x) => x)),
       };
 }

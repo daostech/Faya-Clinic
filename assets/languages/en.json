@@ -20,6 +20,8 @@
     "header_other_products" : "Other Products",
     "header_our_staff" : "Our staff",
     "header_clinic_sections" : "Clinic sections",
+    "header_clinic_sub_sections" : "Clinic sub sections",
+    "header_clinic_services" : "Clinic Services",
     "header_languages" : "Languages",
     "header_cart" : "Cart",
     "header_notifications" : "Notifications",
@@ -57,7 +59,8 @@
     "tab_shipping" : "Shipping",
     "tab_review" : "Review",
     "tab_payment" : "Payment",
-    
+    "tab_works": "Our Works",
+
     "shipping_free" : "Free Shipping",
     "shipping_flat_rate_basra" : "Flat Rate (Basra)",
     "shipping_flat_rate_others" : "Flat Rate (Others)",
@@ -185,6 +188,7 @@
     "msg_login_to_use_cart" : "Please login to add product to the cart",
     "msg_login_to_use_favorote" : "Please login to add product to the favorite",
     "msg_login_to_book_date" : "Please login to add product to book date",
+    "msg_no_messages_yet" : "No messages yet",
 
     "btn_done" : "Done",
     "btn_previous" : "Previous",

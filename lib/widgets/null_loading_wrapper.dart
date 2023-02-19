@@ -3,22 +3,22 @@ import 'package:flutter/material.dart';
 
 class NullLoadingWrapper<T> extends StatelessWidget {
   const NullLoadingWrapper({
-    Key key,
+    Key? key,
     this.data,
     this.errorWidget,
     this.loadingWidget,
-    @required this.child,
+    required this.child,
     this.isLoading,
     this.onRetry,
     this.errorMessage,
   }) : super(key: key);
-  final T data;
-  final Widget errorWidget;
-  final Widget loadingWidget;
+  final T? data;
+  final Widget? errorWidget;
+  final Widget? loadingWidget;
   final Widget child;
-  final Function onRetry;
-  final bool isLoading;
-  final String errorMessage;
+  final Function? onRetry;
+  final bool? isLoading;
+  final String? errorMessage;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +29,7 @@ class NullLoadingWrapper<T> extends StatelessWidget {
   Widget buildContent() {
     // final items = [data];
     if (data == null) {
-      if (isLoading)
+      if (isLoading!)
         return loadingWidget ??
             Container(
               height: 220,

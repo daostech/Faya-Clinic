@@ -5,21 +5,21 @@ import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
 
-typedef StringFunction = String Function(String val);
+typedef StringFunction = String? Function(String? val);
 
 class RadiusBorderedInput extends StatelessWidget {
-  final TextEditingController controller;
-  final EdgeInsets margin;
-  final EdgeInsets innerPadding;
-  final StringFunction validator;
-  final TextInputType textInputType;
-  final Function onTap;
-  final Function onActionTap;
-  final ValueSetter<String> onChanged;
-  final IconData actionIcon;
-  final Color color;
-  final String hintText;
-  final String initialValue;
+  final TextEditingController? controller;
+  final EdgeInsets? margin;
+  final EdgeInsets? innerPadding;
+  final StringFunction? validator;
+  final TextInputType? textInputType;
+  final Function? onTap;
+  final Function? onActionTap;
+  final ValueSetter<String>? onChanged;
+  final IconData? actionIcon;
+  final Color? color;
+  final String? hintText;
+  final String? initialValue;
   final bool isRequiredInput;
   final bool isObscureText;
   final bool emailFormat;
@@ -27,7 +27,7 @@ class RadiusBorderedInput extends StatelessWidget {
   final int minLength;
 
   const RadiusBorderedInput({
-    Key key,
+    Key? key,
     this.hintText,
     this.validator,
     this.textInputType,
@@ -50,7 +50,7 @@ class RadiusBorderedInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: onTap,
+      onTap: onTap as void Function()?,
       child: Container(
         margin: margin ?? const EdgeInsets.only(bottom: marginLarge),
         decoration: BoxDecoration(
@@ -74,7 +74,7 @@ class RadiusBorderedInput extends StatelessWidget {
                             vertical: marginLarge,
                           ),
                           child: Text(
-                            initialValue,
+                            initialValue ?? "",
                             style: TextStyle(color: Colors.black54, fontSize: fontSizeSmall),
                           ),
                         )
@@ -91,19 +91,19 @@ class RadiusBorderedInput extends StatelessWidget {
                           keyboardType: textInputType ?? TextInputType.text,
                           initialValue: initialValue,
                           obscureText: isObscureText,
-                          onChanged: (val) => onChanged(val),
+                          onChanged: (val) => onChanged!(val),
                           cursorColor: colorPrimary,
                           validator: validator != null
-                              ? (value) => validator(value)
+                              ? (value) => validator!(value)
                               : (value) {
-                                  if (isRequiredInput && value.isEmpty) {
+                                  if (isRequiredInput && value!.isEmpty) {
                                     return TransUtil.trans("error_empty_field");
                                   }
-                                  if (minLength > 0 && value.length < minLength) {
+                                  if (minLength > 0 && value!.length < minLength) {
                                     if (isObscureText) return TransUtil.trans("error_short_password");
                                     return TransUtil.trans("error_min_length_is $minLength");
                                   }
-                                  if (emailFormat && !EmailValidator.validate(value)) {
+                                  if (emailFormat && !EmailValidator.validate(value!)) {
                                     return TransUtil.trans("error_invalid_email_format");
                                   }
                                   return null;
@@ -114,7 +114,7 @@ class RadiusBorderedInput extends StatelessWidget {
               Visibility(
                 visible: actionIcon != null,
                 child: InkWell(
-                  onTap: onActionTap,
+                  onTap: onActionTap as void Function()?,
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Icon(

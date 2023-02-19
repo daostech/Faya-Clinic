@@ -6,7 +6,21 @@ import 'package:toast/toast.dart';
 class DialogUtil {
   static const TAG = "DialogUtil:";
 
-  static Future<void> showAlertDialog(BuildContext context, String error, Function onSubmit) {
+  static Future<void> showStandardDialog(BuildContext context, Widget child, {EdgeInsets? padding}) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          insetPadding: padding,
+          child: child,
+        );
+      },
+    );
+  }
+
+  static Future<void> showAlertDialog(BuildContext context, String? error, Function? onSubmit) {
     return showDialog<void>(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -14,7 +28,7 @@ class DialogUtil {
         return AlertDialog(
           title: Text(TransUtil.trans('label_error')),
           content: SingleChildScrollView(
-            child: Text(error),
+            child: Text(error!),
           ),
           actions: <Widget>[
             // if there is no action no need to show the negative button
@@ -103,7 +117,7 @@ class DialogUtil {
     );
   }
 
-  static Future<DateTime> showYearMonthPickerDialog(BuildContext context) {
+  static Future<DateTime?> showYearMonthPickerDialog(BuildContext context) {
     final now = DateTime.now();
     return showMonthYearPicker(
       context: context,

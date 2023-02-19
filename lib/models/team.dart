@@ -14,10 +14,10 @@ class Team {
     this.description,
   });
 
-  String id;
-  String image;
-  String name;
-  String description;
+  String? id;
+  String? image;
+  String? name;
+  String? description;
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly

@@ -12,14 +12,14 @@ class Service {
     this.subSection,
   });
 
-  String id;
-  String name;
-  DateTime creationDate;
-  String subSectionId;
+  String? id;
+  String? name;
+  DateTime? creationDate;
+  String? subSectionId;
   dynamic userRole;
   dynamic userName;
   dynamic token;
-  SubSection subSection;
+  SubSection? subSection;
 
   factory Service.fromJson(Map<String, dynamic> json) => Service(
         id: json["id"],
@@ -35,11 +35,11 @@ class Service {
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
-        "creationDate": creationDate.toIso8601String(),
+        "creationDate": creationDate!.toIso8601String(),
         "subSectionId": subSectionId,
         "userRole": userRole,
         "userName": userName,
         "token": token,
-        "subSection": subSection == null ? null : subSection.toJson(),
+        "subSection": subSection == null ? null : subSection!.toJson(),
       };
 }

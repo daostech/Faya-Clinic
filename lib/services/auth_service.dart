@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 abstract class AuthBase {
   Stream get authChangeStream;
 
-  signInWithPhone(String number, Future onCodeSent, Function(UserCredential credential, String phone) onPhoneVerified,
+  signInWithPhone(String number, Future onCodeSent, Function(UserCredential? credential, String phone) onPhoneVerified,
       Function(Exception e) onVerificationFailed);
   resetPassword();
   logout();
@@ -15,7 +15,7 @@ class FirebaseAuthService implements AuthBase {
   final _auth = FirebaseAuth.instance;
 
   @override
-  Stream<User> get authChangeStream {
+  Stream<User?> get authChangeStream {
     return _auth.authStateChanges();
   }
 
@@ -23,9 +23,9 @@ class FirebaseAuthService implements AuthBase {
   Future<dynamic> signInWithPhone(
       String number,
       Future onCodeSent,
-      Function(UserCredential credential, String phone) onPhoneVerified,
+      Function(UserCredential? credential, String phone) onPhoneVerified,
       Function(Exception e) onVerificationFailed) async {
-    UserCredential userCredential;
+    UserCredential? userCredential;
     try {
       print("$TAG signing in with $number");
 
@@ -45,7 +45,7 @@ class FirebaseAuthService implements AuthBase {
             onVerificationFailed(error);
           });
           onPhoneVerified(userCredential, number);
-          return userCredential;
+          // return userCredential;
         },
         //verificationFailed callback
         verificationFailed: (FirebaseAuthException e) {
@@ -55,7 +55,7 @@ class FirebaseAuthService implements AuthBase {
           // throw e;
         },
         //codeSent callback
-        codeSent: (String verificationId, int resendToken) async {
+        codeSent: (String verificationId, int? resendToken) async {
           print("$TAG codeSent");
           print("$TAG verificationId : $verificationId");
           print("$TAG resendToken : $resendToken");
@@ -83,7 +83,7 @@ class FirebaseAuthService implements AuthBase {
           print("$TAG logged in as  $number !");
           //return either the exist user or the new created one
           onPhoneVerified(userCredential, number);
-          return userCredential;
+          // return userCredential;
         },
         //codeAutoRetrievalTimeout callback
         codeAutoRetrievalTimeout: (String verificationId) {
@@ -94,7 +94,7 @@ class FirebaseAuthService implements AuthBase {
       return userCredential;
     } catch (e) {
       print('$TAG $e');
-      onVerificationFailed(e);
+      onVerificationFailed(Exception(e));
     }
   }
 

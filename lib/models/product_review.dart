@@ -18,14 +18,14 @@ class ProductReview {
     this.user,
   });
 
-  String id;
-  String userId;
-  String productId;
-  String text;
-  int rate;
-  bool isVisible;
-  DateTime creationDate;
-  MyUser user;
+  String? id;
+  String? userId;
+  String? productId;
+  String? text;
+  int? rate;
+  bool? isVisible;
+  DateTime? creationDate;
+  MyUser? user;
 
   factory ProductReview.fromJson(Map<String, dynamic> json) => ProductReview(
         id: json["id"] == null ? null : json["id"],
@@ -45,7 +45,7 @@ class ProductReview {
         "text": text,
         "rate": rate,
         "isVisible": isVisible,
-        "mobileUsers": user.toJson(),
-        "creationDate": creationDate.toIso8601String(),
+        "mobileUsers": user!.toJson(),
+        "creationDate": creationDate!.toIso8601String(),
       };
 }

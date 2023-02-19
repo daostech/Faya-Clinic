@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
 
 class MySplash extends StatefulWidget {
-  const MySplash({Key key}) : super(key: key);
+  const MySplash({Key? key}) : super(key: key);
 
   @override
   _MySplashScreenState createState() => _MySplashScreenState();
@@ -57,7 +57,7 @@ class _MySplashScreenState extends State<MySplash> {
 }
 
 class AfterSplash extends StatelessWidget {
-  const AfterSplash({Key key}) : super(key: key);
+  const AfterSplash({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

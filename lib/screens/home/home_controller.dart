@@ -1,7 +1,9 @@
+import 'package:collection/collection.dart' show IterableExtension;
 import 'package:faya_clinic/models/home_slider.dart';
 import 'package:faya_clinic/models/offer.dart';
 import 'package:faya_clinic/models/product.dart';
 import 'package:faya_clinic/models/section.dart';
+import 'package:faya_clinic/models/sub_section.dart';
 import 'package:faya_clinic/models/team.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
 import 'package:faya_clinic/services/database_service.dart';
@@ -11,7 +13,7 @@ class HomeController with ChangeNotifier {
   static const TAG = "[HomeController] ";
   static const ERR = "[Error] ";
 
-  HomeController({@required this.favoriteRepository, @required this.database}) {
+  HomeController({required this.favoriteRepository, required this.database}) {
     init();
   }
 
@@ -25,33 +27,36 @@ class HomeController with ChangeNotifier {
   // final FavoriteProductsProvider favoriteProductsProvider;
   final FavoriteRepositoryBase favoriteRepository;
 
-  static List<HomeSlider> _sliders;
-  static List<Offer> _lastOffers;
-  static List<Team> _teamsList;
-  static List<Section> _sectionsList;
-  static List<Product> _lastProducts;
+  static List<HomeSlider>? _sliders;
+  static List<Offer>? _lastOffers;
+  static List<Team>? _teamsList;
+  static List<Section>? _sectionsList;
+  static List<SubSection>? _subSectionsList;
+  static List<Product>? _lastProducts;
   static List<Product> _favoriteProducts = [];
 
   var isLoading = true;
   bool _mounted = true;
   bool get mounted => _mounted;
 
-  List<HomeSlider> get sliders => _sliders;
-  List<Offer> get lastOffers => _lastOffers;
-  List<Product> get lastProducts => _lastProducts;
-  List<Team> get teamsList => _teamsList;
-  List<Section> get sectionsList => _sectionsList;
+  List<HomeSlider>? get sliders => _sliders;
+  List<Offer>? get lastOffers => _lastOffers;
+  List<Product>? get lastProducts => _lastProducts;
+  List<Team>? get teamsList => _teamsList;
+  List<Section>? get sectionsList => _sectionsList;
+  List<SubSection>? get subSectionsList => _subSectionsList;
 
   // List get favoriteProducts => favoriteProductsProvider.favoriteProducts;
   List get favoriteProducts => _favoriteProducts;
 
   void init() async {
-    _favoriteProducts?.clear();
+    _favoriteProducts.clear();
     _favoriteProducts.addAll(favoriteRepository.allProducts);
     await fetchHomeSliders();
     await fetchOffers();
     await fetchTeamsList();
     await fetchSections();
+    await fetchSubSections();
     await fetchNewArrivalsProducts();
     // favoriteRepository.deleteAll();
   }
@@ -103,6 +108,15 @@ class HomeController with ChangeNotifier {
     updateWith(sections: result, loading: false);
   }
 
+  Future<void> fetchSubSections() async {
+    updateWith(loading: true);
+    print("$TAG fetchSubSections: called");
+    final result = await database.fetchSubSectionsList().catchError((error) {
+      print("$TAG [Error] fetchSubSectionsList : $error");
+    });
+    updateWith(subSections: result, loading: false);
+  }
+
   Future<void> fetchNewArrivalsProducts() async {
     updateWith(loading: true);
     print("$TAG fetchNewArrivalsProducts: called");
@@ -114,24 +128,26 @@ class HomeController with ChangeNotifier {
     updateWith(newArrivals: result, loading: false);
   }
 
-  bool isFavoriteProduct(Product product) {
+  bool isFavoriteProduct(Product? product) {
     if (product == null) return false;
-    return _favoriteProducts.firstWhere((element) => element.id == product.id, orElse: () => null) != null;
+    return _favoriteProducts.firstWhereOrNull((element) => element.id == product.id) != null;
   }
 
   void updateWith({
-    bool loading,
-    List<HomeSlider> sliders,
-    List<Team> teams,
-    List<Section> sections,
-    List<Offer> offers,
-    List<Product> newArrivals,
-    List<Product> favoriteProducts,
+    bool? loading,
+    List<HomeSlider>? sliders,
+    List<Team>? teams,
+    List<Section>? sections,
+    List<SubSection>? subSections,
+    List<Offer>? offers,
+    List<Product>? newArrivals,
+    List<Product>? favoriteProducts,
   }) {
     isLoading = loading ?? isLoading;
     _sliders = sliders ?? _sliders;
     _teamsList = teams ?? _teamsList;
     _sectionsList = sections ?? _sectionsList;
+    _subSectionsList = subSections ?? _subSectionsList;
     _lastOffers = offers ?? _lastOffers;
     _lastProducts = newArrivals ?? _lastProducts;
     _favoriteProducts = favoriteProducts ?? _favoriteProducts;

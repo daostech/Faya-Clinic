@@ -10,8 +10,8 @@ import 'package:provider/provider.dart';
 
 class ClinicSubSectionsScreen extends StatefulWidget {
   static const ROUTE_NAME = "/ClinicSubSectionsScreen";
-  final String sectionId;
-  const ClinicSubSectionsScreen({Key key, @required this.sectionId}) : super(key: key);
+  final String? sectionId;
+  const ClinicSubSectionsScreen({Key? key, required this.sectionId}) : super(key: key);
 
   @override
   State<ClinicSubSectionsScreen> createState() => _ClinicSubSectionsScreenState();
@@ -19,7 +19,7 @@ class ClinicSubSectionsScreen extends StatefulWidget {
 
 class _ClinicSubSectionsScreenState extends State<ClinicSubSectionsScreen> {
   List<SubSection> subSections = [];
-  Database database;
+  late Database database;
   bool loading = true;
 
   @override
@@ -30,7 +30,7 @@ class _ClinicSubSectionsScreenState extends State<ClinicSubSectionsScreen> {
   }
 
   Future getSubSectonsList() {
-    return database.fetchSubSectionsList(widget.sectionId).then((value) {
+    return database.fetchSubSectionsListBySectionId(widget.sectionId).then((value) {
       subSections = value;
       isLoading = false;
     }).catchError((error) {

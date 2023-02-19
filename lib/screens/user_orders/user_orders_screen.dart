@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class UserOrdersScreen extends StatelessWidget {
-  const UserOrdersScreen._({Key key, @required this.controller}) : super(key: key);
+  const UserOrdersScreen._({Key? key, required this.controller}) : super(key: key);
   final UserOrderController controller;
 
   static Widget create(BuildContext context) {

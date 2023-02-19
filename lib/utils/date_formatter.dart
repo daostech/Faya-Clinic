@@ -7,26 +7,39 @@ class MyDateFormatter {
   static final _dateFormat = new DateFormat('yyyy-MM-dd', 'en_US');
   static final _monthDayFormat = new DateFormat('MM/dd', 'en_US');
   static final _dateTimeFormat = new DateFormat('yyyy-MM-ddThh:mm:ss', 'en_US');
+  static final _dateTimeChatFormat = new DateFormat('dd/MM/yyyy HH:mm:ss', 'en_US');
   static final _timeFormat = new DateFormat('hh:mm', 'en_US'); // 12 hours format
   static final _timeFormat24 = new DateFormat.Hm('en_US'); // 24 hours format
 
   /// returns only the date from a DateTime instace in the following format yyyy-MM-dd as string value
-  static String toStringDate(DateTime dateTime) {
+  static String toStringDate(DateTime? dateTime) {
     if (dateTime == null) return "";
     return _dateFormat.format(dateTime);
   }
 
   /// returns only the date from a DateTime instace in the following format yyyy-MM-dd as string value
-  static String toStringFormatted(String dateString) {
+  static String toStringFormatted(String? dateString) {
     if (dateString == null) return "";
     final date = DateTime.parse(dateString);
     return _dateFormat.format(date);
   }
 
   /// returns only the date from a DateTime instace in the following format yyyy-MM-dd as string value
-  static String toStringDateTime(DateTime dateTime) {
+  static String toStringDateTime(DateTime? dateTime) {
     if (dateTime == null) return "";
     return _dateTimeFormat.format(dateTime);
+  }
+
+  /// returns the date time as string value in following format dd/MM/yyyy HH:mm:ss
+  static String toStringDateTimeChatFormat(DateTime? dateTime) {
+    if (dateTime == null) return "";
+    return _dateTimeChatFormat.format(dateTime);
+  }
+
+  /// returns the date time as string value in following format dd/MM/yyyy HH:mm:ss
+  static DateTime? toDateTimeChatFormat(String? dateTimeStr) {
+    if (dateTimeStr == null) return null;
+    return _dateTimeChatFormat.parse(dateTimeStr);
   }
 
   /// returns only the time value from a DateTime instace in the following format hh:mm from as string value
@@ -59,7 +72,7 @@ class MyDateFormatter {
   /// 1- if it is today => return the time in the following format hh:mm
   /// 2- else if it yesterday return yesterday label without any date info
   /// 3- otherwise returnt return the date as the following format MM/dd
-  static String notificationDate(DateTime dateTime) {
+  static String notificationDate(DateTime? dateTime) {
     if (dateTime == null) return "";
     if (_isToday(dateTime)) {
       return _timeFormat.format(dateTime);
@@ -102,7 +115,7 @@ class MyDateFormatter {
     return TimeOfDay.fromDateTime(dateTime).period == DayPeriod.am ? true : false;
   }
 
-  static bool isValidClinicTime(DateTime dateTime, String standardTime) {
+  static bool isValidClinicTime(DateTime? dateTime, String standardTime) {
     if (dateTime == null || standardTime == null) return false;
     var hh1;
     var mm1;

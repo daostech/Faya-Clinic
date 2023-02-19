@@ -6,7 +6,7 @@ import 'package:faya_clinic/widgets/error_widget.dart';
 import 'package:flutter/material.dart';
 
 class ProductExpandedFilter extends StatelessWidget {
-  ProductExpandedFilter({Key key, @required this.controller}) : super(key: key);
+  ProductExpandedFilter({Key? key, required this.controller}) : super(key: key);
   final StoreController controller;
 
   @override
@@ -32,7 +32,7 @@ class ProductExpandedFilter extends StatelessWidget {
   List<Widget> _buildChildren() {
     List<Widget> children = [];
 
-    if (controller.categories == null || controller.categories.isEmpty) {
+    if (controller.categories == null || controller.categories!.isEmpty) {
       if (controller.isLoading)
         children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
       else
@@ -43,7 +43,7 @@ class ProductExpandedFilter extends StatelessWidget {
           )
         ];
     } else
-      children = controller.categories.map((element) => _buildCheckBoxTile(element)).toList();
+      children = controller.categories!.map((element) => _buildCheckBoxTile(element)).toList();
 
     return children;
   }
@@ -53,7 +53,7 @@ class ProductExpandedFilter extends StatelessWidget {
       activeColor: Colors.pink[300],
       dense: true,
       title: new Text(
-        category.name,
+        category.name!,
         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 0.5),
       ),
       value: controller.isSelectedCategory(category),

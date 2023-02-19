@@ -5,7 +5,7 @@ import 'package:faya_clinic/widgets/app_bar_standard.dart';
 import 'package:flutter/material.dart';
 
 class DatesScreenGlobal extends StatelessWidget {
-  const DatesScreenGlobal({Key key}) : super(key: key);
+  const DatesScreenGlobal({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

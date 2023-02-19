@@ -1,34 +1,35 @@
-import 'package:faya_clinic/models/message.dart';
-import 'package:faya_clinic/storage/local_storage.dart';
+// import 'package:faya_clinic/api/firebase_api.dart';
+// import 'package:faya_clinic/models/chat_message.dart';
+// import 'package:faya_clinic/storage/local_storage.dart';
 
-abstract class ChatRepositoryBase {
-  List<Message> get savedMessages;
-  List<Message> fetchMessages(String userId);
-  sendMessage(Message message);
-  deleteAll();
-}
+// abstract class ChatRepositoryBase {
+//   List<ChatMessage> get savedMessages;
+//   List<ChatMessage> fetchMessages(String userId);
+//   sendMessage(ChatMessage message);
+//   deleteAll();
+// }
 
-class ChatRepository implements ChatRepositoryBase {
-  final LocalStorageService localStorage;
-  ChatRepository(this.localStorage);
+// class ChatRepository implements ChatRepositoryBase {
+//   final LocalStorageService localStorage;
+//   final FirebaseApi firebaseApi;
+//   ChatRepository(this.localStorage, this.firebaseApi);
 
-  @override
-  List<Message> get savedMessages => List<Message>.from(localStorage.getAll()) ?? [];
+//   @override
+//   List<ChatMessage> get savedMessages => List<ChatMessage>.from(localStorage.getAll());
 
-  @override
-  sendMessage(Message message) {
-    print("ChatRepository: adding ${message.toJson()}");
-    localStorage.insertObject(message);
-  }
+//   @override
+//   sendMessage(ChatMessage message) {
+//     print("ChatRepository: adding ${message.toJson()}");
+//     // localStorage.insertObject(message);
+//   }
 
-  @override
-  deleteAll() {
-    localStorage.clearAll();
-  }
+//   @override
+//   deleteAll() {
+//     localStorage.clearAll();
+//   }
 
-  @override
-  List<Message> fetchMessages(String userId) {
-    // TODO: implement fetchMessages
-    throw UnimplementedError();
-  }
-}
+//   @override
+//   List<ChatMessage> fetchMessages(String userId) {
+//     final ss = firebaseApi.chatMessages;
+//   }
+// }

@@ -7,11 +7,11 @@ class PostResponse {
     this.statusCode,
   });
 
-  String value;
-  List<dynamic> formatters;
-  List<dynamic> contentTypes;
+  String? value;
+  List<dynamic>? formatters;
+  List<dynamic>? contentTypes;
   dynamic declaredType;
-  int statusCode;
+  int? statusCode;
 
   bool get success => statusCode == 200;
 

@@ -9,19 +9,19 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AuthRequiredScreen extends StatelessWidget {
-  final String message;
-  const AuthRequiredScreen({Key key, this.message}) : super(key: key);
+  final String? message;
+  const AuthRequiredScreen({Key? key, this.message}) : super(key: key);
 
-  static Future show(BuildContext context, [String message]) {
+  static Future show(BuildContext context, [String? message]) {
     return Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => AuthRequiredScreen(message: message)));
   }
 
   handleButtonClick(BuildContext context, AuthController controller) {
-    Widget child;
-    if (controller.authState.value == AuthState.LOGGED_OUT.value) {
+    late Widget child;
+    if (controller.authState!.value == AuthState.LOGGED_OUT.value) {
       child = SignInScreen();
     }
-    if (controller.authState.value == AuthState.PHONE_VERIFIED.value) {
+    if (controller.authState!.value == AuthState.PHONE_VERIFIED.value) {
       child = SignUpScreen(controller: controller);
     }
     Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (ctx) => child));
@@ -36,14 +36,14 @@ class AuthRequiredScreen extends StatelessWidget {
   }
 
   Widget buildBody(BuildContext context, AuthController controller) {
-    print("buildBody ${controller.authState.value}");
+    print("buildBody ${controller.authState!.value}");
     var msg = "";
     var btn = "";
-    if (controller.authState.value == AuthState.LOGGED_OUT.value) {
+    if (controller.authState!.value == AuthState.LOGGED_OUT.value) {
       msg = message ?? TransUtil.trans("msg_auth_required");
       btn = TransUtil.trans("btn_sign_in");
     }
-    if (controller.authState.value == AuthState.PHONE_VERIFIED.value) {
+    if (controller.authState!.value == AuthState.PHONE_VERIFIED.value) {
       msg = TransUtil.trans("msg_one_step_complete_profile");
       btn = TransUtil.trans("btn_complete_profile");
     }

@@ -9,8 +9,8 @@ Color colorBg = Color(0xFFFFFFFF);
 Color colorGrey = Color(0xFFE1E1E1);
 Color colorGreyDark = Color(0xFF9F9F9F);
 Color colorGreyLight = Color(0xFFF9F9F9);
-Color colorRedError = Colors.red[400];
-Color colorGreenSuccess = Colors.green[300];
+Color? colorRedError = Colors.red[400];
+Color? colorGreenSuccess = Colors.green[300];
 
 const fontSizexSmall = 10.0;
 const fontSizeSmall = 12.0;

@@ -6,18 +6,18 @@ import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
 
-typedef StringFunction = String Function(String val);
+typedef StringFunction = String Function(String? val);
 
 class PhoneNumberInput extends StatelessWidget {
-  final TextEditingController controller;
-  final EdgeInsets margin;
-  final EdgeInsets innerPadding;
-  final StringFunction validator;
-  final ValueSetter<String> onChanged;
-  final ValueSetter<String> onCountryCodeChanged;
-  final Color color;
-  final String hintText;
-  final String initialValue;
+  final TextEditingController? controller;
+  final EdgeInsets? margin;
+  final EdgeInsets? innerPadding;
+  final StringFunction? validator;
+  final ValueSetter<String>? onChanged;
+  final ValueSetter<String?>? onCountryCodeChanged;
+  final Color? color;
+  final String? hintText;
+  final String? initialValue;
   final bool isRequiredInput;
   final bool isObscureText;
   final bool emailFormat;
@@ -25,7 +25,7 @@ class PhoneNumberInput extends StatelessWidget {
   final int minLength;
 
   const PhoneNumberInput({
-    Key key,
+    Key? key,
     this.hintText,
     this.validator,
     this.onChanged,
@@ -63,7 +63,7 @@ class PhoneNumberInput extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      initialValue,
+                      initialValue!,
                       style: TextStyle(color: Colors.black54, fontSize: fontSizeStandard),
                     ),
                     SizedBox(
@@ -80,7 +80,7 @@ class PhoneNumberInput extends StatelessWidget {
             : Row(
                 children: [
                   CountryCodePicker(
-                    onChanged: (code) => onCountryCodeChanged(code.dialCode),
+                    onChanged: (code) => onCountryCodeChanged!(code.dialCode),
                     // Initial selection and favorite can be one of code ('IT') OR dial_code('+39')
                     initialSelection: 'IQ',
                     favorite: ['+964', 'IQ'],
@@ -107,20 +107,20 @@ class PhoneNumberInput extends StatelessWidget {
                       ),
                       initialValue: initialValue,
                       obscureText: isObscureText,
-                      onChanged: (val) => onChanged(val),
+                      onChanged: (val) => onChanged!(val),
                       cursorColor: colorPrimary,
                       keyboardType: TextInputType.phone,
                       validator: validator != null
-                          ? (value) => validator(value)
+                          ? (value) => validator!(value)
                           : (value) {
-                              if (isRequiredInput && value.isEmpty) {
+                              if (isRequiredInput && value!.isEmpty) {
                                 return TransUtil.trans("error_empty_field");
                               }
-                              if (minLength > 0 && value.length < minLength) {
+                              if (minLength > 0 && value!.length < minLength) {
                                 if (isObscureText) return TransUtil.trans("error_short_password");
                                 return TransUtil.trans("error_min_length_is $minLength");
                               }
-                              if (emailFormat && !EmailValidator.validate(value)) {
+                              if (emailFormat && !EmailValidator.validate(value!)) {
                                 return TransUtil.trans("error_invalid_email_format");
                               }
                               return null;

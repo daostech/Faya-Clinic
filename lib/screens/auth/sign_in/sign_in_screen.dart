@@ -10,10 +10,10 @@ import 'package:flutter_svg/svg.dart';
 import 'package:provider/provider.dart';
 
 class SignInScreen extends StatelessWidget {
-  SignInScreen({Key key}) : super(key: key);
+  SignInScreen({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
-  Future<String> onCodeSent(context) async {
+  Future<String?> onCodeSent(context) async {
     //open the verify sms code screen and get the result back to be sent to AuthService
     print("SignInScreen: called");
     final result = await Navigator.pushReplacement(
@@ -27,7 +27,7 @@ class SignInScreen extends StatelessWidget {
   }
 
   submitForm(BuildContext context, controller) async {
-    if (_formKey.currentState.validate()) {
+    if (_formKey.currentState!.validate()) {
       try {
         await controller.verifyPhoneNumber(onCodeSent(context));
       } catch (error) {
@@ -136,7 +136,7 @@ class SignInScreen extends StatelessWidget {
                                   margin: const EdgeInsets.symmetric(horizontal: marginLarge, vertical: marginStandard),
                                   hintText: TransUtil.trans("hint_enter_your_phone"),
                                   onChanged: (val) => controller.inputPhoneNumber = val,
-                                  onCountryCodeChanged: (value) => controller.inputCountryDialCode = value,
+                                  onCountryCodeChanged: (value) => controller.inputCountryDialCode = value ?? "",
                                   isRequiredInput: true,
                                 ),
                               ],

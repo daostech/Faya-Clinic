@@ -68,7 +68,7 @@ class StoreAllProductsBottomSheet extends StatelessWidget {
   }
 
   Widget _allProductsGrid(BuildContext context, StoreController controller) {
-    if (controller.allProducts == null || controller.allProducts.isEmpty) {
+    if (controller.allProducts == null || controller.allProducts!.isEmpty) {
       if (controller.isLoading)
         return Center(
           child: CircularProgressIndicator(),
@@ -79,7 +79,7 @@ class StoreAllProductsBottomSheet extends StatelessWidget {
         onTap: controller.fetchAllProducts,
       );
     }
-    if (controller.filteredProductsList.isEmpty) {
+    if (controller.filteredProductsList!.isEmpty) {
       return Container(
         height: 150,
         padding: const EdgeInsets.all(marginLarge),
@@ -94,7 +94,7 @@ class StoreAllProductsBottomSheet extends StatelessWidget {
     return Column(
       children: [
         GridView.builder(
-          itemCount: controller.filteredProductsList.length,
+          itemCount: controller.filteredProductsList!.length,
           padding: const EdgeInsets.all(0),
           shrinkWrap: true,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -105,12 +105,12 @@ class StoreAllProductsBottomSheet extends StatelessWidget {
           physics: NeverScrollableScrollPhysics(),
           itemBuilder: (ctx, index) {
             return ProductItem(
-              product: controller.filteredProductsList[index],
-              isFavorite: controller.isFavoriteProduct(controller.filteredProductsList[index]),
+              product: controller.filteredProductsList![index],
+              isFavorite: controller.isFavoriteProduct(controller.filteredProductsList![index]),
               onFavoriteToggle: (product) => controller.toggleFavorite(product),
               onTap: () => _goTo(
                 context,
-                ProductDetailsScreen.create(context, controller.filteredProductsList[index]),
+                ProductDetailsScreen.create(context, controller.filteredProductsList![index]),
               ),
             );
           },

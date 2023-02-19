@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CheckoutScreen extends StatelessWidget {
-  const CheckoutScreen._({Key key, @required this.controller}) : super(key: key);
+  const CheckoutScreen._({Key? key, required this.controller}) : super(key: key);
   final CheckoutController controller;
 
   static Widget create(BuildContext context) {

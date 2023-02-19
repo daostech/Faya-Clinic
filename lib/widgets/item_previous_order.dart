@@ -6,10 +6,10 @@ import 'package:faya_clinic/widgets/network_image.dart';
 import 'package:flutter/material.dart';
 
 class PreviousOrderItem extends StatelessWidget {
-  final UserOrder order;
-  final Function onTap;
+  final UserOrder? order;
+  final Function? onTap;
   const PreviousOrderItem({
-    Key key,
+    Key? key,
     this.order,
     this.onTap,
   }) : super(key: key);
@@ -18,7 +18,7 @@ class PreviousOrderItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // final _imgWidth = 150.0;
     return InkWell(
-      onTap: onTap,
+      onTap: onTap as void Function()?,
       child: Container(
         // main  container
         margin: const EdgeInsets.symmetric(horizontal: marginStandard, vertical: marginLarge),
@@ -97,7 +97,7 @@ class PreviousOrderItem extends StatelessWidget {
   }
 
   Widget buildContent() {
-    final firstProduct = order.orderItems?.first?.product;
+    final firstProduct = order!.orderItems?.first.product;
     return Row(
       children: [
         Column(
@@ -122,8 +122,8 @@ class PreviousOrderItem extends StatelessWidget {
                 fontSize: fontSizeLarge,
               ),
             ),
-            Text(firstProduct?.orderItems?.length?.toString() ?? "items"),
-            Text(TransUtil.trans(order?.paymentMethod)),
+            Text(firstProduct?.orderItems?.length.toString() ?? "items"),
+            Text(TransUtil.trans(order?.paymentMethod ?? "")),
             Text(
               "${AppConfig.PREFFERED_QURRENCY_UNIT} ${order?.total?.toString() ?? "0.0"}",
               style: TextStyle(

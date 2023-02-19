@@ -17,14 +17,14 @@ class OrderItemAdapter extends TypeAdapter<OrderItem> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return OrderItem(
-      id: fields[0] as String,
-      name: fields[1] as String,
-      orderId: fields[2] as String,
-      item: fields[3] as String,
-      image: fields[4] as String,
-      price: fields[5] as double,
-      count: fields[6] as int,
-      total: fields[7] as int,
+      id: fields[0] as String?,
+      name: fields[1] as String?,
+      orderId: fields[2] as String?,
+      item: fields[3] as String?,
+      image: fields[4] as String?,
+      price: fields[5] as double?,
+      count: fields[6] as int?,
+      total: fields[7] as int?,
     );
   }
 

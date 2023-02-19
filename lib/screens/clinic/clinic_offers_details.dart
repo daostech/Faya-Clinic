@@ -13,7 +13,7 @@ import 'package:provider/provider.dart';
 
 class ClinicOfferDetailsScreen extends StatelessWidget {
   static const ROUTE_NAME = "/ClinicSectionDetailsScreen";
-  const ClinicOfferDetailsScreen({Key key, @required this.offer}) : super(key: key);
+  const ClinicOfferDetailsScreen({Key? key, required this.offer}) : super(key: key);
   final Offer offer;
 
   handleBookDate(BuildContext context, bool isLoggedIn) {
@@ -28,11 +28,11 @@ class ClinicOfferDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final _size = MediaQuery.of(context).size;
     final authController = context.read<AuthController>();
-    final isLoggedIn = authController.authState.value == AuthState.LOGGED_IN.value;
+    final isLoggedIn = authController.authState!.value == AuthState.LOGGED_IN.value;
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(offer?.title ?? TransUtil.trans("header_offer_details")),
+        title: Text(offer.title ?? TransUtil.trans("header_offer_details")),
       ),
       body: Container(
         padding: const EdgeInsets.fromLTRB(marginLarge, marginStandard, marginLarge, 0),
@@ -47,14 +47,14 @@ class ClinicOfferDetailsScreen extends StatelessWidget {
                   ? SizedBox()
                   : CarouselSlider(
                       items: offer.images
-                          ?.map(
+                          .map(
                             (e) => Center(
                               child: NetworkCachedImage(
                                 imageUrl: e,
                               ),
                             ),
                           )
-                          ?.toList(),
+                          .toList(),
                       options: CarouselOptions(
                         height: _size.width,
                         aspectRatio: 16 / 9,
@@ -77,7 +77,7 @@ class ClinicOfferDetailsScreen extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(
                   vertical: marginLarge,
                 ),
-                child: Text(offer.description),
+                child: Text(offer.description!),
               ),
             ),
             StandardButton(

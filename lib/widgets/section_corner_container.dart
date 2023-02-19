@@ -2,9 +2,9 @@ import 'package:faya_clinic/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class SectionCornerContainer extends StatelessWidget {
-  final Widget child;
-  final String title;
-  const SectionCornerContainer({Key key, this.title, this.child}) : super(key: key);
+  final Widget? child;
+  final String? title;
+  const SectionCornerContainer({Key? key, this.title, this.child}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,14 +22,14 @@ class SectionCornerContainer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(marginStandard),
             child: Text(
-              title,
+              title!,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: fontSizexLarge,
               ),
             ),
           ),
-          Expanded(child: child),
+          Expanded(child: child!),
         ],
       ),
     );

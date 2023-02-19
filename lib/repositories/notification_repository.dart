@@ -3,7 +3,7 @@ import 'package:faya_clinic/api/api_service.dart';
 import 'package:faya_clinic/models/notification.dart';
 
 abstract class NotificationsRepositoryBase {
-  Future<List<NotificationModel>> fetchUserNotifications(String userId);
+  Future<List<NotificationModel>> fetchUserNotifications(String? userId);
   markNotificationsAsRead(List<NotificationModel> notifications);
 }
 
@@ -12,7 +12,7 @@ class NotificationsRepository implements NotificationsRepositoryBase {
   NotificationsRepository(this.apiService);
 
   @override
-  Future<List<NotificationModel>> fetchUserNotifications(String userId) {
+  Future<List<NotificationModel>> fetchUserNotifications(String? userId) {
     return apiService.getData<NotificationModel>(
       builder: (data) => NotificationModel.fromJson(data),
       path: APIPath.userNotifications(userId),

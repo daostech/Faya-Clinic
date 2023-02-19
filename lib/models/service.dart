@@ -10,8 +10,8 @@ class ClinicService {
     this.name,
   });
 
-  String id;
-  String name;
+  String? id;
+  String? name;
 
   factory ClinicService.fromJson(Map<String, dynamic> json) => ClinicService(
         id: json["id"] == null ? null : json["id"],

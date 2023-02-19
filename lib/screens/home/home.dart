@@ -3,6 +3,7 @@ import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/home_slider.dart';
 import 'package:faya_clinic/repositories/favorite_repository.dart';
 import 'package:faya_clinic/screens/clinic/clinic_offers_details.dart';
+import 'package:faya_clinic/screens/clinic/clinic_sub_section_details.dart';
 import 'package:faya_clinic/screens/clinic/clinic_sub_sections.dart';
 import 'package:faya_clinic/screens/home/home_controller.dart';
 import 'package:faya_clinic/screens/product_details/product_details_screen.dart';
@@ -19,7 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen._({Key key, @required this.controller}) : super(key: key);
+  const HomeScreen._({Key? key, required this.controller}) : super(key: key);
   final HomeController controller;
 
   static Widget create(BuildContext context) {
@@ -52,6 +53,7 @@ class HomeScreen extends StatelessWidget {
             _buildLastOffersSection(context),
             _buildLastProductsSection(context),
             _buildClinicSections(context),
+            _buildClinicSubSections(context),
             _buildClinicStaff(),
           ],
         ),
@@ -73,7 +75,7 @@ class HomeScreen extends StatelessWidget {
                 ),
               ),
             )
-            ?.toList(),
+            .toList(),
         options: CarouselOptions(
           height: 200,
           aspectRatio: 16 / 9,
@@ -132,12 +134,12 @@ class HomeScreen extends StatelessWidget {
       // moreButtonEnabled: true,
       // maxItems: 5,
       itemBuilder: (_, index) => ProductItem(
-        product: controller.lastProducts[index],
+        product: controller.lastProducts![index],
         isFavorite: controller.isFavoriteProduct(controller.lastProducts?.elementAt(index)),
         onFavoriteToggle: (product) => controller.toggleFavorite(product),
         onTap: () => _goTo(
           context,
-          ProductDetailsScreen.create(context, controller.lastProducts[index]),
+          ProductDetailsScreen.create(context, controller.lastProducts![index]),
         ),
       ),
     );
@@ -155,10 +157,10 @@ class HomeScreen extends StatelessWidget {
         print("onLoadMore clicked");
       },
       itemBuilder: (_, index) => SectionItem(
-        title: controller.lastOffers[index].title,
-        subTitle: controller.lastOffers[index].description,
-        image: controller.lastOffers[index].hasImages ? controller.lastOffers[index].images[0] : null,
-        onTap: () => _goTo(context, ClinicOfferDetailsScreen(offer: controller.lastOffers[index])),
+        title: controller.lastOffers![index].title,
+        subTitle: controller.lastOffers![index].description,
+        image: controller.lastOffers![index].hasImages ? controller.lastOffers![index].images[0] : null,
+        onTap: () => _goTo(context, ClinicOfferDetailsScreen(offer: controller.lastOffers![index])),
       ),
     );
   }
@@ -170,10 +172,25 @@ class HomeScreen extends StatelessWidget {
       onRetry: controller.fetchSections,
       items: controller.sectionsList,
       itemBuilder: (_, index) => SectionItem(
-        title: controller.sectionsList[index].name,
-        subTitle: controller.sectionsList[index].description,
-        image: controller.sectionsList[index].imageUrl,
-        onTap: () => _goTo(context, ClinicSubSectionsScreen(sectionId: controller.sectionsList[index].id)),
+        title: controller.sectionsList![index].name,
+        subTitle: controller.sectionsList![index].description,
+        image: controller.sectionsList![index].imageUrl,
+        onTap: () => _goTo(context, ClinicSubSectionsScreen(sectionId: controller.sectionsList![index].id)),
+      ),
+    );
+  }
+
+  Widget _buildClinicSubSections(context) {
+    return HorizontalItemsSection(
+      sectionHeader: TransUtil.trans("header_clinic_services"),
+      isLoading: controller.isLoading,
+      onRetry: controller.fetchSubSections,
+      items: controller.subSectionsList,
+      itemBuilder: (_, index) => SectionItem(
+        title: controller.subSectionsList![index].name,
+        subTitle: controller.subSectionsList![index].text,
+        image: controller.subSectionsList![index].imageUrl,
+        onTap: () => _goTo(context, ClinicSubSectionDetailsScreen(subSection: controller.subSectionsList![index])),
       ),
     );
   }
@@ -185,7 +202,7 @@ class HomeScreen extends StatelessWidget {
       isLoading: controller.isLoading,
       onRetry: controller.fetchTeamsList,
       itemBuilder: (_, index) => StaffItem(
-        team: controller.teamsList[index],
+        team: controller.teamsList![index],
       ),
     );
   }

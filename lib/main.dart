@@ -24,6 +24,7 @@ import 'package:faya_clinic/services/notification_service.dart';
 import 'package:faya_clinic/storage/hive_service.dart';
 import 'package:faya_clinic/utils/trans_util.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:hive/hive.dart';

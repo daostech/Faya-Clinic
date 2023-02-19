@@ -17,16 +17,16 @@ class MyUserAdapter extends TypeAdapter<MyUser> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return MyUser(
-      userId: fields[0] as String,
-      userName: fields[1] as String,
-      email: fields[2] as String,
-      isActive: fields[3] as bool,
-      gender: fields[4] as int,
-      phoneNumber: fields[5] as String,
-      dateBirth: fields[6] as String,
-      dateCreated: fields[7] as String,
-      imgUrl: fields[8] as String,
-      token: fields[9] as String,
+      userId: fields[0] as String?,
+      userName: fields[1] as String?,
+      email: fields[2] as String?,
+      isActive: fields[3] as bool?,
+      gender: fields[4] as int?,
+      phoneNumber: fields[5] as String?,
+      dateBirth: fields[6] as String?,
+      dateCreated: fields[7] as String?,
+      imgUrl: fields[8] as String?,
+      token: fields[9] as String?,
     );
   }
 

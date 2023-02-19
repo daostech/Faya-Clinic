@@ -13,11 +13,11 @@ class Coupon {
     this.endDate,
   });
 
-  String id;
-  String title;
-  int discountValue;
-  DateTime creationDate;
-  DateTime endDate;
+  String? id;
+  String? title;
+  int? discountValue;
+  DateTime? creationDate;
+  DateTime? endDate;
 
   factory Coupon.fromJson(Map<String, dynamic> json) => Coupon(
         id: json["id"],
@@ -31,7 +31,7 @@ class Coupon {
         "id": id,
         "title": title,
         "discountValue": discountValue,
-        "creationDate": creationDate.toIso8601String(),
-        "endDate": endDate.toIso8601String(),
+        "creationDate": creationDate!.toIso8601String(),
+        "endDate": endDate!.toIso8601String(),
       };
 }

@@ -14,9 +14,9 @@ class SubCategory {
     this.categoryId,
   });
 
-  String id;
-  String name;
-  String categoryId;
+  String? id;
+  String? name;
+  String? categoryId;
 
   factory SubCategory.fromJson(Map<String, dynamic> json) => SubCategory(
         id: json["id"] == null ? null : json["id"],

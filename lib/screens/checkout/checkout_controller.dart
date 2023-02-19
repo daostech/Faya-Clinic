@@ -18,14 +18,14 @@ class CheckoutController with ChangeNotifier {
   static const ERR = "[Error] ";
 
   final Database database;
-  final List<OrderItem> orderItems;
-  final Coupon appliedCoupon;
+  final List<OrderItem>? orderItems;
+  final Coupon? appliedCoupon;
   final AddressesRepositoryBase addressesRepository;
   final AuthRepositoryBase authRepository;
   CheckoutController({
-    @required this.authRepository,
-    @required this.addressesRepository,
-    @required this.database,
+    required this.authRepository,
+    required this.addressesRepository,
+    required this.database,
     this.appliedCoupon,
     this.orderItems,
   }) {
@@ -35,7 +35,7 @@ class CheckoutController with ChangeNotifier {
   final List paymentMethods = AppData.paymentMethods;
   final List shippingMethods = AppData.shippingMethods;
   final bankCard = BankCardInfo();
-  List<Address> _savedAddresses;
+  List<Address>? _savedAddresses;
 
   var _currentTabIndex = 0;
   var _addressSaved = false;
@@ -46,9 +46,9 @@ class CheckoutController with ChangeNotifier {
   var _error = "";
   var _laoding = false;
 
-  Address selectedAddress;
-  ShippingMethod _selectedShippingMethod;
-  PaymentMethod _selectedPaymentMethod;
+  Address? selectedAddress;
+  ShippingMethod? _selectedShippingMethod;
+  PaymentMethod? _selectedPaymentMethod;
 
   int get currentTabIndex => _currentTabIndex;
   bool get hasError => _error.isNotEmpty;
@@ -56,9 +56,9 @@ class CheckoutController with ChangeNotifier {
   bool get isLaoding => _laoding;
   bool get hasPayment => selectedPaymentMethod?.id == "3";
 
-  ShippingMethod get selectedShippingMethod => _selectedShippingMethod;
-  PaymentMethod get selectedPaymentMethod => _selectedPaymentMethod;
-  List<Address> get savedAddresses => _savedAddresses;
+  ShippingMethod? get selectedShippingMethod => _selectedShippingMethod;
+  PaymentMethod? get selectedPaymentMethod => _selectedPaymentMethod;
+  List<Address>? get savedAddresses => _savedAddresses;
 
   bool isSelectedPayment(int index) => paymentMethods[index] == _selectedPaymentMethod;
 
@@ -120,9 +120,9 @@ class CheckoutController with ChangeNotifier {
       couponId: appliedCoupon?.id,
       couponCode: appliedCoupon?.title,
       orderCode: Uuid().v4(),
-      orderAddress: selectedAddress..id ??= Uuid().v4(),
-      paymentMethod: selectedPaymentMethod.method,
-      paymentPrice: selectedPaymentMethod.id,
+      orderAddress: selectedAddress?..id ??= Uuid().v4(),
+      paymentMethod: selectedPaymentMethod!.method,
+      paymentPrice: selectedPaymentMethod!.id,
       status: OrderStatus.PENDING.value,
       note: userAddedNote,
       orderItems: orderItems,
@@ -140,10 +140,10 @@ class CheckoutController with ChangeNotifier {
     }
 
     print("$TAG request body: ${request.toJson()}");
-    print("$TAG result success: ${result?.success}");
-    print("$TAG result value: ${result?.value}");
-    print("$TAG result statusCode: ${result?.statusCode}");
-    return result?.success ?? false;
+    print("$TAG result success: ${result.success}");
+    print("$TAG result value: ${result.value}");
+    print("$TAG result statusCode: ${result.statusCode}");
+    return result.success;
   }
 
   Future<bool> makePayment() async {
@@ -162,7 +162,7 @@ class CheckoutController with ChangeNotifier {
   void onBankCardExpiryDateSelected(DateTime dateTime) {}
 
   void onShippingSelect(ShippingMethod shippingMethod, double cartPrice) {
-    totalPriceWithTaxes = shippingMethod.price + cartPrice;
+    totalPriceWithTaxes = shippingMethod.price! + cartPrice;
     updateWith(shippingMethod: shippingMethod);
   }
 
@@ -180,7 +180,7 @@ class CheckoutController with ChangeNotifier {
     if (address.label == null) address.label = "${address.apartment}  ${address.block}";
     addressesRepository.addAddress(address);
     updateWith(savedAddresses: addressesRepository.allAddresses);
-    _addressSaved = _savedAddresses.contains(address);
+    _addressSaved = _savedAddresses!.contains(address);
     return _addressSaved;
   }
 
@@ -204,13 +204,13 @@ class CheckoutController with ChangeNotifier {
   }
 
   void updateWith({
-    int tabIndex,
-    String error,
-    bool isLaoding,
-    ShippingMethod shippingMethod,
-    PaymentMethod paymentMethod,
-    Address address,
-    List<Address> savedAddresses,
+    int? tabIndex,
+    String? error,
+    bool? isLaoding,
+    ShippingMethod? shippingMethod,
+    PaymentMethod? paymentMethod,
+    Address? address,
+    List<Address>? savedAddresses,
   }) {
     this._currentTabIndex = tabIndex ?? this._currentTabIndex;
     this._error = error ?? this._error;

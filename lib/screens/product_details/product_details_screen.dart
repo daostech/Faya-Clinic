@@ -18,9 +18,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen._({Key key, this.controller}) : super(key: key);
+  const ProductDetailsScreen._({Key? key, this.controller}) : super(key: key);
 
-  final ProductDetailsController controller;
+  final ProductDetailsController? controller;
 
   static Widget create(BuildContext context, Product product) {
     final database = Provider.of<Database>(context, listen: false);
@@ -42,7 +42,7 @@ class ProductDetailsScreen extends StatelessWidget {
       AuthRequiredScreen.show(context, TransUtil.trans("msg_login_to_use_cart"));
       return;
     }
-    final result = Provider.of<CartController>(context, listen: false).addToCart(controller.product);
+    final result = Provider.of<CartController>(context, listen: false).addToCart(controller!.product);
     if (result)
       DialogUtil.showToastMessage(context, TransUtil.trans("msg_added_to_cart"));
     else
@@ -53,7 +53,7 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final authController = context.read<AuthController>();
-    final isLoggedIn = authController.authState.value == AuthState.LOGGED_IN.value;
+    final isLoggedIn = authController.authState!.value == AuthState.LOGGED_IN.value;
     return Scaffold(
       body: Column(
         children: [
@@ -88,7 +88,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     height: marginxLarge,
                   ),
                   buildProductImage(size),
-                  buildProductInfo(context, controller.product),
+                  buildProductInfo(context, controller!.product),
                   // todo re implement it when the product statistics from the backend is ready
                   // divider(),
                   // ProductReviewsWidget(),
@@ -129,7 +129,7 @@ class ProductDetailsScreen extends StatelessWidget {
           Radius.circular(6),
         ),
         child: NetworkCachedImage(
-          imageUrl: controller.product.randomImage,
+          imageUrl: controller!.product.randomImage,
         ),
       ),
     );
@@ -147,12 +147,12 @@ class ProductDetailsScreen extends StatelessWidget {
               children: [
                 Text(
                   // "DOLCE & GABANA",
-                  product?.name ?? "",
+                  product.name ?? "",
                   style: Theme.of(context).textTheme.headline6,
                 ),
                 Text(
                   // "VELET DESERT OUT",
-                  product?.description ?? "",
+                  product.description ?? "",
                   style: Theme.of(context).textTheme.subtitle1,
                 ),
               ],
@@ -160,8 +160,8 @@ class ProductDetailsScreen extends StatelessWidget {
           ),
           Text(
             // "\$325",
-            "${AppConfig.PREFFERED_QURRENCY_UNIT}${product?.price?.toString()}",
-            style: Theme.of(context).textTheme.headline4.copyWith(color: colorPrimary),
+            "${AppConfig.PREFFERED_QURRENCY_UNIT}${product.price?.toString()}",
+            style: Theme.of(context).textTheme.headline4!.copyWith(color: colorPrimary),
           ),
         ],
       ),

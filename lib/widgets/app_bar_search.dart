@@ -17,9 +17,9 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:provider/provider.dart';
 
 class AppBarSearch extends StatelessWidget {
-  final Function onCartTap;
-  final Function onNotificationTap;
-  const AppBarSearch({Key key, this.onCartTap, this.onNotificationTap}) : super(key: key);
+  final Function? onCartTap;
+  final Function? onNotificationTap;
+  const AppBarSearch({Key? key, this.onCartTap, this.onNotificationTap}) : super(key: key);
 
   _goTo(BuildContext context, Widget widget) {
     Navigator.of(context).push(MaterialPageRoute(builder: (builder) => widget));
@@ -141,7 +141,7 @@ class AppBarSearch extends StatelessWidget {
                           ),
                         ),
                       ),
-                      title: Text(suggestion.titleValue),
+                      title: Text(suggestion.titleValue!),
                       trailing: _itemTrailingIcon(suggestion),
                     );
                   },
@@ -156,7 +156,7 @@ class AppBarSearch extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 InkWell(
-                  onTap: onCartTap,
+                  onTap: onCartTap as void Function()?,
                   child: Badge(
                     toAnimate: true,
                     animationType: BadgeAnimationType.scale,
@@ -177,7 +177,7 @@ class AppBarSearch extends StatelessWidget {
                   width: marginLarge,
                 ),
                 InkWell(
-                  onTap: onNotificationTap,
+                  onTap: onNotificationTap as void Function()?,
                   child: Badge(
                     toAnimate: true,
                     animationType: BadgeAnimationType.scale,

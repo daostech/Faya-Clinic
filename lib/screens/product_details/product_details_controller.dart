@@ -11,13 +11,13 @@ class ProductDetailsController with ChangeNotifier {
   final Product product;
   final AuthRepositoryBase authRepository;
 
-  ProductDetailsController({@required this.product, @required this.database, @required this.authRepository}) {
+  ProductDetailsController({required this.product, required this.database, required this.authRepository}) {
     init();
   }
 
   final reviewTxtController = TextEditingController();
 
-  List<ProductReview> _reviews;
+  List<ProductReview>? _reviews;
 
   final topReviewsCount = 3;
   var initialRate = 3;
@@ -27,18 +27,18 @@ class ProductDetailsController with ChangeNotifier {
 
   bool get isLoading => _loading;
   bool get postingReview => _postingReview;
-  bool get showAllReviewsEnabled => _reviews.length > topReviewsCount;
+  bool get showAllReviewsEnabled => _reviews!.length > topReviewsCount;
 
-  List get allReviews => _reviews;
+  List? get allReviews => _reviews;
 
-  List get topReviews {
+  List? get topReviews {
     if (_reviews == null) return null;
-    if (_reviews.length <= topReviewsCount)
+    if (_reviews!.length <= topReviewsCount)
       return _reviews;
     else {
       // get the last 3 reviews
-      _reviews.sort((a, b) => b.creationDate.compareTo(a.creationDate));
-      return _reviews.sublist(_reviews.length - topReviewsCount, _reviews.length);
+      _reviews!.sort((a, b) => b.creationDate!.compareTo(a.creationDate!));
+      return _reviews!.sublist(_reviews!.length - topReviewsCount, _reviews!.length);
     }
   }
 
@@ -77,10 +77,10 @@ class ProductDetailsController with ChangeNotifier {
     updateWith(reviews: result, loading: false);
   }
 
-  void updateWith({bool loading, List reviews, String review, bool posting}) {
+  void updateWith({bool? loading, List? reviews, String? review, bool? posting}) {
     _loading = loading ?? _loading;
     _postingReview = posting ?? _postingReview;
-    _reviews = reviews ?? _reviews;
+    _reviews = reviews as List<ProductReview>? ?? _reviews;
     _userReview = review ?? _userReview;
     notifyListeners();
   }

@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ClinicOffersTab extends StatelessWidget {
-  const ClinicOffersTab({Key key}) : super(key: key);
+  const ClinicOffersTab({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +29,7 @@ class ClinicOffersTab extends StatelessWidget {
           child: MyErrorWidget(
         onTap: controller.fetchOffers,
       ));
-    } else if (controller.offersList.isEmpty) {
+    } else if (controller.offersList!.isEmpty) {
       return Center(
         child: Text(TransUtil.trans("msg_no_data_for_this_section")),
       );
@@ -41,13 +41,13 @@ class ClinicOffersTab extends StatelessWidget {
         mainAxisSpacing: marginLarge,
       ),
       padding: const EdgeInsets.symmetric(horizontal: marginLarge),
-      itemCount: controller.offersList.length,
+      itemCount: controller.offersList!.length,
       itemBuilder: (ctx, index) {
         return OfferItem(
-          offer: controller.offersList[index],
+          offer: controller.offersList![index],
           onTap: () => Navigator.of(context).push(MaterialPageRoute(
               builder: (builder) => ClinicOfferDetailsScreen(
-                    offer: controller.offersList[index],
+                    offer: controller.offersList![index],
                   ))),
         );
       },

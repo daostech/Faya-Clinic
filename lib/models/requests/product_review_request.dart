@@ -10,10 +10,10 @@ class ProductReviewRequest {
     this.rate,
   });
 
-  String userId;
-  String productId;
-  String text;
-  int rate;
+  String? userId;
+  String? productId;
+  String? text;
+  int? rate;
 
   Map<String, dynamic> toJson() => {
         "userId": userId,

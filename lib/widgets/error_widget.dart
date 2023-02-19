@@ -4,10 +4,10 @@ import 'package:faya_clinic/widgets/button_standard.dart';
 import 'package:flutter/material.dart';
 
 class MyErrorWidget extends StatelessWidget {
-  const MyErrorWidget({Key key, @required this.onTap, this.error, this.buttonText}) : super(key: key);
-  final String error;
-  final String buttonText;
-  final Function onTap;
+  const MyErrorWidget({Key? key, required this.onTap, this.error, this.buttonText}) : super(key: key);
+  final String? error;
+  final String? buttonText;
+  final Function? onTap;
 
   @override
   Widget build(BuildContext context) {

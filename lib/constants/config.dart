@@ -13,7 +13,7 @@ class AppConfig {
   static const CONTACT_PHONE = "07832005005"; // used to make phone call and via whatsapp
 
   static const CONTACT_PHONE_FORMATTED = "07832005005";
-  static const CONTACT_PHONE_FORMATTED2 = "07732005005";
+  static const CONTACT_PHONE_FORMATTED2 = "+9647732005005";
   static const URL_FAQs = "https://fayaclinica.com/faq/";
   static const URL_PRIVACY_POLICY = "https://fayaclinica.com/usage-policy/";
   static const URL_TERMS_CONDITIONS = "https://fayaclinica.com/refund-return/";

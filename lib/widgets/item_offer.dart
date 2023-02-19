@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 class OfferItem extends StatelessWidget {
   final double width;
   final Offer offer;
-  final Function onTap;
-  const OfferItem({Key key, this.width = 150, @required this.offer, this.onTap}) : super(key: key);
+  final Function? onTap;
+  const OfferItem({Key? key, this.width = 150, required this.offer, this.onTap}) : super(key: key);
 
   // int get random => Random().nextInt(3);
 
@@ -18,7 +18,7 @@ class OfferItem extends StatelessWidget {
         Radius.circular(radiusStandard),
       ),
       child: InkWell(
-        onTap: onTap,
+        onTap: onTap as void Function()?,
         borderRadius: BorderRadius.all(
           Radius.circular(radiusStandard),
         ),

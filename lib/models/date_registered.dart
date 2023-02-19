@@ -16,14 +16,14 @@ class DateRegistered {
     this.dateService,
   });
 
-  String id;
-  String userId;
-  String time;
-  String dateSectionId;
-  String subSectionId;
-  DateTime registeredDate;
-  List<dynamic> serviceIds;
-  List<dynamic> dateService;
+  String? id;
+  String? userId;
+  String? time;
+  String? dateSectionId;
+  String? subSectionId;
+  DateTime? registeredDate;
+  List<dynamic>? serviceIds;
+  List<dynamic>? dateService;
 
   factory DateRegistered.fromJson(Map<String, dynamic> json) => DateRegistered(
         id: json["id"] == null ? null : json["id"],
@@ -43,7 +43,7 @@ class DateRegistered {
         "dateSectionId": dateSectionId,
         "subSectionId": subSectionId,
         "registeredDate": registeredDate?.toIso8601String(),
-        "serviceIds": serviceIds == null ? null : List<dynamic>.from(serviceIds.map((x) => x)),
-        "dateService": dateService == null ? null : List<dynamic>.from(dateService.map((x) => x)),
+        "serviceIds": serviceIds == null ? null : List<dynamic>.from(serviceIds!.map((x) => x)),
+        "dateService": dateService == null ? null : List<dynamic>.from(dateService!.map((x) => x)),
       };
 }

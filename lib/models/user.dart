@@ -27,25 +27,25 @@ class MyUser extends StorageModel {
   });
 
   @HiveField(0)
-  String userId;
+  String? userId;
   @HiveField(1)
-  String userName;
+  String? userName;
   @HiveField(2)
-  String email;
+  String? email;
   @HiveField(3)
-  bool isActive;
+  bool? isActive;
   @HiveField(4)
-  int gender;
+  int? gender;
   @HiveField(5)
-  String phoneNumber;
+  String? phoneNumber;
   @HiveField(6)
-  String dateBirth;
+  String? dateBirth;
   @HiveField(7)
-  String dateCreated;
+  String? dateCreated;
   @HiveField(8)
-  String imgUrl;
+  String? imgUrl;
   @HiveField(9)
-  String token;
+  String? token;
 
   factory MyUser.fromJson(Map<String, dynamic> json) => MyUser(
         userId: json["id"] == null ? null : json["id"],
@@ -97,7 +97,7 @@ class MyUser extends StorageModel {
     );
   }
 
-  MyUser copyFrom({MyUser user}) {
+  MyUser copyFrom({required MyUser user}) {
     return MyUser(
       userId: user.userId ?? this.userId,
       userName: user.userName ?? this.userName,

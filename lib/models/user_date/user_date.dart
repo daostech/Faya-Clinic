@@ -22,15 +22,15 @@ class UserDate2 {
     this.services,
   });
 
-  String id;
-  String userId;
-  String time;
-  DateTime creationDate;
-  DateTime registeredDate;
-  String status;
-  Sections sections;
-  SubSection subSection;
-  List<Service> services;
+  String? id;
+  String? userId;
+  String? time;
+  DateTime? creationDate;
+  DateTime? registeredDate;
+  String? status;
+  Sections? sections;
+  SubSection? subSection;
+  List<Service>? services;
 
   factory UserDate2.fromJson(Map<String, dynamic> json) => UserDate2(
         id: json["id"],
@@ -48,11 +48,11 @@ class UserDate2 {
         "id": id,
         "userId": userId,
         "time": time,
-        "creationDate": creationDate.toIso8601String(),
-        "registeredDate": registeredDate.toIso8601String(),
+        "creationDate": creationDate!.toIso8601String(),
+        "registeredDate": registeredDate!.toIso8601String(),
         "status": status,
-        "sections": sections.toJson(),
-        "subSection": subSection.toJson(),
-        "services": List<dynamic>.from(services.map((x) => x.toJson())),
+        "sections": sections!.toJson(),
+        "subSection": subSection!.toJson(),
+        "services": List<dynamic>.from(services!.map((x) => x.toJson())),
       };
 }

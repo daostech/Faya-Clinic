@@ -29,20 +29,20 @@ class UserOrder2 {
     this.productIds,
   });
 
-  OrderAddress orderAddress;
-  List<OrderItem> orderItems;
-  String id;
-  String userId;
+  OrderAddress? orderAddress;
+  List<OrderItem>? orderItems;
+  String? id;
+  String? userId;
   dynamic couponId;
   dynamic couponCode;
-  String orderCode;
-  DateTime date;
-  String status;
-  String note;
-  int total;
-  String paymentMethod;
-  String paymentPrice;
-  DateTime creationDate;
+  String? orderCode;
+  DateTime? date;
+  String? status;
+  String? note;
+  int? total;
+  String? paymentMethod;
+  String? paymentPrice;
+  DateTime? creationDate;
   dynamic productNames;
   dynamic productIds;
 
@@ -66,20 +66,20 @@ class UserOrder2 {
       );
 
   Map<String, dynamic> toJson() => {
-        "orderAddress": orderAddress.toJson(),
-        "orderItems": List<dynamic>.from(orderItems.map((x) => x.toJson())),
+        "orderAddress": orderAddress!.toJson(),
+        "orderItems": List<dynamic>.from(orderItems!.map((x) => x.toJson())),
         "id": id,
         "userId": userId,
         "couponId": couponId,
         "couponCode": couponCode,
         "orderCode": orderCode,
-        "date": date.toIso8601String(),
+        "date": date!.toIso8601String(),
         "status": status,
         "note": note,
         "total": total,
         "paymentMethod": paymentMethod,
         "paymentPrice": paymentPrice,
-        "creationDate": creationDate.toIso8601String(),
+        "creationDate": creationDate!.toIso8601String(),
         "productNames": productNames,
         "productIds": productIds,
       };
@@ -88,7 +88,7 @@ class UserOrder2 {
 class OrderAddress {
   OrderAddress();
 
-  factory OrderAddress.fromJson(Map<String, dynamic> json) => OrderAddress();
+  factory OrderAddress.fromJson(Map<String, dynamic>? json) => OrderAddress();
 
   Map<String, dynamic> toJson() => {};
 }
@@ -117,19 +117,19 @@ class Products {
 
   dynamic categories;
   dynamic subCategories;
-  List<OrderItem> orderItems;
-  String id;
-  String img1;
+  List<OrderItem>? orderItems;
+  String? id;
+  String? img1;
   dynamic img2;
   dynamic img3;
   dynamic img4;
-  String productName;
-  String capition;
-  String categoryId;
-  String subCategoryId;
-  int price;
+  String? productName;
+  String? capition;
+  String? categoryId;
+  String? subCategoryId;
+  int? price;
   dynamic datasort;
-  DateTime creationDate;
+  DateTime? creationDate;
   dynamic userRole;
   dynamic userName;
   dynamic token;
@@ -158,7 +158,7 @@ class Products {
   Map<String, dynamic> toJson() => {
         "categories": categories,
         "subCategories": subCategories,
-        "orderItems": List<dynamic>.from(orderItems.map((x) => x.toJson())),
+        "orderItems": List<dynamic>.from(orderItems!.map((x) => x.toJson())),
         "id": id,
         "img1": img1,
         "img2": img2,
@@ -170,7 +170,7 @@ class Products {
         "subCategoryId": subCategoryId,
         "price": price,
         "datasort": datasort,
-        "creationDate": creationDate.toIso8601String(),
+        "creationDate": creationDate!.toIso8601String(),
         "userRole": userRole,
         "userName": userName,
         "token": token,
@@ -191,14 +191,14 @@ class OrderItem {
   });
 
   dynamic orders;
-  Products products;
-  String id;
+  Products? products;
+  String? id;
   dynamic item;
-  int price;
-  int count;
-  int total;
-  String orderId;
-  String productId;
+  int? price;
+  int? count;
+  int? total;
+  String? orderId;
+  String? productId;
 
   factory OrderItem.fromJson(Map<String, dynamic> json) => OrderItem(
         orders: json["orders"],
@@ -214,7 +214,7 @@ class OrderItem {
 
   Map<String, dynamic> toJson() => {
         "orders": orders,
-        "products": products == null ? null : products.toJson(),
+        "products": products == null ? null : products!.toJson(),
         "id": id == null ? null : id,
         "item": item,
         "price": price == null ? null : price,

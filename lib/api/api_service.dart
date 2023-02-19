@@ -27,8 +27,8 @@ class APIService {
 
   Future<List<T>> getData<T>({
     // @required String accessToken,
-    @required T Function(dynamic data) builder,
-    @required String path,
+    required T Function(dynamic data) builder,
+    required String path,
   }) async {
     // final uri = api.endpointUri(endpoint, parameters);
     final uri = api.endpointUri(path);
@@ -46,8 +46,8 @@ class APIService {
 
   Future<T> getObject<T>({
     // @required String accessToken,
-    @required T Function(dynamic data) builder,
-    @required String path,
+    required T Function(dynamic data) builder,
+    required String path,
   }) async {
     final uri = api.endpointUri(path);
     final response = await http.get(uri);
@@ -67,8 +67,8 @@ class APIService {
   }
 
   Future<PostResponse> putObject<T>({
-    Map<String, dynamic> body,
-    @required String path,
+    Map<String, dynamic>? body,
+    required String path,
   }) async {
     final uri = api.endpointUri(path);
 
@@ -84,8 +84,8 @@ class APIService {
   }
 
   Future<PostResponse> postData<T>({
-    Map<String, dynamic> body,
-    @required String path,
+    Map<String, dynamic>? body,
+    required String path,
   }) async {
     final uri = api.endpointUri(path);
 

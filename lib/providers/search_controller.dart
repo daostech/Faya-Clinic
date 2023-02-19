@@ -6,13 +6,13 @@ class SearchController with ChangeNotifier {
   static const TAG = "AuthController: ";
   final Database database;
   bool _isLoading = true;
-  List<ListAble> _items;
-  List<ListAble> _result;
+  List<ListAble>? _items;
+  List<ListAble>? _result;
 
   SearchController(this.database);
 
-  List<ListAble> get items => _items;
-  List<ListAble> get result => _result;
+  List<ListAble>? get items => _items;
+  List<ListAble>? get result => _result;
 
   bool get isLoading => _isLoading;
 
@@ -42,7 +42,7 @@ class SearchController with ChangeNotifier {
     if (items == null) {
       _items = await _fetchData();
     }
-    _items.forEach((element) {
+    _items!.forEach((element) {
       if (element.containsKeyword(keyword)) {
         result.add(element);
       }
@@ -51,11 +51,11 @@ class SearchController with ChangeNotifier {
   }
 
   appendItems(List<ListAble> items) {
-    _items.addAll(items);
+    _items!.addAll(items);
     notifyListeners();
   }
 
-  updateWith({bool loading, List<ListAble> items, List<ListAble> result}) {
+  updateWith({bool? loading, List<ListAble>? items, List<ListAble>? result}) {
     _isLoading = loading ?? this._isLoading;
     _items = items ?? this._items;
     _result = result ?? this._result;

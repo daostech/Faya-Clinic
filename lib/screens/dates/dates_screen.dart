@@ -17,7 +17,7 @@ import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
 class DatesScreen extends StatelessWidget {
-  const DatesScreen._({Key key, @required this.controller}) : super(key: key);
+  const DatesScreen._({Key? key, required this.controller}) : super(key: key);
   final DateScreenController controller;
 
   static Widget create(BuildContext context) {
@@ -106,7 +106,7 @@ class DatesScreen extends StatelessWidget {
   List<Widget> _buildSectionsList() {
     List<Widget> children = [];
 
-    if (controller.sectionsList == null || controller.sectionsList.isEmpty) {
+    if (controller.sectionsList == null || controller.sectionsList!.isEmpty) {
       // fetching sections list has not been completed yet check if still loading and show progress bar
       // otherwise show an error message indicated that an error occured while getting sections list
       if (controller.isLoading)
@@ -119,7 +119,7 @@ class DatesScreen extends StatelessWidget {
           )
         ];
     } else
-      children = controller.sectionsList.map((element) => _buildSectionRadioTile(element)).toList();
+      children = controller.sectionsList!.map((element) => _buildSectionRadioTile(element)).toList();
 
     return children;
   }
@@ -146,14 +146,14 @@ class DatesScreen extends StatelessWidget {
     } else {
       // the section is already fetching sub sections might be in progress show progress bar if so
       // otherwise if has data show list of sub sections or empty message if
-      if ((controller.subSectionsList == null || controller.subSectionsList.isEmpty) && controller.isLoading)
+      if ((controller.subSectionsList == null || controller.subSectionsList!.isEmpty) && controller.isLoading)
         children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
-      else if (controller.subSectionsList == null || controller.subSectionsList.isEmpty)
+      else if (controller.subSectionsList == null || controller.subSectionsList!.isEmpty)
         children = [
-          _messageContainer("${TransUtil.trans("No sub Sections available for")} ${controller.selectedSection.name}")
+          _messageContainer("${TransUtil.trans("No sub Sections available for")} ${controller.selectedSection!.name}")
         ];
       else
-        children = controller.subSectionsList.map((element) => _buildSubSectionRadioTile(element)).toList();
+        children = controller.subSectionsList!.map((element) => _buildSubSectionRadioTile(element)).toList();
     }
 
     return children;
@@ -184,11 +184,11 @@ class DatesScreen extends StatelessWidget {
       if (controller.servicesList == null) {
         if (controller.isLoading)
           children = [Container(height: 70, child: Center(child: CircularProgressIndicator()))];
-        else if (controller.servicesList == null || controller.servicesList.isEmpty) {
+        else if (controller.servicesList == null || controller.servicesList!.isEmpty) {
           children = [_messageContainer(TransUtil.trans("msg_no_services_for_section"))];
         }
       } else
-        children = controller.servicesList.map((element) => _buildServiceCheckBoxTile(element)).toList();
+        children = controller.servicesList!.map((element) => _buildServiceCheckBoxTile(element)).toList();
     }
 
     return children;
@@ -199,7 +199,7 @@ class DatesScreen extends StatelessWidget {
       activeColor: colorPrimary,
       dense: true,
       title: Text(
-        service.name,
+        service.name!,
         style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, letterSpacing: 0.5),
       ),
       value: controller.isSelectedService(service),
@@ -260,7 +260,7 @@ class DatesScreen extends StatelessWidget {
       toggleable: true,
       selectedTileColor: colorPrimary,
       onChanged: controller.onClinicDateSelected,
-      title: Text(date.formattedStartEnd12H ?? ""),
+      title: Text(date.formattedStartEnd12H),
       activeColor: colorPrimary,
     );
   }

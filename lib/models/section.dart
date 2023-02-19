@@ -15,10 +15,10 @@ class Section implements ListAble {
     this.description,
   });
 
-  String id;
-  String name;
-  String image;
-  String description;
+  String? id;
+  String? name;
+  String? image;
+  String? description;
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
@@ -39,9 +39,9 @@ class Section implements ListAble {
       };
   @override
   bool containsKeyword(String keyword) {
-    return name.toLowerCase().contains(keyword.toLowerCase());
+    return name!.toLowerCase().contains(keyword.toLowerCase());
   }
 
   @override
-  String get titleValue => name;
+  String? get titleValue => name;
 }

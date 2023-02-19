@@ -2,11 +2,11 @@ import 'package:faya_clinic/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class MyExpandedTile extends StatelessWidget {
-  final IconData iconData;
-  final String title;
-  final List<Widget> children;
+  final IconData? iconData;
+  final String? title;
+  final List<Widget>? children;
   const MyExpandedTile({
-    Key key,
+    Key? key,
     this.children,
     this.iconData,
     this.title,
@@ -21,7 +21,7 @@ class MyExpandedTile extends StatelessWidget {
           color: colorPrimary,
         ),
         title: Text(
-          title,
+          title!,
           style: TextStyle(
             fontSize: fontSizeStandard,
             fontWeight: FontWeight.bold,

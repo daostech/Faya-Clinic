@@ -1,9 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:rxdart/subjects.dart';
 
 class NotificationService {
   static final _notifications = FlutterLocalNotificationsPlugin();
-  static final onNotifications = BehaviorSubject<String>();
+  static final onNotifications = BehaviorSubject<String?>();
 
   static Future init() async {
     final android = AndroidInitializationSettings('@mipmap/ic_launcher');
@@ -30,15 +32,15 @@ class NotificationService {
 
   static Future showNotification({
     int id = 0,
-    String title,
-    String body,
-    String payload,
+    String? title,
+    String? body,
+    String? payload,
   }) async =>
       _notifications.show(
         id,
         title,
         body,
-        await _notificationDetails(),
+        await (_notificationDetails() as FutureOr<NotificationDetails?>),
         payload: payload,
       );
 

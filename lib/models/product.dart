@@ -31,34 +31,34 @@ class Product extends StorageModel implements ListAble {
     this.creationDate,
   });
   @HiveField(0)
-  String id;
+  String? id;
   @HiveField(1)
-  String name;
+  String? name;
   @HiveField(2)
-  String description;
+  String? description;
   @HiveField(3)
-  String img1;
+  String? img1;
   @HiveField(4)
-  String img2;
+  String? img2;
   @HiveField(5)
-  String img3;
+  String? img3;
   @HiveField(6)
-  String img4;
+  String? img4;
   @HiveField(7)
-  String categoryId;
+  String? categoryId;
   @HiveField(8)
-  String subCategoryId;
+  String? subCategoryId;
   @HiveField(9)
-  double price;
+  double? price;
   @HiveField(10)
-  DateTime creationDate;
+  DateTime? creationDate;
 
   // the image comes from the response hold the file name only
   // so we add the base url prefix in order to load the image properly
-  String _imageUrl(String img) => "${AppConfig.RAW_BASE_URL}/$img";
+  String _imageUrl(String? img) => "${AppConfig.RAW_BASE_URL}/$img";
 
   List<String> get images {
-    List<String> tmps = [img1, img2, img3];
+    List<String?> tmps = [img1, img2, img3];
     List<String> imgs = [];
     for (int i = 0; i < 3; i++) {
       if (tmps[i] != null) imgs.add(_imageUrl(tmps[i]));
@@ -68,13 +68,13 @@ class Product extends StorageModel implements ListAble {
 
   String get randomImage {
     final existImages = images;
-    if (existImages == null || (existImages?.isEmpty ?? null)) return "";
+    if (existImages.isEmpty) return "";
     String image;
     do {
       int rand = Random().nextInt(images.length);
       image = existImages[rand];
       print("trying to get random image");
-    } while (image == null);
+    } while (image.isEmpty);
     return image;
   }
 
@@ -111,12 +111,12 @@ class Product extends StorageModel implements ListAble {
 
   @override
   bool containsKeyword(String keyword) {
-    return name.toLowerCase().contains(keyword.toLowerCase());
+    return name!.toLowerCase().contains(keyword.toLowerCase());
   }
 
   @override
-  String get titleValue => name;
+  String? get titleValue => name;
 
   @override
-  String get imageUrl => images != null && images.isNotEmpty ? images[0] : "";
+  String get imageUrl => images.isNotEmpty ? images[0] : "";
 }

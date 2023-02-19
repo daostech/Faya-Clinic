@@ -11,7 +11,7 @@ abstract class LocalStorageService {
 
   updateObject(StorageModel obj);
 
-  Future insertList(List<StorageModel> list);
+  Future insertList(List<StorageModel>? list);
 
   Future deleteObject(StorageModel obj);
 

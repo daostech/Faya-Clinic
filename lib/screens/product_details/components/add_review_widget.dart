@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
 class AddProductReviewWidget extends StatelessWidget {
-  const AddProductReviewWidget({Key key, @required this.controller}) : super(key: key);
-  final ProductDetailsController controller;
+  const AddProductReviewWidget({Key? key, required this.controller}) : super(key: key);
+  final ProductDetailsController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +46,7 @@ class AddProductReviewWidget extends StatelessWidget {
                 Icons.star_rate_rounded,
                 color: colorPrimary,
               ),
-              onRatingUpdate: (rating) => controller.initialRate = rating.toInt(),
+              onRatingUpdate: (rating) => controller!.initialRate = rating.toInt(),
             ),
             SizedBox(height: marginLarge),
             Container(
@@ -61,7 +61,7 @@ class AddProductReviewWidget extends StatelessWidget {
                 border: Border.all(color: colorGreyDark, width: 0.5),
               ),
               child: TextFormField(
-                controller: controller.reviewTxtController,
+                controller: controller!.reviewTxtController,
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   focusedBorder: InputBorder.none,
@@ -70,20 +70,20 @@ class AddProductReviewWidget extends StatelessWidget {
                   disabledBorder: InputBorder.none,
                   hintText: TransUtil.trans("hint_write_your_review"),
                 ),
-                onChanged: (val) => controller.updateWith(review: val),
+                onChanged: (val) => controller!.updateWith(review: val),
               ),
             ),
             SizedBox(height: marginLarge),
             Container(
-              child: controller.postingReview
+              child: controller!.postingReview
                   ? CircularProgressIndicator()
                   : StandardButton(
                       radius: radiusStandard,
                       text: TransUtil.trans("btn_publish"),
-                      onTap: controller.reviewTxtController.text.isEmpty
+                      onTap: controller!.reviewTxtController.text.isEmpty
                           ? null
                           : () {
-                              controller.postReview();
+                              controller!.postReview();
                             },
                     ),
             ),

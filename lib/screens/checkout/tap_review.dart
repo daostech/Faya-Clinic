@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CheckoutReviewTap extends StatelessWidget {
-  CheckoutReviewTap({Key key}) : super(key: key);
+  CheckoutReviewTap({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +40,7 @@ class CheckoutReviewTap extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: marginLarge),
                 itemCount: cartController.count,
                 itemBuilder: (ctx, index) {
-                  final currentItem = cartController.allItems[index];
+                  final currentItem = cartController.allItems![index];
                   return CheckoutReviewProductItem(orderItem: currentItem);
                 },
               ),
@@ -65,9 +65,9 @@ class CheckoutReviewTap extends StatelessWidget {
                   child: Row(
                     children: [
                       // Expanded(child: Text(_shippingMethod?.method)),
-                      Expanded(child: Text(controller.selectedShippingMethod.method)),
+                      Expanded(child: Text(controller.selectedShippingMethod!.method!)),
                       // Text(_shippingMethod.priceString),
-                      Text("${controller.selectedShippingMethod.priceString}"),
+                      Text("${controller.selectedShippingMethod!.priceString}"),
                     ],
                   ),
                 ),

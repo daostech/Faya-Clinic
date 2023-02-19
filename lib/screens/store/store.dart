@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class StoreScreen extends StatelessWidget {
-  const StoreScreen._({Key key, @required this.controller}) : super(key: key);
+  const StoreScreen._({Key? key, required this.controller}) : super(key: key);
   final StoreController controller;
 
   static Widget create(BuildContext context) {
@@ -112,17 +112,17 @@ class StoreScreen extends StatelessWidget {
     }
     return ListView.builder(
       shrinkWrap: true,
-      itemCount: controller.newArrivals.length,
+      itemCount: controller.newArrivals!.length,
       scrollDirection: Axis.horizontal,
       itemBuilder: (ctx, index) {
         print("index: $index");
         return ProductItem(
-          product: controller.newArrivals[index],
-          isFavorite: controller.isFavoriteProduct(controller.newArrivals[index]),
+          product: controller.newArrivals![index],
+          isFavorite: controller.isFavoriteProduct(controller.newArrivals![index]),
           onFavoriteToggle: (product) => controller.toggleFavorite(product),
           onTap: () => _goTo(
             context,
-            ProductDetailsScreen.create(context, controller.newArrivals[index]),
+            ProductDetailsScreen.create(context, controller.newArrivals![index]),
           ),
         );
       },
@@ -162,8 +162,8 @@ class StoreScreen extends StatelessWidget {
     );
   }
 
-  Widget _allProductsGrid(List filteredItems, context) {
-    if (controller.allProducts == null || controller.allProducts.isEmpty) {
+  Widget _allProductsGrid(List? filteredItems, context) {
+    if (controller.allProducts == null || controller.allProducts!.isEmpty) {
       if (controller.isLoading)
         return Center(
           child: CircularProgressIndicator(),
@@ -174,7 +174,7 @@ class StoreScreen extends StatelessWidget {
         onTap: controller.fetchAllProducts,
       );
     }
-    if (filteredItems.isEmpty) {
+    if (filteredItems!.isEmpty) {
       return Container(
         height: 150,
         padding: const EdgeInsets.all(marginLarge),

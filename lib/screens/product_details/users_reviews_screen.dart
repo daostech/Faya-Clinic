@@ -6,8 +6,8 @@ import 'package:faya_clinic/widgets/app_bar_standard.dart';
 import 'package:flutter/material.dart';
 
 class UsersReviewsScreen extends StatelessWidget {
-  const UsersReviewsScreen({Key key, @required this.controller}) : super(key: key);
-  final ProductDetailsController controller;
+  const UsersReviewsScreen({Key? key, required this.controller}) : super(key: key);
+  final ProductDetailsController? controller;
 
   @override
   Widget build(BuildContext context) {

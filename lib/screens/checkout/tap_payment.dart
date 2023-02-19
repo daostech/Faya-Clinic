@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CheckoutPaymentTap extends StatelessWidget {
-  CheckoutPaymentTap({Key key}) : super(key: key);
+  CheckoutPaymentTap({Key? key}) : super(key: key);
   final _formKey = GlobalKey<FormState>();
 
   submitOrder(BuildContext context, CheckoutController controller) {
@@ -27,7 +27,7 @@ class CheckoutPaymentTap extends StatelessWidget {
   Widget build(BuildContext context) {
     final controller = context.read<CheckoutController>();
     final selectedMethod =
-        context.select<CheckoutController, PaymentMethod>((controller) => controller.selectedPaymentMethod);
+        context.select<CheckoutController, PaymentMethod?>((controller) => controller.selectedPaymentMethod);
 
     return Container(
       padding: const EdgeInsets.all(marginLarge),
@@ -94,7 +94,7 @@ class CheckoutPaymentTap extends StatelessWidget {
       onPositiveTap: () {
         if (controller.hasPayment) {
           // if the order has payment check the bank card info
-          if (_formKey.currentState.validate()) {
+          if (_formKey.currentState!.validate()) {
             submitOrder(context, controller);
           }
         } else {

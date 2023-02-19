@@ -22,4 +22,5 @@ class HiveKeys {
   static const String LOGGED_IN = "logged_in";
   static const String AUTH_STATE = "auth_state";
   static const String FCM_TOKEN = "fcm_token";
+  static const String CHAT_ROOM_NAME = "chat_room_name";
 }

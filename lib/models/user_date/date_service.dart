@@ -5,9 +5,9 @@ class DateService {
     this.dateId,
   });
 
-  String id;
-  String serviceId;
-  String dateId;
+  String? id;
+  String? serviceId;
+  String? dateId;
 
   factory DateService.fromJson(Map<String, dynamic> json) => DateService(
         id: json["id"],

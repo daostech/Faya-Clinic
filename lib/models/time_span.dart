@@ -19,17 +19,17 @@ class TimeSpan {
     this.totalSeconds,
   });
 
-  int ticks;
-  int days;
-  int hours;
-  int milliseconds;
-  int minutes;
-  int seconds;
-  int totalDays;
-  int totalHours;
-  int totalMilliseconds;
-  int totalMinutes;
-  int totalSeconds;
+  int? ticks;
+  int? days;
+  int? hours;
+  int? milliseconds;
+  int? minutes;
+  int? seconds;
+  int? totalDays;
+  int? totalHours;
+  int? totalMilliseconds;
+  int? totalMinutes;
+  int? totalSeconds;
 
   factory TimeSpan.fromJson(Map<String, dynamic> json) => TimeSpan(
         ticks: json["ticks"] == null ? null : json["ticks"],

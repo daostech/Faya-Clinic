@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:faya_clinic/constants/constants.dart';
 import 'package:faya_clinic/models/address.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
@@ -12,8 +14,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CheckoutAddressTap extends StatefulWidget {
-  final CheckoutController controller;
-  CheckoutAddressTap({Key key, this.controller}) : super(key: key);
+  final CheckoutController? controller;
+  CheckoutAddressTap({Key? key, this.controller}) : super(key: key);
 
   @override
   State<CheckoutAddressTap> createState() => _CheckoutAddressTapState();
@@ -30,19 +32,19 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
   final _zipTxtController = TextEditingController();
 
   Address address = Address();
-  CheckoutController get controller => widget.controller;
+  CheckoutController? get controller => widget.controller;
 
   @override
   void initState() {
     super.initState();
-    if (controller.selectedAddress != null) {
+    if (controller!.selectedAddress != null) {
       // initialize all inputs when navigating back to this tab
-      _countryTxtController.text = controller.selectedAddress.country;
-      _cityTxtController.text = controller.selectedAddress.city;
-      _apartmantTxtController.text = controller.selectedAddress.apartment;
-      _blockTxtController.text = controller.selectedAddress.block;
-      _streetTxtController.text = controller.selectedAddress.street;
-      _zipTxtController.text = controller.selectedAddress.zipCode?.toString();
+      _countryTxtController.text = controller!.selectedAddress!.country!;
+      _cityTxtController.text = controller!.selectedAddress!.city!;
+      _apartmantTxtController.text = controller!.selectedAddress!.apartment!;
+      _blockTxtController.text = controller!.selectedAddress!.block!;
+      _streetTxtController.text = controller!.selectedAddress!.street!;
+      _zipTxtController.text = controller!.selectedAddress!.zipCode?.toString() ?? "";
     }
   }
 
@@ -57,9 +59,9 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
     super.dispose();
   }
 
-  void saveAddress(BuildContext context, CheckoutController controller) {
-    if (!_addressFormKey.currentState.validate()) return;
-    final saved = controller.saveAddress(address);
+  void saveAddress(BuildContext context, CheckoutController? controller) {
+    if (!_addressFormKey.currentState!.validate()) return;
+    final saved = controller!.saveAddress(address);
     if (saved)
       DialogUtil.showToastMessage(context, TransUtil.trans("msg_saved_address"));
     else
@@ -67,20 +69,20 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
   }
 
   void pickAddress(BuildContext context, CheckoutController controller) async {
-    final Address result = await DialogUtil.showBottomSheet(
+    final Address? result = await (DialogUtil.showBottomSheet(
       context,
       Container(
         height: MediaQuery.of(context).size.height * 0.6,
         child: SectionCornerContainer(
           title: TransUtil.trans("header_saved_addresses"),
-          child: controller.savedAddresses.isEmpty
+          child: controller.savedAddresses!.isEmpty
               ? Center(
                   child: Text(TransUtil.trans("msg_no_saved_addresses")),
                 )
               : ListView.builder(
-                  itemCount: controller.savedAddresses.length,
+                  itemCount: controller.savedAddresses!.length,
                   itemBuilder: (ctx, index) {
-                    final items = controller.savedAddresses;
+                    final items = controller.savedAddresses!;
                     return ListTile(
                       title: Text(items[index].label ?? ""),
                       subtitle: Text(items[index].formatted),
@@ -90,23 +92,23 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
                 ),
         ),
       ),
-    );
+    ) as FutureOr<Address?>);
     if (result == null) return;
     setState(() {
-      _countryTxtController.text = result.country;
-      _cityTxtController.text = result.city;
-      _apartmantTxtController.text = result.apartment;
-      _blockTxtController.text = result.block;
-      _streetTxtController.text = result.street;
-      _zipTxtController.text = result.zipCode?.toString();
+      _countryTxtController.text = result.country!;
+      _cityTxtController.text = result.city!;
+      _apartmantTxtController.text = result.apartment!;
+      _blockTxtController.text = result.block!;
+      _streetTxtController.text = result.street!;
+      _zipTxtController.text = result.zipCode?.toString() ?? "";
       controller.onAddressSelect(result);
     });
   }
 
   void nextStep() {
-    if (_addressFormKey.currentState.validate()) {
-      controller.onAddressSelect(address);
-      controller.nextTab();
+    if (_addressFormKey.currentState!.validate()) {
+      controller!.onAddressSelect(address);
+      controller!.nextTab();
     } else {
       DialogUtil.showToastMessage(context, TransUtil.trans("msg_please_complete_this_step"));
     }
@@ -125,7 +127,7 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
               children: [
                 StandardInput(
                   isReadOnly: true,
-                  initialValue: authRepo.myUser.userName ?? "",
+                  initialValue: authRepo.myUser!.userName ?? "",
                   onChanged: (_) {},
                 ),
                 // StandardInput(
@@ -135,12 +137,12 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
                 // ),
                 StandardInput(
                   isReadOnly: true,
-                  initialValue: authRepo.myUser.phoneNumber ?? "",
+                  initialValue: authRepo.myUser!.phoneNumber ?? "",
                   onChanged: (_) {},
                 ),
                 StandardInput(
-                  isReadOnly: authRepo.myUser.email != null,
-                  initialValue: authRepo.myUser.email ?? "",
+                  isReadOnly: authRepo.myUser!.email != null,
+                  initialValue: authRepo.myUser!.email ?? "",
                   onChanged: (_) {},
                 ),
               ],
@@ -152,7 +154,7 @@ class _CheckoutAddressTapState extends State<CheckoutAddressTap> {
               positiveText: TransUtil.trans("btn_select_address"),
               negativeText: TransUtil.trans("btn_save_address"),
               sameColor: colorGrey,
-              onPositiveTap: () => pickAddress(context, controller),
+              onPositiveTap: () => pickAddress(context, controller!),
               onNegativeTap: () => saveAddress(context, controller),
             ),
           ),

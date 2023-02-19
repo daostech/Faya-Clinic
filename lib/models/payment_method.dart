@@ -11,9 +11,9 @@ class PaymentMethod {
     this.image,
   });
 
-  String id;
-  String method;
-  String image;
+  String? id;
+  String? method;
+  String? image;
 
   factory PaymentMethod.fromJson(Map<String, dynamic> json) => PaymentMethod(
         id: json["id"],

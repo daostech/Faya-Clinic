@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 
 import '../constants/constants.dart';
 
-typedef StringFunction = String Function(String val);
+typedef StringFunction = String Function(String? val);
 
 class StandardInput extends StatelessWidget {
-  final TextEditingController controller;
-  final EdgeInsets margin;
-  final EdgeInsets innerPadding;
-  final StringFunction validator;
+  final TextEditingController? controller;
+  final EdgeInsets? margin;
+  final EdgeInsets? innerPadding;
+  final StringFunction? validator;
   final ValueSetter<String> onChanged;
-  final Color color;
-  final String hintText;
-  final String initialValue;
+  final Color? color;
+  final String? hintText;
+  final String? initialValue;
   final bool isRequiredInput;
   final bool isObscureText;
   final bool emailFormat;
@@ -23,10 +23,10 @@ class StandardInput extends StatelessWidget {
   final int minLength;
 
   const StandardInput({
-    Key key,
+    Key? key,
     this.hintText,
     this.validator,
-    @required this.onChanged,
+    required this.onChanged,
     this.isRequiredInput = false,
     this.isObscureText = false,
     this.minLength = 0,
@@ -54,7 +54,7 @@ class StandardInput extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      initialValue,
+                      initialValue!,
                       style: TextStyle(color: Colors.black54, fontSize: fontSizeStandard),
                     ),
                     SizedBox(
@@ -78,16 +78,16 @@ class StandardInput extends StatelessWidget {
                 onChanged: (val) => onChanged(val),
                 cursorColor: colorPrimary,
                 validator: validator != null
-                    ? (value) => validator(value)
+                    ? (value) => validator!(value)
                     : (value) {
-                        if (isRequiredInput && value.isEmpty) {
+                        if (isRequiredInput && value!.isEmpty) {
                           return TransUtil.trans("error_empty_field");
                         }
-                        if (minLength > 0 && value.length < minLength) {
+                        if (minLength > 0 && value!.length < minLength) {
                           if (isObscureText) return TransUtil.trans("error_short_password");
                           return TransUtil.trans("error_min_length_is $minLength");
                         }
-                        if (emailFormat && !EmailValidator.validate(value)) {
+                        if (emailFormat && !EmailValidator.validate(value!)) {
                           return TransUtil.trans("error_invalid_email_format");
                         }
                         return null;

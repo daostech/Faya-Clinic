@@ -8,14 +8,14 @@ import 'package:provider/provider.dart';
 
 class CartProductItem extends StatelessWidget {
   final OrderItem orderItem;
-  final Function onTap;
-  final Function addQTY;
-  final Function removeQTY;
-  final Function deleteFromCart;
+  final Function? onTap;
+  final Function? addQTY;
+  final Function? removeQTY;
+  final Function? deleteFromCart;
   const CartProductItem({
-    Key key,
+    Key? key,
     this.onTap,
-    @required this.orderItem,
+    required this.orderItem,
     this.addQTY,
     this.removeQTY,
     this.deleteFromCart,
@@ -24,8 +24,8 @@ class CartProductItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _imgWidth = 150.0;
-    final count = context.select<CartController, int>((element) => element.itemQTY(orderItem.id)) ?? 0;
-    final price = context.select<CartController, double>((element) => element.itemTotalPrice(orderItem.id)) ?? 0.0;
+    final count = context.select<CartController, int>((element) => element.itemQTY(orderItem.id));
+    final price = context.select<CartController, double>((element) => element.itemTotalPrice(orderItem.id));
 
     return Container(
       // main  container
@@ -40,7 +40,7 @@ class CartProductItem extends StatelessWidget {
         ),
       ),
       child: InkWell(
-        onTap: onTap,
+        onTap: onTap as void Function()?,
         splashColor: Colors.transparent,
         child: Row(
           children: [
@@ -53,7 +53,7 @@ class CartProductItem extends StatelessWidget {
                 width: _imgWidth,
                 height: _imgWidth,
                 child: CachedNetworkImage(
-                  imageUrl: orderItem?.imageUrl,
+                  imageUrl: orderItem.imageUrl,
                   progressIndicatorBuilder: (context, url, downloadProgress) => Container(
                     child: Center(
                       child: CircularProgressIndicator(),
@@ -85,7 +85,7 @@ class CartProductItem extends StatelessWidget {
                 children: [
                   Text(
                     // product name
-                    orderItem?.name ?? "",
+                    orderItem.name ?? "",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.black87,
@@ -98,7 +98,7 @@ class CartProductItem extends StatelessWidget {
                     height: marginSmall,
                   ),
                   Text(
-                    "${AppConfig.PREFFERED_QURRENCY_UNIT}${price?.toStringAsFixed(2)}",
+                    "${AppConfig.PREFFERED_QURRENCY_UNIT}${price.toStringAsFixed(2)}",
                     style: TextStyle(color: Colors.black54),
                     // overflow: TextOverflow.ellipsis,
                   ),
@@ -114,7 +114,7 @@ class CartProductItem extends StatelessWidget {
                           Radius.circular(radiusxSmall),
                         ),
                         child: InkWell(
-                          onTap: removeQTY,
+                          onTap: removeQTY as void Function()?,
                           borderRadius: BorderRadius.all(
                             Radius.circular(radiusxSmall),
                           ),
@@ -146,7 +146,7 @@ class CartProductItem extends StatelessWidget {
                           padding: const EdgeInsets.all(2),
                           color: Colors.white,
                           child: Text(
-                            count?.toString(),
+                            count.toString(),
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.black87,
@@ -163,7 +163,7 @@ class CartProductItem extends StatelessWidget {
                           Radius.circular(radiusxSmall),
                         ),
                         child: InkWell(
-                          onTap: addQTY,
+                          onTap: addQTY as void Function()?,
                           borderRadius: BorderRadius.all(
                             Radius.circular(radiusxSmall),
                           ),
@@ -187,7 +187,7 @@ class CartProductItem extends StatelessWidget {
               ),
             ),
             IconButton(
-              onPressed: deleteFromCart,
+              onPressed: deleteFromCart as void Function()?,
               icon: Icon(Icons.delete),
             ),
           ],

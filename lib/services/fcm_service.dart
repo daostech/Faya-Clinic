@@ -4,5 +4,5 @@ import 'package:flutter/material.dart';
 class FCMService {
   final Database database;
 
-  FCMService({@required this.database});
+  FCMService({required this.database});
 }

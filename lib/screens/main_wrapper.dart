@@ -4,6 +4,7 @@ import 'package:faya_clinic/providers/cart_controller.dart';
 import 'package:faya_clinic/providers/notifications_controller.dart';
 import 'package:faya_clinic/repositories/auth_repository.dart';
 import 'package:faya_clinic/screens/auth_required.dart';
+import 'package:faya_clinic/screens/chat/chat_screen.dart';
 import 'package:faya_clinic/screens/user_account/user_account_screen.dart';
 import 'package:faya_clinic/screens/cart/cart.dart';
 import 'package:faya_clinic/screens/clinic/clinic_screen.dart';
@@ -21,8 +22,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class HomeMainWrapper extends StatefulWidget {
-  final NotificationsController controller;
-  const HomeMainWrapper({Key key, this.controller}) : super(key: key);
+  final NotificationsController? controller;
+  const HomeMainWrapper({Key? key, this.controller}) : super(key: key);
 
   @override
   _HomeMainWrapperState createState() => _HomeMainWrapperState();
@@ -35,8 +36,8 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
   ];
 
   final _launcher = UrlLauncherUtil();
-  NotificationsController notificationsController;
-  AuthController authController;
+  late NotificationsController notificationsController;
+  late AuthController authController;
 
   var _bottomNavSelectedIndex = 0;
   var _currentScreenIndex = 0;
@@ -69,7 +70,7 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
   void _onItemTapped(int index) {
     // if the user is not logged in redirect them to the logging screen
     // for the screens that need authentication
-    final isLoggedIn = authController.authState.value == AuthState.LOGGED_IN.value;
+    final isLoggedIn = authController.authState!.value == AuthState.LOGGED_IN.value;
 
     if (!isLoggedIn) {
       switch (index) {
@@ -165,11 +166,20 @@ class _HomeMainWrapperState extends State<HomeMainWrapper> {
             icon: const Icon(Icons.call),
           ),
           ActionButton(
-            onPressed: () async => _launcher.openWhatsApp().catchError((error) {
-              if (error != null) {
-                DialogUtil.showToastMessage(context, TransUtil.trans(error));
+            // onPressed: () async => _launcher.openWhatsApp().catchError((error) {
+            //   if (error != null) {
+            //     DialogUtil.showToastMessage(context, TransUtil.trans(error));
+            //   }
+            // }),
+            onPressed: () {
+              final loggedIn = authController.authState!.value == AuthState.LOGGED_IN.value;
+              if (!loggedIn) {
+                AuthRequiredScreen.show(context);
+                return;
               }
-            }),
+              ChatScreen.create(context);
+            },
+
             icon: const Icon(Icons.chat),
           ),
         ],
