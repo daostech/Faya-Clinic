@@ -63,12 +63,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Future<void> _selectDate(BuildContext context) async {
-    final DateTime picked = await (showDatePicker(
+    final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(1900, 1),
       lastDate: DateTime.now(),
-    ) as FutureOr<DateTime>);
+    );
     if (picked != null)
       setState(() {
         selectedDate = picked;
@@ -76,7 +76,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         _birthdayString = MyDateFormatter.toStringDate(picked);
       });
 
-    print("$TAG picked: ${picked.toIso8601String()}}");
+    print("$TAG picked: ${picked?.toIso8601String()}}");
   }
 
   @override
