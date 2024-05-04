@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "0f89f539-0c87-4424-8e8a-882f0387f09b",
+    "name": "Faya",
+    "default": true,
+    "sortNum": 10000,
+    "created": "2022-08-20T12:05:33.023Z",
+    "modified": "2022-08-20T12:06:19.056Z",
+    "data": [
+      {
+        "name": "subSectionId",
+        "value": "ce36a39c-0d8c-4bca-99e5-0cf0a477cfb1"
+      }
+    ]
+  }
+]

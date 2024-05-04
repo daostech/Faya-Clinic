@@ -94,7 +94,9 @@ class ChatScreen extends StatelessWidget {
                             ),
                           ),
                           IconButton(
-                            onPressed: () => controller.onSendMessageClick(controller.messageTxtController.text),
+                            onPressed: controller.isLoading
+                                ? null
+                                : () => controller.onSendMessageClick(controller.messageTxtController.text),
                             icon: Icon(
                               Icons.send,
                               color: colorPrimary,

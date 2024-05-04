@@ -23,6 +23,7 @@ class ChatController with ChangeNotifier {
   final AuthRepositoryBase? authRepository;
   final db = FirebaseDatabase.instance;
   bool _isLoading = true;
+  bool _isNew = true;
 
   String get userId => authRepository!.userId ?? "";
   String get userName => authRepository!.myUser?.userName ?? "";
@@ -42,9 +43,11 @@ class ChatController with ChangeNotifier {
 
   Future<bool> isFirstMessage() async {
     print("$TAG isFirstMessage called");
+    updateWith(loading: true);
     final query = db.ref().child(DB_CHATS_REF).orderByChild("roomname").equalTo(roomName);
     final hasData = await query.get().then((value) => value.exists).catchError((error) => false);
     print("$TAG isFirstMessage hasData: $hasData");
+    updateWith(loading: false);
     return !hasData;
   }
 
@@ -115,6 +118,7 @@ class ChatController with ChangeNotifier {
   }
 
   sendMessage(String message) async {
+    // updateWith(loading: true);
     print("$TAG sendMessage called message: $message");
     messageTxtController.text = "";
     final ref = db.ref(DB_CHATS_REF).push();
@@ -124,8 +128,11 @@ class ChatController with ChangeNotifier {
       nickname: userName,
       type: await messageType,
       date: DateTime.now(),
+      isNew: _isNew,
     );
-    ref.set(chatMessage.toJson());
+    await ref.set(chatMessage.toJson());
+    // updateWith(loading: false);
+    _isNew = false;
   }
 
   updateWith({bool? loading, List<ListAble>? items, List<ListAble>? result}) {

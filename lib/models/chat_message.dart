@@ -13,6 +13,7 @@ class ChatMessage {
     this.nickname,
     this.roomname,
     this.type,
+    this.isNew,
   });
 
   DateTime? date;
@@ -20,6 +21,7 @@ class ChatMessage {
   String? nickname;
   String? roomname;
   String? type;
+  bool? isNew;
 
   factory ChatMessage.fromJson(Map<String, dynamic>? json) => ChatMessage(
         date: json?["date"] == null ? null : MyDateFormatter.toDateTimeChatFormat(json!["date"]),
@@ -27,6 +29,7 @@ class ChatMessage {
         nickname: json?["nickname"],
         roomname: json?["roomname"],
         type: json?["type"],
+        isNew: json?["isNew"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -35,5 +38,6 @@ class ChatMessage {
         "nickname": nickname,
         "roomname": roomname,
         "type": type,
+        "isNew": isNew,
       };
 }

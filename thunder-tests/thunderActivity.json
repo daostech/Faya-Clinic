@@ -1,0 +1,16 @@
+[
+  {
+    "_id": "5fcbd013-5a9f-491e-b0b5-a657435f5edb",
+    "colId": "history",
+    "containerId": "",
+    "name": "https://faya-clinic-app-default-rtdb.firebaseio.com/chats",
+    "url": "https://faya-clinic-app-default-rtdb.firebaseio.com/chats",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-08-03T17:09:09.718Z",
+    "modified": "2022-08-03T17:09:10.455Z",
+    "headers": [],
+    "params": [],
+    "tests": []
+  }
+]
